@@ -1,0 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap");
+@import "tailwindcss";
+@plugin "daisyui";
+
+body {
+  font-family: "Lato", sans-serif;
+  height: 100vh;
+  overflow: hidden;
+}
+
+@theme {
+  --color-gray-rich: #141414;
+  --color-gray-eerie: #0d0d0d;
+  --color-gray-charcoal: #1a1a1a;
+  --color-gray-night: #1c1c1c;
+}
