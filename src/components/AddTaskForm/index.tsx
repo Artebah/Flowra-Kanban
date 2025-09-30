@@ -10,19 +10,19 @@ interface AddTaskFormProps {
 
 function AddTaskForm({ columnId }: AddTaskFormProps) {
   const [isAddCardOpen, setIsAddCardOpen] = React.useState(false);
-  const textareRef = React.useRef<HTMLTextAreaElement>(null);
+  const textareaRef = React.useRef<HTMLTextAreaElement>(null);
   const addTask = useAddTask();
 
   React.useEffect(() => {
-    if (isAddCardOpen && textareRef.current) {
-      textareRef.current.focus();
+    if (isAddCardOpen && textareaRef.current) {
+      textareaRef.current.focus();
     }
-  }, [isAddCardOpen, textareRef]);
+  }, [isAddCardOpen, textareaRef]);
 
   const handleAddTask = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const titleValue = textareRef.current?.value.trim();
+    const titleValue = textareaRef.current?.value.trim();
 
     if (titleValue !== undefined && titleValue !== "") {
       addTask(titleValue, columnId);
@@ -35,7 +35,7 @@ function AddTaskForm({ columnId }: AddTaskFormProps) {
 
   return (
     <form onSubmit={handleAddTask}>
-      {isAddCardOpen && <Textarea ref={textareRef} />}
+      {isAddCardOpen && <Textarea ref={textareaRef} />}
 
       <div className="flex gap-2 mt-2">
         {isAddCardOpen ? (

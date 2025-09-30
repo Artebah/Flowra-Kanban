@@ -2,6 +2,7 @@ import type { ITask } from "../../types/ITask";
 import Button from "../Button";
 import { CSS } from "@dnd-kit/utilities";
 import { useSortable } from "@dnd-kit/sortable";
+import React from "react";
 
 interface TaskProps {
   task: ITask;

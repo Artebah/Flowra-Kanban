@@ -16,6 +16,7 @@ import {
   useUpdateTaskOrder,
 } from "../store/kanban/selectors";
 import { useFetchTasks } from "../hooks/useFetchTasks";
+import { debounce } from "../utils/debounce";
 
 function Board() {
   const tasksByColumn = useTasksByColumn();
@@ -40,7 +41,6 @@ function Board() {
   const handleDragStart = (e: DragStartEvent) => {
     const draggingTaskId = e.active.id;
     const draggingTaskColumnId = e.active.data.current?.columnId;
-    console.log(draggingTaskColumnId);
 
     if (draggingTaskColumnId) {
       const found = tasksByColumn[draggingTaskColumnId].find(
@@ -51,7 +51,7 @@ function Board() {
     }
   };
 
-  const handleDragOver = (e: DragOverEvent) => {
+  const dragOverHandler = (e: DragOverEvent) => {
     const { active, over } = e;
     const activeId = active.id as string;
     const overId = over?.id as string | undefined;
@@ -60,6 +60,8 @@ function Board() {
 
     moveTask(activeId, overId);
   };
+
+  const handleDragOver = React.useMemo(() => debounce(dragOverHandler, 50), []);
 
   return (
     <DndContext

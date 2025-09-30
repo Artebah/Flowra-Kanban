@@ -20,14 +20,14 @@ export const useKanbanStore = create<IKanbanStore>((set, get) => ({
     const { columnId, newOrder, task } = reorderTaskData;
 
     const updatedColumn = tasksByColumn[columnId].map((t) =>
-      t.id === task.id ? { ...task, order: newOrder } : t
+      t.id === task.id ? { ...task, order: newOrder, columnId: columnId } : t
     );
 
     set({ tasksByColumn: { ...tasksByColumn, [columnId]: updatedColumn } });
 
     //* send request to update order and columnId
-    console.log("new task order", newOrder);
-    console.log("new task column", columnId);
+    //console.log("new task order", newOrder);
+    //console.log("new task column", columnId);
   },
   moveTask: (activeId, overId) => {
     const tasksByColumn = get().tasksByColumn;
