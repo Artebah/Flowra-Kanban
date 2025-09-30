@@ -1,88 +1,131 @@
 import Column from "../components/Column";
-import { columns } from "../mock/columns";
 import {
-  DndContext,
-  DragOverlay,
-  type DragEndEvent,
-  type DragOverEvent,
-  type DragStartEvent,
+    DndContext,
+    DragOverlay,
+    type DragEndEvent,
+    type DragOverEvent,
+    type DragStartEvent,
 } from "@dnd-kit/core";
 import React from "react";
-import type { ITask } from "../types/ITask";
+import {useColumns, useUpdateColumnOrder} from "../store/kanban/selectors";
+import {useFetchTasks} from "../hooks/useFetchTasks";
+import {debounce} from "../utils/debounce";
+import {horizontalListSortingStrategy, SortableContext} from "@dnd-kit/sortable";
+import {useMoveTask, useTasksByColumn, useUpdateTaskOrder} from "../store/kanban/selectors";
 import Task from "../components/Task";
-import {
-  useMoveTask,
-  useTasksByColumn,
-  useUpdateTaskOrder,
-} from "../store/kanban/selectors";
-import { useFetchTasks } from "../hooks/useFetchTasks";
-import { debounce } from "../utils/debounce";
+import type {IColumn} from "../types/IColumn";
 
 function Board() {
-  const tasksByColumn = useTasksByColumn();
-  const updateTaskOrder = useUpdateTaskOrder();
-  const moveTask = useMoveTask();
-  useFetchTasks();
+    const columns = useColumns();
+    const updateColumnOrder = useUpdateColumnOrder();
+    const tasksByColumn = useTasksByColumn();
+    const updateTaskOrder = useUpdateTaskOrder();
+    const moveTask = useMoveTask();
+    useFetchTasks();
 
-  const [draggingTask, setDraggingTask] = React.useState<ITask | undefined>(
-    undefined
-  );
+    const [draggingTask, setDraggingTask] = React.useState<ITask | undefined>(undefined);
+    const [draggingColumnId, setDraggingColumnId] = React.useState<string | undefined>(undefined);
 
-  const handleDragEnd = (e: DragEndEvent) => {
-    const { over } = e;
+    const handleDragEnd = (e: DragEndEvent) => {
+        setDraggingColumnId(undefined);
+        const {active, over} = e;
+        if (!over) return;
+        const activeId = active.id as string;
+        const overId = over.id as string;
 
-    if (!over) return;
+        // If dragging a column
+        if (
+            activeId.startsWith("sortable-column-") &&
+            overId.startsWith("sortable-column-")
+        ) {
+            updateColumnOrder(activeId, overId);
+            return;
+        }
 
-    const overId = over.id as string;
+        // Otherwise, handle task drag
+        updateTaskOrder(overId);
+    };
 
-    updateTaskOrder(overId);
-  };
+    const handleDragStart = (e: DragStartEvent) => {
+        const activeId = e.active.id as string;
 
-  const handleDragStart = (e: DragStartEvent) => {
-    const draggingTaskId = e.active.id;
-    const draggingTaskColumnId = e.active.data.current?.columnId;
+        if (activeId.startsWith("sortable-column-")) {
+            const colId = activeId.replace("sortable-column-", "");
+            setDraggingColumnId(colId);
+            return;
+        }
 
-    if (draggingTaskColumnId) {
-      const found = tasksByColumn[draggingTaskColumnId].find(
-        (task) => task.id === draggingTaskId
-      );
+        // No need to set draggingColumnId
+        const draggingTaskId = e.active.id;
+        const draggingTaskColumnId = e.active.data.current?.columnId;
 
-      setDraggingTask(found);
+        if (draggingTaskColumnId) {
+            const found = tasksByColumn[draggingTaskColumnId].find(
+                (task) => task.id === draggingTaskId
+            );
+
+            setDraggingTask(found);
+        }
+    };
+
+    const dragOverHandler = React.useCallback(
+        (e: DragOverEvent) => {
+            const {active, over} = e;
+            const activeId = active.id as string;
+            const overId = over?.id as string | undefined;
+
+            if (!overId || activeId === overId) return;
+
+            moveTask(activeId, overId);
+        },
+        [moveTask]
+    );
+
+    const handleDragOver = React.useMemo(
+        () => debounce(dragOverHandler, 50),
+        [dragOverHandler]
+    );
+
+    // Find the column being dragged for DragOverlay
+    let draggingColumn: IColumn | undefined = undefined;
+    if (draggingColumnId) {
+        draggingColumn = columns.find(col => col.id === draggingColumnId);
     }
-  };
 
-  const dragOverHandler = (e: DragOverEvent) => {
-    const { active, over } = e;
-    const activeId = active.id as string;
-    const overId = over?.id as string | undefined;
+    return (
+        <DndContext
+            onDragEnd={handleDragEnd}
+            onDragStart={handleDragStart}
+            onDragOver={handleDragOver}
+        >
+            <div className="flex gap-2 items-start">
+                <SortableContext
+                    id="sortable-columns"
+                    items={columns.map((col) => `sortable-column-${col.id}`)}
+                    strategy={horizontalListSortingStrategy}
+                >
+                    {columns.map((column) => (
+                        <Column
+                            key={column.id}
+                            column={column}
+                            tasks={tasksByColumn[column.id] || []}
+                        />
+                    ))}
+                </SortableContext>
 
-    if (!overId || activeId === overId) return;
-
-    moveTask(activeId, overId);
-  };
-
-  const handleDragOver = React.useMemo(() => debounce(dragOverHandler, 50), []);
-
-  return (
-    <DndContext
-      onDragEnd={handleDragEnd}
-      onDragStart={handleDragStart}
-      onDragOver={handleDragOver}>
-      <div className="flex gap-2 items-start">
-        {columns.map((column) => (
-          <Column
-            key={column.id}
-            column={column}
-            tasks={tasksByColumn[column.id] || []}
-          />
-        ))}
-
-        <DragOverlay>
-          {draggingTask && <Task isDragOverlayTask task={draggingTask} />}
-        </DragOverlay>
-      </div>
-    </DndContext>
-  );
+                <DragOverlay>
+                    {draggingColumn && (
+                        <Column
+                            column={draggingColumn}
+                            tasks={tasksByColumn[draggingColumn.id] || []}
+                            isDragOverlay
+                        />
+                    )}
+                    {draggingTask && <Task isDragOverlayTask task={draggingTask}/>}
+                </DragOverlay>
+            </div>
+        </DndContext>
+    );
 }
 
 export default Board;

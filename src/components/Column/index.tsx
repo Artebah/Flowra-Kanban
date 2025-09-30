@@ -4,7 +4,7 @@ import Task from "../Task";
 import Button from "../Button";
 import {EllipsisVerticalIcon} from "lucide-react";
 import {
-    SortableContext,
+    SortableContext, useSortable,
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import AddTaskForm from "../AddTaskForm";
@@ -12,18 +12,35 @@ import EmptyColumn from "./EmptyColumn";
 import {useDroppable} from "@dnd-kit/core";
 import React, {useEffect, useRef, useState} from "react";
 import Input from "../Input";
+import {CSS} from "@dnd-kit/utilities";
 
 interface ColumnProps {
     column: IColumn;
     tasks: ITask[];
+    isDragOverlay?: boolean;
 }
 
-function Column({column, tasks}: ColumnProps) {
+function Column({column, tasks, isDragOverlay = false}: ColumnProps) {
     const titleInputRef = useRef<HTMLInputElement>(null);
     const [isTitleInput, setIsTitleInput] = useState(false)
     const {setNodeRef: setEndDropNodeRef} = useDroppable({
         id: `end-droppable-${column.id}`,
     });
+    const {
+        transition,
+        listeners,
+        attributes,
+        setNodeRef,
+        transform,
+        isDragging,
+    } = useSortable({id: `sortable-column-${column.id}`, data: {columnId: column.id, isColumn: true}});
+
+    const style: React.CSSProperties = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+        zIndex: 10,
+        opacity: isDragging && !isDragOverlay ? 0 : 1,
+    };
 
     useEffect(() => {
         if (isTitleInput && titleInputRef.current) {
@@ -45,7 +62,13 @@ function Column({column, tasks}: ColumnProps) {
     }
 
     return (
-        <div className="bg-gray-charcoal py-3 px-3 rounded-xl max-w-[300px] w-full flex flex-col gap-2">
+        <div
+            {...(!isDragOverlay ? listeners : {})}
+            {...(!isDragOverlay ? attributes : {})}
+            ref={setNodeRef}
+            className="bg-gray-charcoal py-3 px-3 rounded-xl max-w-[300px] w-full flex flex-col gap-2"
+            style={style}
+        >
             <div className="flex items-center">
                 <div
                     className="font-semibold h-10 pl-2 flex items-center grow text-white cursor-pointer">

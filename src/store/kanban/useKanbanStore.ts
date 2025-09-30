@@ -5,11 +5,15 @@ import {getReorderTaskData} from "../../utils/getReorderTaskData";
 import {getMoveTaskData} from "../../utils/getMoveTaskData";
 import type {ITask} from "../../types/ITask";
 import {v4 as uuidv4} from "uuid";
+import type {IColumn} from "../../types/IColumn";
+import {columns as initialColumns} from "../../mock/columns";
 
 export const useKanbanStore = create<IKanbanStore>((set, get) => ({
     tasks: [],
     tasksByColumn: {},
+    columns: initialColumns,
     setTasks: (tasks) => set({tasks, tasksByColumn: getTasksByColumn(tasks)}),
+    setColumns: (columns) => set({columns}),
     updateTaskOrder: (overId) => {
         const tasksByColumn = get().tasksByColumn;
 
@@ -28,6 +32,16 @@ export const useKanbanStore = create<IKanbanStore>((set, get) => ({
         //* send request to update order and columnId
         //console.log("new task order", newOrder);
         //console.log("new task column", columnId);
+    },
+    updateColumnOrder: (activeId, overId) => {
+        const columns = get().columns;
+        const oldIndex = columns.findIndex(col => `sortable-column-${col.id}` === activeId);
+        const newIndex = columns.findIndex(col => `sortable-column-${col.id}` === overId);
+        if (oldIndex === -1 || newIndex === -1) return;
+        const updated = [...columns];
+        const [moved] = updated.splice(oldIndex, 1);
+        updated.splice(newIndex, 0, moved);
+        set({columns: updated});
     },
     moveTask: (activeId, overId) => {
         const tasksByColumn = get().tasksByColumn;
