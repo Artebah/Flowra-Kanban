@@ -25,6 +25,7 @@ function Column({column, tasks, isDragOverlay = false}: ColumnProps) {
     const [isTitleInput, setIsTitleInput] = useState(false)
     const {setNodeRef: setEndDropNodeRef} = useDroppable({
         id: `end-droppable-${column.id}`,
+        data: {columnId: column.id, isColumn: true}
     });
     const {
         transition,

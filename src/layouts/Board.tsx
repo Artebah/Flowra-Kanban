@@ -4,7 +4,7 @@ import {
     DragOverlay,
     type DragEndEvent,
     type DragOverEvent,
-    type DragStartEvent,
+    type DragStartEvent, useSensors, useSensor, MouseSensor,
 } from "@dnd-kit/core";
 import React from "react";
 import {useColumns, useUpdateColumnOrder} from "../store/kanban/selectors";
@@ -14,6 +14,7 @@ import {horizontalListSortingStrategy, SortableContext} from "@dnd-kit/sortable"
 import {useMoveTask, useTasksByColumn, useUpdateTaskOrder} from "../store/kanban/selectors";
 import Task from "../components/Task";
 import type {IColumn} from "../types/IColumn";
+import type {ITask} from "../types/ITask.ts";
 
 function Board() {
     const columns = useColumns();
@@ -22,12 +23,20 @@ function Board() {
     const updateTaskOrder = useUpdateTaskOrder();
     const moveTask = useMoveTask();
     useFetchTasks();
+    const sensors = useSensors(
+        useSensor(MouseSensor, {
+            activationConstraint: {
+                distance: 1,
+            },
+        })
+    );
 
     const [draggingTask, setDraggingTask] = React.useState<ITask | undefined>(undefined);
     const [draggingColumnId, setDraggingColumnId] = React.useState<string | undefined>(undefined);
 
     const handleDragEnd = (e: DragEndEvent) => {
         setDraggingColumnId(undefined);
+        setDraggingTask(undefined);
         const {active, over} = e;
         if (!over) return;
         const activeId = active.id as string;
@@ -48,14 +57,17 @@ function Board() {
 
     const handleDragStart = (e: DragStartEvent) => {
         const activeId = e.active.id as string;
+        const isColumn = e.active.data.current?.isColumn as boolean | undefined;
 
-        if (activeId.startsWith("sortable-column-")) {
+        if (isColumn) {
+            // Dragging a column
             const colId = activeId.replace("sortable-column-", "");
             setDraggingColumnId(colId);
+            setDraggingTask(undefined);
             return;
         }
 
-        // No need to set draggingColumnId
+        // Dragging a task
         const draggingTaskId = e.active.id;
         const draggingTaskColumnId = e.active.data.current?.columnId;
 
@@ -63,8 +75,8 @@ function Board() {
             const found = tasksByColumn[draggingTaskColumnId].find(
                 (task) => task.id === draggingTaskId
             );
-
             setDraggingTask(found);
+            setDraggingColumnId(undefined);
         }
     };
 
@@ -93,10 +105,10 @@ function Board() {
     }
 
     return (
-        <DndContext
-            onDragEnd={handleDragEnd}
-            onDragStart={handleDragStart}
-            onDragOver={handleDragOver}
+        <DndContext sensors={sensors}
+                    onDragEnd={handleDragEnd}
+                    onDragStart={handleDragStart}
+                    onDragOver={handleDragOver}
         >
             <div className="flex gap-2 items-start">
                 <SortableContext
