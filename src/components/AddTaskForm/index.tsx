@@ -37,7 +37,7 @@ function AddTaskForm({ columnId }: AddTaskFormProps) {
     <form onSubmit={handleAddTask}>
       {isAddCardOpen && <Textarea ref={textareaRef} />}
 
-      <div className="flex gap-2 mt-2">
+      <div className="flex gap-2">
         {isAddCardOpen ? (
           <>
             <Button

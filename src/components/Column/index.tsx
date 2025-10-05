@@ -71,10 +71,10 @@ function Column({ column, tasks, isDragOverlay = false }: ColumnProps) {
       {...(!isDragOverlay ? listeners : {})}
       {...(!isDragOverlay ? attributes : {})}
       ref={setNodeRef}
-      className="bg-gray-charcoal py-3 px-3 rounded-xl max-w-[300px] w-full flex flex-col gap-2"
+      className="bg-gray-charcoal py-3 px-3 rounded-xl max-w-[300px] w-full flex flex-col"
       style={style}
     >
-      <div className="flex items-center">
+      <div className="flex items-center mb-2">
         <div className="font-semibold h-10 pl-2 flex items-center grow text-white cursor-pointer">
           {isTitleInput ? (
             <Input
@@ -107,7 +107,7 @@ function Column({ column, tasks, isDragOverlay = false }: ColumnProps) {
         {tasks.length > 0 && (
           <div
             ref={setEndDropNodeRef}
-            className="h-0.5 grow w-full bg-transparent"
+            className="h-2 grow w-full bg-transparent"
             aria-hidden="true"
           />
         )}

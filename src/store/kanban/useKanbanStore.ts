@@ -60,6 +60,7 @@ export const useKanbanStore = create<IKanbanStore>((set, get) => ({
     // вычисляем индекс вставки с учётом удаления active (если в той же колонке индекс смещается)
     const insertionIndex = overIndex;
     if (activeColId === overColId && activeIndex === insertionIndex) return;
+
     // реальная перестановка — создаём новый state
     const activeTaskObj = tasksByColumn[activeColId][activeIndex];
     const newState = { ...tasksByColumn };

@@ -51,8 +51,11 @@ function Board() {
   const handleDragEnd = (e: DragEndEvent) => {
     setDraggingColumn(undefined);
     setDraggingTask(undefined);
+
     const { active, over } = e;
+
     if (!over) return;
+
     const activeId = active.id as string;
     const overId = over.id as string;
 
@@ -72,8 +75,8 @@ function Board() {
   const handleDragStart = (e: DragStartEvent) => {
     const isColumn = e.active.data.current?.isColumn as boolean | undefined;
 
+    // Dragging a column
     if (isColumn) {
-      // Dragging a column
       const colId = e.active.data.current?.columnId;
 
       if (colId) {
@@ -89,17 +92,24 @@ function Board() {
 
     // Dragging a task
     const draggingTaskId = e.active.id;
-    const draggingTaskColumnId = e.active.data.current?.columnId;
 
-    if (draggingTaskColumnId) {
-      const found = tasksByColumn[draggingTaskColumnId].find(
-        (task) => task.id === draggingTaskId
-      );
+    let foundTask = null;
+    let actualColumnId = null;
 
-      if (found) {
-        setDraggingTask(found);
-        setDraggingColumn(undefined);
+    for (const [colId, tasks] of Object.entries(tasksByColumn)) {
+      const task = tasks.find((t) => t.id === draggingTaskId);
+      if (task) {
+        foundTask = task;
+        actualColumnId = colId;
+        break;
       }
+    }
+
+    if (foundTask && actualColumnId) {
+      setDraggingTask(foundTask);
+      setDraggingColumn(undefined);
+    } else {
+      console.log("❌ Task not found in any column:", draggingTaskId);
     }
   };
 
