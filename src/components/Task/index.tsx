@@ -34,7 +34,8 @@ function Task({ task, isDragOverlayTask }: TaskProps) {
       ref={setNodeRef}
       fullWidth
       className="justify-start bg-gray-rich hover:bg-white/5 font-medium"
-      style={style}>
+      style={style}
+    >
       {task.title}
     </Button>
   );

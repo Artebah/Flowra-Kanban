@@ -15,7 +15,8 @@ function EmptyColumn({ columnId, isEndDroppable }: EmptyColumnProps) {
   return (
     <div
       ref={setNodeRef}
-      className="flex grow h-32 justify-center items-center border-2 border-dashed border-gray-300 rounded-lg">
+      className="flex grow h-32 justify-center items-center border-2 border-dashed border-gray-300 rounded-lg"
+    >
       Drop here 🎃
     </div>
   );

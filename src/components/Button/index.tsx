@@ -38,7 +38,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           },
           className
         )}
-        {...props}>
+        {...props}
+      >
         {leadingIcon}
         {children}
       </button>

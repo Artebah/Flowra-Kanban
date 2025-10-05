@@ -44,7 +44,8 @@ function AddTaskForm({ columnId }: AddTaskFormProps) {
               type="button"
               variant="outline"
               className="grow"
-              onClick={() => handleOpen(false)}>
+              onClick={() => handleOpen(false)}
+            >
               Скасувати
             </Button>
             <Button type="submit" variant="success" className="grow">
@@ -57,7 +58,8 @@ function AddTaskForm({ columnId }: AddTaskFormProps) {
             type="button"
             fullWidth
             className="justify-start"
-            leadingIcon={<PlusIcon />}>
+            leadingIcon={<PlusIcon />}
+          >
             Додати картку
           </Button>
         )}
