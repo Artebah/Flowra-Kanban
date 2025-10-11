@@ -6,6 +6,8 @@ import { getMoveTaskData } from "../../utils/getMoveTaskData";
 import type { ITask } from "../../types/ITask";
 import { v4 as uuidv4 } from "uuid";
 import { columns as initialColumns } from "../../mock/columns";
+import type { IColumn } from "../../types/IColumn";
+import type { ITasksByColumn } from "../../types/ITasksByColumn";
 
 export const useKanbanStore = create<IKanbanStore>((set, get) => ({
   tasks: [],
@@ -92,5 +94,28 @@ export const useKanbanStore = create<IKanbanStore>((set, get) => ({
     };
 
     set({ tasksByColumn: updatedTasksByColumn });
+  },
+  addNewColumn: (title) => {
+    const columns = get().columns;
+    const tasksByColumn = get().tasksByColumn;
+    let newColOrder = columns.length - 1;
+
+    if (newColOrder < 0) {
+      newColOrder = 0;
+    }
+
+    const newColData: IColumn = {
+      order: newColOrder,
+      id: uuidv4(),
+      title: title,
+    };
+
+    const updatedColumns = [...columns, newColData];
+    const updatedTasksByColumn: ITasksByColumn = {
+      ...tasksByColumn,
+      [newColData.id]: [],
+    };
+
+    set({ columns: updatedColumns, tasksByColumn: updatedTasksByColumn });
   },
 }));

@@ -37,22 +37,22 @@ function AddTaskForm({ columnId }: AddTaskFormProps) {
     <form onSubmit={handleAddTask}>
       {isAddCardOpen && <Textarea ref={textareaRef} />}
 
-      <div className="flex gap-2">
-        {isAddCardOpen ? (
-          <>
-            <Button
-              type="button"
-              variant="outline"
-              className="grow"
-              onClick={() => handleOpen(false)}
-            >
-              Скасувати
-            </Button>
-            <Button type="submit" variant="success" className="grow">
-              Додати
-            </Button>
-          </>
-        ) : (
+      {isAddCardOpen ? (
+        <div className="mt-2 flex gap-1">
+          <Button
+            type="button"
+            variant="outline"
+            className="grow"
+            onClick={() => handleOpen(false)}
+          >
+            Скасувати
+          </Button>
+          <Button type="submit" variant="success" className="grow">
+            Додати
+          </Button>
+        </div>
+      ) : (
+        <div className="flex gap-2">
           <Button
             onClick={() => handleOpen(true)}
             type="button"
@@ -62,8 +62,8 @@ function AddTaskForm({ columnId }: AddTaskFormProps) {
           >
             Додати картку
           </Button>
-        )}
-      </div>
+        </div>
+      )}
     </form>
   );
 }

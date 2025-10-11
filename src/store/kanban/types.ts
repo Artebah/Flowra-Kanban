@@ -12,4 +12,5 @@ export interface IKanbanStore {
   updateColumnOrder: (activeId: string, overId: string) => void;
   moveTask: (activeId: string, overId: string) => void;
   addTask: (title: string, columnId: string) => void;
+  addNewColumn: (title: string) => void;
 }

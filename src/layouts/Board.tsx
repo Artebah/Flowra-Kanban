@@ -25,6 +25,7 @@ import {
 import Task from "../components/Task";
 import type { ITask } from "../types/ITask.ts";
 import type { IColumn } from "../types/IColumn.ts";
+import AddColumnForm from "../components/AddColumnForm/index.tsx";
 
 function Board() {
   const columns = useColumns();
@@ -130,7 +131,7 @@ function Board() {
     () => debounce(dragOverHandler, 50),
     [dragOverHandler]
   );
-
+  console.log(columns, tasksByColumn);
   return (
     <DndContext
       sensors={sensors}
@@ -152,6 +153,8 @@ function Board() {
             />
           ))}
         </SortableContext>
+
+        <AddColumnForm />
 
         <DragOverlay>
           {draggingColumn && (
