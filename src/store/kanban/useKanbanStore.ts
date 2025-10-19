@@ -118,4 +118,22 @@ export const useKanbanStore = create<IKanbanStore>((set, get) => ({
 
     set({ columns: updatedColumns, tasksByColumn: updatedTasksByColumn });
   },
+  removeColumn: (columnId) => {
+    const columns = get().columns;
+    const tasks = get().tasks;
+    const tasksByColumn = get().tasksByColumn;
+
+    const filteredColumns = columns.filter((col) => col.id !== columnId);
+
+    const filteredTasks = tasks.filter((task) => task.columnId !== columnId);
+
+    const updatedTasksByColumn = { ...tasksByColumn };
+    delete updatedTasksByColumn[columnId];
+
+    set({
+      columns: filteredColumns,
+      tasks: filteredTasks,
+      tasksByColumn: updatedTasksByColumn,
+    });
+  },
 }));

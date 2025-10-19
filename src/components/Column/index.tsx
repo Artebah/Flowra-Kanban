@@ -1,8 +1,6 @@
 import type { IColumn } from "../../types/IColumn";
 import type { ITask } from "../../types/ITask";
 import Task from "../Task";
-import Button from "../Button";
-import { EllipsisVerticalIcon } from "lucide-react";
 import {
   SortableContext,
   useSortable,
@@ -14,6 +12,7 @@ import { useDroppable } from "@dnd-kit/core";
 import React, { useEffect, useRef, useState } from "react";
 import Input from "../Input";
 import { CSS } from "@dnd-kit/utilities";
+import ColumnActionsDropdown from "../ColumnActionsDropdown";
 
 interface ColumnProps {
   column: IColumn;
@@ -22,6 +21,7 @@ interface ColumnProps {
 }
 
 function Column({ column, tasks, isDragOverlay = false }: ColumnProps) {
+  const [isAddCardOpen, setIsAddCardOpen] = React.useState(false);
   const titleInputRef = useRef<HTMLInputElement>(null);
   const [isTitleInput, setIsTitleInput] = useState(false);
   const { setNodeRef: setEndDropNodeRef } = useDroppable({
@@ -88,9 +88,10 @@ function Column({ column, tasks, isDragOverlay = false }: ColumnProps) {
             </p>
           )}
         </div>
-        <Button isIconOnly>
-          <EllipsisVerticalIcon />
-        </Button>
+        <ColumnActionsDropdown
+          column={column}
+          setIsAddCardOpen={setIsAddCardOpen}
+        />
       </div>
       <div className="flex flex-col gap-1 min-h-28">
         <SortableContext
@@ -113,7 +114,11 @@ function Column({ column, tasks, isDragOverlay = false }: ColumnProps) {
         )}
       </div>
 
-      <AddTaskForm columnId={column.id} />
+      <AddTaskForm
+        isAddCardOpen={isAddCardOpen}
+        setIsAddCardOpen={setIsAddCardOpen}
+        columnId={column.id}
+      />
     </div>
   );
 }

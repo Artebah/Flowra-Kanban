@@ -1,0 +1,32 @@
+import React from "react";
+import classNames from "classnames";
+
+interface ModalProps {
+  open: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+  className?: string;
+}
+
+const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
+  ({ open, onClose, children, className }, ref) => {
+    // Handle backdrop click
+    const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+      if (e.target === e.currentTarget) {
+        onClose();
+      }
+    };
+
+    if (!open) return null;
+
+    return (
+      <div className="modal modal-open" onClick={handleBackdropClick} ref={ref}>
+        <div className={classNames("modal-box", className)}>{children}</div>
+      </div>
+    );
+  }
+);
+
+Modal.displayName = "Modal";
+
+export default Modal;

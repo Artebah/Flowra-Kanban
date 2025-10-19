@@ -6,10 +6,15 @@ import { useAddTask } from "../../store/kanban/selectors";
 
 interface AddTaskFormProps {
   columnId: string;
+  isAddCardOpen: boolean;
+  setIsAddCardOpen: (open: boolean) => void;
 }
 
-function AddTaskForm({ columnId }: AddTaskFormProps) {
-  const [isAddCardOpen, setIsAddCardOpen] = React.useState(false);
+function AddTaskForm({
+  columnId,
+  isAddCardOpen,
+  setIsAddCardOpen,
+}: AddTaskFormProps) {
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
   const addTask = useAddTask();
 
