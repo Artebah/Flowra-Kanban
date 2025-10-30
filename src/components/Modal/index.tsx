@@ -1,5 +1,6 @@
 import React from "react";
 import classNames from "classnames";
+import { createPortal } from "react-dom";
 
 interface ModalProps {
   open: boolean;
@@ -19,11 +20,13 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
 
     if (!open) return null;
 
-    return (
+    const modalContent = (
       <div className="modal modal-open" onClick={handleBackdropClick} ref={ref}>
         <div className={classNames("modal-box", className)}>{children}</div>
       </div>
     );
+
+    return createPortal(modalContent, document.body);
   }
 );
 

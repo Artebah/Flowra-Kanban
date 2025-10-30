@@ -28,14 +28,27 @@ const useDropdown = () => {
 interface DropdownProps {
   children: React.ReactNode;
   className?: string;
+  open?: boolean;
+  onChange?: (open: boolean) => void;
 }
 
-function Dropdown({ children, className }: DropdownProps) {
-  const [isOpen, setIsOpen] = useState(false);
+function Dropdown({ children, className, open, onChange }: DropdownProps) {
+  const isControlled = open !== undefined;
+  const [internalOpen, setInternalOpen] = useState<boolean>(open ?? false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const toggle = () => setIsOpen(!isOpen);
-  const close = () => setIsOpen(false);
+  const isOpen = isControlled ? (open as boolean) : internalOpen;
+
+  const toggle = () => {
+    const next = !isOpen;
+    if (!isControlled) setInternalOpen(next);
+    onChange?.(next);
+  };
+
+  const close = React.useCallback(() => {
+    if (!isControlled) setInternalOpen(false);
+    onChange?.(false);
+  }, [isControlled, onChange]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -54,7 +67,7 @@ function Dropdown({ children, className }: DropdownProps) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isOpen]);
+  }, [isOpen, close]);
 
   return (
     <DropdownContext.Provider value={{ isOpen, toggle, close }}>
@@ -71,25 +84,10 @@ interface DropdownTargetProps {
   asChild?: boolean;
 }
 
-function DropdownTarget({
-  children,
-  className,
-  asChild = false,
-}: DropdownTargetProps) {
+function DropdownTarget({ children, className, asChild }: DropdownTargetProps) {
   const { toggle } = useDropdown();
 
-  if (asChild && React.isValidElement(children)) {
-    return React.cloneElement(children as React.ReactElement<any>, {
-      onClick: (e: React.MouseEvent) => {
-        toggle();
-        (children as React.ReactElement<any>).props.onClick?.(e);
-      },
-      className: classNames(
-        (children as React.ReactElement<any>).props.className,
-        className
-      ),
-    });
-  }
+  if (asChild) return <div onClick={toggle}>{children}</div>;
 
   return (
     <button
@@ -121,7 +119,7 @@ function DropdownMenu({
     <div
       className={classNames(
         "absolute top-full mt-1 z-50 min-w-[150px]",
-        "bg-gray-night border border-gray-500 rounded-md shadow-lg",
+        "bg-gray-dim rounded-md shadow-lg",
         "py-1",
         {
           "left-0": align === "left",

@@ -136,4 +136,16 @@ export const useKanbanStore = create<IKanbanStore>((set, get) => ({
       tasksByColumn: updatedTasksByColumn,
     });
   },
+  updateColumn: (columnId, columnDataToUpdate) => {
+    const columns = get().columns;
+
+    const updatedColumns = columns.map((column) => {
+      if (columnId === column.id) {
+        return { ...column, ...columnDataToUpdate };
+      }
+      return column;
+    });
+
+    set({ columns: updatedColumns });
+  },
 }));

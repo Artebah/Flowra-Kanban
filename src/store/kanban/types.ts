@@ -14,4 +14,8 @@ export interface IKanbanStore {
   addTask: (title: string, columnId: string) => void;
   addNewColumn: (title: string) => void;
   removeColumn: (columnId: string) => void;
+  updateColumn: (
+    columnId: string,
+    columnDataToUpdate: Partial<IColumn>
+  ) => void;
 }

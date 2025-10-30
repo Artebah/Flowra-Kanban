@@ -40,6 +40,12 @@ function Column({ column, tasks, isDragOverlay = false }: ColumnProps) {
     data: { columnId: column.id, isColumn: true },
   });
 
+  const [allowDraggingColumn, setAllowDraggingColumn] = React.useState(true);
+
+  React.useEffect(() => {
+    setAllowDraggingColumn(!isTitleInput && !isAddCardOpen);
+  }, [setAllowDraggingColumn, isTitleInput, isAddCardOpen]);
+
   const style: React.CSSProperties = {
     transform: CSS.Transform.toString(transform),
     transition,
@@ -68,11 +74,11 @@ function Column({ column, tasks, isDragOverlay = false }: ColumnProps) {
 
   return (
     <div
-      {...(!isDragOverlay ? listeners : {})}
-      {...(!isDragOverlay ? attributes : {})}
+      {...(!isDragOverlay && allowDraggingColumn ? listeners : {})}
+      {...(!isDragOverlay && allowDraggingColumn ? attributes : {})}
       ref={setNodeRef}
       className="bg-gray-charcoal py-3 px-3 rounded-xl max-w-[300px] w-full flex flex-col"
-      style={style}
+      style={{ ...style, backgroundColor: column.color }}
     >
       <div className="flex items-center mb-2">
         <div className="font-semibold h-10 pl-2 flex items-center grow text-white cursor-pointer">
@@ -90,6 +96,7 @@ function Column({ column, tasks, isDragOverlay = false }: ColumnProps) {
         </div>
         <ColumnActionsDropdown
           column={column}
+          setAllowDraggingColumn={setAllowDraggingColumn}
           setIsAddCardOpen={setIsAddCardOpen}
         />
       </div>

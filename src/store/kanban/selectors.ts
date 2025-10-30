@@ -13,3 +13,4 @@ export const useUpdateColumnOrder = () =>
   useKanbanStore((s) => s.updateColumnOrder);
 export const useAddNewColumn = () => useKanbanStore((s) => s.addNewColumn);
 export const useRemoveColumn = () => useKanbanStore((s) => s.removeColumn);
+export const useUpdateColumn = () => useKanbanStore((s) => s.updateColumn);

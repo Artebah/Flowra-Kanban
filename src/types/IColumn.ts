@@ -4,6 +4,7 @@ export interface IColumn {
   id: string;
   title: string;
   order: number;
+  color?: string;
 }
 
 export interface IColumnWithTasks extends IColumn {
