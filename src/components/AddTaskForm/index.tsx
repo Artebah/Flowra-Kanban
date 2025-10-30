@@ -65,7 +65,7 @@ function AddTaskForm({
             className="justify-start"
             leadingIcon={<PlusIcon />}
           >
-            Додати картку
+            Add new task
           </Button>
         </div>
       )}

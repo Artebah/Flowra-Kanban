@@ -131,7 +131,7 @@ function Board() {
     () => debounce(dragOverHandler, 50),
     [dragOverHandler]
   );
-  console.log(columns, tasksByColumn);
+
   return (
     <DndContext
       sensors={sensors}
