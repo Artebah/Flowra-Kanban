@@ -39,7 +39,7 @@ function ColumnActionsDropdown({
     setOpenActions(true);
   };
 
-  const onChangeColumnColor = (color: string) => {
+  const onChangeColumnColor = (color?: string) => {
     updateColumn(column.id, { color });
   };
 
@@ -95,7 +95,10 @@ function ColumnActionsDropdown({
             ))}
           </div>
           <div className="mt-3">
-            <Button className="w-full bg-white/5 hover:bg-white/10">
+            <Button
+              onClick={() => onChangeColumnColor(undefined)}
+              className="w-full bg-white/5 hover:bg-white/10"
+            >
               Set default
             </Button>
           </div>
