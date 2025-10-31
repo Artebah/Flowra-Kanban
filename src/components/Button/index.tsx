@@ -30,7 +30,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           {
             "btn-ghost border-0 text-white hover:shadow-none active:!translate-y-0 hover:bg-white/5 hover:border-0 active:tracking-0":
               variant === "default",
-            "btn-outline border border-gray-400 text-gray-300 bg-transparent hover:bg-white/5":
+            "btn-outline border border-gray-600 text-gray-300 bg-transparent hover:bg-white/5":
               variant === "outline",
             "btn-success": variant === "success",
             "w-full": fullWidth,
