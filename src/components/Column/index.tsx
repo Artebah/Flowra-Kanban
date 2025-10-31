@@ -9,10 +9,10 @@ import {
 import AddTaskForm from "../AddTaskForm";
 import EmptyColumn from "./EmptyColumn";
 import { useDroppable } from "@dnd-kit/core";
-import React, { useEffect, useRef, useState } from "react";
-import Input from "../Input";
+import React from "react";
 import { CSS } from "@dnd-kit/utilities";
 import ColumnActionsDropdown from "../ColumnActionsDropdown";
+import EditableText from "../EditableText";
 
 interface ColumnProps {
   column: IColumn;
@@ -22,8 +22,7 @@ interface ColumnProps {
 
 function Column({ column, tasks, isDragOverlay = false }: ColumnProps) {
   const [isAddCardOpen, setIsAddCardOpen] = React.useState(false);
-  const titleInputRef = useRef<HTMLInputElement>(null);
-  const [isTitleInput, setIsTitleInput] = useState(false);
+  const [isEditableTitle, setIsEditableTitle] = React.useState(false);
   const { setNodeRef: setEndDropNodeRef } = useDroppable({
     id: `end-droppable-${column.id}`,
     data: { columnId: column.id, isColumn: true },
@@ -43,33 +42,14 @@ function Column({ column, tasks, isDragOverlay = false }: ColumnProps) {
   const [allowDraggingColumn, setAllowDraggingColumn] = React.useState(true);
 
   React.useEffect(() => {
-    setAllowDraggingColumn(!isTitleInput && !isAddCardOpen);
-  }, [setAllowDraggingColumn, isTitleInput, isAddCardOpen]);
+    setAllowDraggingColumn(!isEditableTitle && !isAddCardOpen);
+  }, [setAllowDraggingColumn, isEditableTitle, isAddCardOpen]);
 
   const style: React.CSSProperties = {
     transform: CSS.Transform.toString(transform),
     transition,
     zIndex: 10,
     opacity: isDragging && !isDragOverlay ? 0 : 1,
-  };
-
-  useEffect(() => {
-    if (isTitleInput && titleInputRef.current) {
-      titleInputRef.current.focus();
-    }
-  }, [isTitleInput, titleInputRef]);
-
-  const openTitleInput = () => {
-    setIsTitleInput(true);
-  };
-
-  const closeTitleInput = () => {
-    setIsTitleInput(false);
-  };
-
-  const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    column.title = e.target.value;
-    closeTitleInput();
   };
 
   return (
@@ -82,17 +62,11 @@ function Column({ column, tasks, isDragOverlay = false }: ColumnProps) {
     >
       <div className="flex items-center mb-2">
         <div className="font-semibold h-10 pl-2 flex items-center grow text-white cursor-pointer">
-          {isTitleInput ? (
-            <Input
-              ref={titleInputRef}
-              defaultValue={column.title}
-              onBlur={onChangeTitle}
-            />
-          ) : (
-            <p className="w-full" onClick={openTitleInput}>
-              {column.title}
-            </p>
-          )}
+          <EditableText
+            initialText={column.title}
+            isEditable={isEditableTitle}
+            setIsEditable={setIsEditableTitle}
+          />
         </div>
         <ColumnActionsDropdown
           column={column}
