@@ -26,6 +26,7 @@ import Task from "../components/Task";
 import type { ITask } from "../types/ITask.ts";
 import type { IColumn } from "../types/IColumn.ts";
 import AddColumnForm from "../components/AddColumnForm/index.tsx";
+import TaskDetailsModal from "../components/TaskDetailsModal/index.tsx";
 
 function Board() {
   const columns = useColumns();
@@ -167,6 +168,7 @@ function Board() {
           {draggingTask && <Task isDragOverlayTask task={draggingTask} />}
         </DragOverlay>
       </div>
+      <TaskDetailsModal />
     </DndContext>
   );
 }
