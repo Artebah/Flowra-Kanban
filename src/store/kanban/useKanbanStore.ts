@@ -13,6 +13,10 @@ export const useKanbanStore = create<IKanbanStore>((set, get) => ({
   tasks: [],
   tasksByColumn: {},
   columns: initialColumns,
+  modalDetailsData: {
+    isOpen: false,
+    columnId: null,
+  },
   setTasks: (tasks) => set({ tasks, tasksByColumn: getTasksByColumn(tasks) }),
   setColumns: (columns) => set({ columns }),
   updateTaskOrder: (overId) => {
@@ -147,5 +151,8 @@ export const useKanbanStore = create<IKanbanStore>((set, get) => ({
     });
 
     set({ columns: updatedColumns });
+  },
+  updateModalDetailsData: (data) => {
+    set({ modalDetailsData: data });
   },
 }));

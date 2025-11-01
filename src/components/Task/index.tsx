@@ -3,6 +3,7 @@ import Button from "../Button";
 import { CSS } from "@dnd-kit/utilities";
 import { useSortable } from "@dnd-kit/sortable";
 import React from "react";
+import { useUpdateModalDetailsData } from "../../store/kanban/selectors";
 
 interface TaskProps {
   task: ITask;
@@ -18,6 +19,7 @@ function Task({ task, isDragOverlayTask }: TaskProps) {
     setNodeRef,
     transform,
   } = useSortable({ id: task.id, data: { columnId: task.columnId } });
+  const updateModalDetailsData = useUpdateModalDetailsData();
 
   const style: React.CSSProperties = {
     transform: CSS.Transform.toString(transform),
@@ -34,6 +36,9 @@ function Task({ task, isDragOverlayTask }: TaskProps) {
       ref={setNodeRef}
       fullWidth
       className="justify-start bg-gray-rich hover:bg-white/5 font-medium"
+      onClick={() =>
+        updateModalDetailsData({ columnId: task.columnId, isOpen: true })
+      }
       style={style}
     >
       {task.title}

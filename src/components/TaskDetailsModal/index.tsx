@@ -12,11 +12,17 @@ import CompleteCircleCheckbox from "../CompleteCircleCheckbox";
 import Textarea from "../Textarea";
 import classNames from "classnames";
 import React from "react";
+import {
+  useModalDetailsData,
+  useUpdateModalDetailsData,
+} from "../../store/kanban/selectors";
 
 function TaskDetailsModal() {
   const [activeDescriptionField, setActiveDescriptionField] =
     React.useState(false);
   const descriptionFieldRef = React.useRef<HTMLTextAreaElement>(null);
+  const modalDetailsData = useModalDetailsData();
+  const updateModalDetailsData = useUpdateModalDetailsData();
 
   const onSubmitSavingDescription = () => {
     const descriptionField = descriptionFieldRef.current;
@@ -27,12 +33,17 @@ function TaskDetailsModal() {
     }
   };
 
+  const onCloseModal = () => {
+    updateModalDetailsData({ columnId: null, isOpen: false });
+    setActiveDescriptionField(false);
+  };
+
   return (
     <Modal
       className="flex flex-col px-0 py-0 max-h-[calc(100vh-5rem)] max-w-[620px] !top-0 overflow-y-hidden"
       backdropClassName="pt-16 items-start"
-      onClose={() => {}}
-      open={true}
+      onClose={onCloseModal}
+      open={modalDetailsData.isOpen}
     >
       <div className="flex justify-between basis-16 shrink-0 items-center border-b border-gray-400 px-6">
         <span className="py-1 px-3 bg-gray-600 rounded-md">To-do</span>
