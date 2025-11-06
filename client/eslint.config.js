@@ -8,10 +8,6 @@ import { globalIgnores } from "eslint/config";
 export default tseslint.config([
   globalIgnores(["dist"]),
   {
-    parserOptions: {
-      tsconfigRootDir: __dirname,
-      project: ["./tsconfig.json"],
-    },
     files: ["**/*.{ts,tsx}"],
     extends: [
       js.configs.recommended,
@@ -22,6 +18,10 @@ export default tseslint.config([
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
+      parserOptions: {
+        tsconfigRootDir: import.meta.dirname,
+        project: ["./tsconfig.json"],
+      },
     },
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
