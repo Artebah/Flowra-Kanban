@@ -1,0 +1,10 @@
+node_modules
+**/node_modules
+dist
+*.log
+.env
+.git
+.gitignore
+README.md
+# Don't ignore these compiled files in build context,
+# but they'll be excluded by volume mounts in docker-compose
