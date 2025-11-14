@@ -1,4 +1,9 @@
-import type { AuthResponse, LoginDto, SignupDto } from "../../types/api/auth";
+import type {
+  AuthResponse,
+  LoginDto,
+  SignupDto,
+  User,
+} from "../../types/api/auth";
 import axiosInstance from "./axiosInstance";
 
 export const login = async (loginDto: LoginDto): Promise<AuthResponse> => {
@@ -8,5 +13,10 @@ export const login = async (loginDto: LoginDto): Promise<AuthResponse> => {
 
 export const signup = async (signupDto: SignupDto): Promise<AuthResponse> => {
   const res = await axiosInstance.post("/auth/register", signupDto);
+  return res.data;
+};
+
+export const fetchUser = async (): Promise<User> => {
+  const res = await axiosInstance.get("/auth/me");
   return res.data;
 };
