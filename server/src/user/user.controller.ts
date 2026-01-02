@@ -3,7 +3,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { User } from "./entities/User.entity";
 import { UserService } from "./user.service";
 import { UserDecorator } from "../auth/decorators/user.decorator";
-import { UserPayload } from "../auth/interfaces/user-payload.interface";
+import { JwtPayload } from "src/auth/interfaces/jwt-payload.interface";
 
 @Controller("user")
 export class UserController {
@@ -11,7 +11,7 @@ export class UserController {
 
   @Get("/me")
   @UseGuards(AuthGuard("jwt"))
-  async me(@UserDecorator() user: UserPayload): Promise<User> {
+  async me(@UserDecorator() user: JwtPayload): Promise<User> {
     return this.userService.findOneOrFail({ email: user.email });
   }
 }

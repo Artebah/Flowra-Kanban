@@ -1,10 +1,10 @@
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
-import { UserPayload } from "../interfaces/user-payload.interface";
 import { Request } from "express";
+import { JwtPayload } from "../interfaces/jwt-payload.interface";
 
 export const UserDecorator = createParamDecorator(
-  (data: unknown, ctx: ExecutionContext): UserPayload => {
+  (data: unknown, ctx: ExecutionContext): JwtPayload => {
     const request: Request = ctx.switchToHttp().getRequest();
-    return request.user as UserPayload;
+    return request.user as JwtPayload;
   },
 );
