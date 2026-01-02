@@ -5,6 +5,7 @@ import { LoginDto } from "src/common/dtos/login.dto";
 import { RegisterDto } from "src/common/dtos/register.dto";
 import { User } from "src/user/entities/User.entity";
 import { UserService } from "src/user/user.service";
+import { JwtPayload } from "./interfaces/jwt-payload.interface";
 
 @Injectable()
 export class AuthService {
@@ -38,6 +39,9 @@ export class AuthService {
   }
 
   private generateToken(user: User) {
-    return this.jwtService.sign({ sub: user.id, name: user.username });
+    return this.jwtService.sign<JwtPayload>({
+      sub: user.id,
+      email: user.email,
+    });
   }
 }

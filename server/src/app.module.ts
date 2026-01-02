@@ -11,6 +11,7 @@ import { typeormConfig } from "./config/typeorm.config";
 import { AuthModule } from "./auth/auth.module";
 import { User } from "./user/entities/User.entity";
 import { authConfig } from "./config/auth.config";
+import { UserModule } from "./user/user.module";
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { authConfig } from "./config/auth.config";
       }),
     }),
     AuthModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
