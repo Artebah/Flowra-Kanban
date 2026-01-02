@@ -19,11 +19,10 @@ import { JwtStrategy } from "./strategy/jwt.strategy";
       inject: [ConfigService],
       useFactory: (config: GlobalTypedConfig) => ({
         secret: config.get<AuthConfig>("auth")?.secret,
-        signOptions: {
-          expiresIn: config.get<AuthConfig>("auth")?.expiresIn as `${number}`,
-        },
+        expiresIn: config.get<AuthConfig>("auth")?.expiresIn as `${number}`,
       }),
     }),
   ],
+  exports: [JwtStrategy, PassportModule],
 })
 export class AuthModule {}

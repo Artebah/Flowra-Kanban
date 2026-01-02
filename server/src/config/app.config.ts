@@ -8,13 +8,18 @@ export const globalConfigValidationSchema = Joi.object({
   DB_USERNAME: Joi.string().required(),
   DB_PASSWORD: Joi.string().required(),
   DB_DATABASE: Joi.string().required(),
-  EXPIRES_IN: Joi.string().required(),
-  SECRET: Joi.string().required(),
+  JWT_ACCESS_SECRET: Joi.string().required(),
+  JWT_ACCESS_EXPIRES_IN: Joi.string().required(),
+  JWT_REFRESH_SECRET: Joi.string().required(),
+  JWT_REFRESH_EXPIRES_IN: Joi.string().required(),
 });
 
 export interface AuthConfig {
-  expiresIn?: string;
   secret?: string;
+  expiresIn?: string;
+
+  refreshSecret?: string;
+  refreshExpiresIn?: string;
 }
 export interface ConfigType {
   typeorm: TypeOrmModuleOptions;
