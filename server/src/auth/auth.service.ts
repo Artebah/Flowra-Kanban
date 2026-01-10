@@ -29,8 +29,8 @@ export class AuthService {
 
     const createdUser = await this.userService.create(registerDto);
 
-    const accessToken = this.generateAccessToken(createdUser);
-    const refreshToken = this.generateRefreshToken(createdUser);
+    const accessToken = await this.generateAccessToken(createdUser);
+    const refreshToken = await this.generateRefreshToken(createdUser);
 
     return new AuthResponseDto({
       user: createdUser,
@@ -41,21 +41,25 @@ export class AuthService {
 
   async login(loginDto: LoginDto): Promise<AuthResponseDto> {
     const user = await this.userService.validateUser(loginDto);
-    const accessToken = this.generateAccessToken(user);
-    const refreshToken = this.generateRefreshToken(user);
+    const accessToken = await this.generateAccessToken(user);
+    const refreshToken = await this.generateRefreshToken(user);
 
     return new AuthResponseDto({ user, accessToken, refreshToken });
   }
 
+  async refresh(): Promise<string> {
+    return Promise.resolve("");
+  }
+
   private generateAccessToken(user: User) {
-    return this.jwtService.sign<JwtPayload>({
+    return this.jwtService.signAsync<JwtPayload>({
       sub: user.id,
       email: user.email,
     });
   }
 
   private generateRefreshToken(user: User) {
-    return this.jwtService.sign<JwtPayload>(
+    return this.jwtService.signAsync<JwtPayload>(
       {
         sub: user.id,
         email: user.email,
