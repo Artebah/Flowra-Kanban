@@ -3,16 +3,17 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Post,
-  Req,
   SerializeOptions,
   UseGuards,
   UseInterceptors,
+  ValidationPipe,
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { RegisterDto } from "src/common/dtos/register.dto";
 import { UserDecorator } from "./decorators/user.decorator";
 import { JwtPayload } from "./interfaces/jwt-payload.interface";
 import { AuthGuard } from "@nestjs/passport";
+import { LoginDto } from "src/common/dtos/login.dto";
 
 @Controller("auth")
 @UseInterceptors(ClassSerializerInterceptor)
@@ -27,12 +28,16 @@ export class AuthController {
 
   @UseGuards(AuthGuard("local"))
   @Post("login")
-  login(@UserDecorator() user: JwtPayload) {
-    return user;
+  login(
+    @Body(new ValidationPipe()) loginDto: LoginDto,
+    @UserDecorator() jwtPayload: JwtPayload,
+  ) {
+    return this.authService.login(jwtPayload);
   }
 
+  @UseGuards(AuthGuard("refresh-jwt"))
   @Post("refresh")
-  refresh() {
-    return this.authService.refresh();
+  refresh(@UserDecorator() jwtPayload: JwtPayload) {
+    return this.authService.refresh(jwtPayload);
   }
 }

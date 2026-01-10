@@ -1,13 +1,13 @@
 import { ConflictException, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { AuthResponseDto } from "src/common/dtos/auth-response.dto";
-import { LoginDto } from "src/common/dtos/login.dto";
 import { RegisterDto } from "src/common/dtos/register.dto";
 import { User } from "src/user/entities/User.entity";
 import { UserService } from "src/user/user.service";
 import { JwtPayload } from "./interfaces/jwt-payload.interface";
 import { ConfigService } from "@nestjs/config";
 import { AuthConfig } from "src/config/app.config";
+import { RefreshJwtResponseDto } from "src/common/dtos/refresh-jwt-response.dto";
 
 @Injectable()
 export class AuthService {
@@ -39,16 +39,25 @@ export class AuthService {
     });
   }
 
-  async login(loginDto: LoginDto): Promise<AuthResponseDto> {
-    const user = await this.userService.validateUser(loginDto);
+  async login(jwtPayload: JwtPayload): Promise<AuthResponseDto> {
+    const user = await this.userService.findOneOrFail({
+      email: jwtPayload.email,
+    });
+
     const accessToken = await this.generateAccessToken(user);
     const refreshToken = await this.generateRefreshToken(user);
 
     return new AuthResponseDto({ user, accessToken, refreshToken });
   }
 
-  async refresh(): Promise<string> {
-    return Promise.resolve("");
+  async refresh(jwtPayload: JwtPayload): Promise<RefreshJwtResponseDto> {
+    const user = await this.userService.findOneOrFail({
+      email: jwtPayload.email,
+    });
+
+    const accessToken = await this.generateAccessToken(user);
+    console.log(accessToken);
+    return new RefreshJwtResponseDto({ accessToken });
   }
 
   private generateAccessToken(user: User) {
