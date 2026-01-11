@@ -6,7 +6,6 @@ import {
   SerializeOptions,
   UseGuards,
   UseInterceptors,
-  ValidationPipe,
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { RegisterDto } from "src/common/dtos/register.dto";
@@ -28,10 +27,7 @@ export class AuthController {
 
   @UseGuards(AuthGuard("local"))
   @Post("login")
-  login(
-    @Body(new ValidationPipe()) loginDto: LoginDto,
-    @UserDecorator() jwtPayload: JwtPayload,
-  ) {
+  login(@Body() loginDto: LoginDto, @UserDecorator() jwtPayload: JwtPayload) {
     return this.authService.login(jwtPayload);
   }
 
