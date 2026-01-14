@@ -3,7 +3,7 @@ import { JwtService } from "@nestjs/jwt";
 import { AuthResponseDto } from "src/common/dtos/auth-response.dto";
 import { RegisterDto } from "src/common/dtos/register.dto";
 import { User } from "src/users/entities/User.entity";
-import { UserService } from "src/users/users.service";
+import { UsersService } from "src/users/users.service";
 import { JwtPayload } from "./interfaces/jwt-payload.interface";
 import { ConfigService } from "@nestjs/config";
 import { AuthConfig } from "src/config/app.config";
@@ -12,13 +12,13 @@ import { RefreshJwtResponseDto } from "src/common/dtos/refresh-jwt-response.dto"
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly userService: UserService,
+    private readonly UsersService: UsersService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {}
 
   async register(registerDto: RegisterDto): Promise<AuthResponseDto> {
-    const existingUser = await this.userService.findOne({
+    const existingUser = await this.UsersService.findOne({
       email: registerDto.email,
       username: registerDto.username,
     });
@@ -27,7 +27,7 @@ export class AuthService {
       throw new ConflictException("User already exists");
     }
 
-    const createdUser = await this.userService.create(registerDto);
+    const createdUser = await this.UsersService.create(registerDto);
 
     const accessToken = await this.generateAccessToken(createdUser);
     const refreshToken = await this.generateRefreshToken(createdUser);
@@ -40,7 +40,7 @@ export class AuthService {
   }
 
   async login(jwtPayload: JwtPayload): Promise<AuthResponseDto> {
-    const user = await this.userService.findOneOrFail({
+    const user = await this.UsersService.findOneOrFail({
       email: jwtPayload.email,
     });
 
@@ -51,7 +51,7 @@ export class AuthService {
   }
 
   async refresh(jwtPayload: JwtPayload): Promise<RefreshJwtResponseDto> {
-    const user = await this.userService.findOneOrFail({
+    const user = await this.UsersService.findOneOrFail({
       email: jwtPayload.email,
     });
 
