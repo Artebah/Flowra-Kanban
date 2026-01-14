@@ -5,9 +5,11 @@ import { loginSchema, type LoginFields } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { LoginDto } from "../../types/api/auth";
 import { isEmail } from "../../utils/isEmail";
-import { login } from "../../services/api/authApi";
+import { useLogin } from "../../hooks/api/useLogin";
 
 function Login() {
+  const login = useLogin();
+
   const {
     register,
     handleSubmit,
@@ -24,9 +26,7 @@ function Login() {
       password: data.password,
     };
 
-    const authRes = await login(loginDto);
-    console.log(authRes);
-    localStorage.setItem("accessToken", authRes.accessToken);
+    login.mutate(loginDto);
   };
 
   return (
