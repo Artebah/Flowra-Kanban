@@ -1,5 +1,5 @@
 import { Expose, Type } from "class-transformer";
-import { User } from "src/user/entities/User.entity";
+import { User } from "src/users/entities/User.entity";
 
 export class AuthResponseDto {
   constructor(partial: Partial<AuthResponseDto>) {

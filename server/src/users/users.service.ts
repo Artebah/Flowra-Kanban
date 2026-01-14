@@ -12,7 +12,7 @@ import { RegisterDto } from "src/common/dtos/register.dto";
 import { LoginDto } from "src/common/dtos/login.dto";
 
 @Injectable()
-export class UserService {
+export class UsersService {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
   ) {}

@@ -9,9 +9,9 @@ import {
 } from "./config/app.config";
 import { typeormConfig } from "./config/typeorm.config";
 import { AuthModule } from "./auth/auth.module";
-import { User } from "./user/entities/User.entity";
+import { User } from "./users/entities/User.entity";
 import { authConfig } from "./config/auth.config";
-import { UserModule } from "./user/user.module";
+import { UserModule } from "./users/users.module";
 
 @Module({
   imports: [
