@@ -17,6 +17,6 @@ export const signup = async (signupDto: SignupDto): Promise<AuthResponse> => {
 };
 
 export const fetchMe = async (): Promise<User> => {
-  const res = await axiosInstance.get("/auth/me");
+  const res = await axiosInstance.get("/users/me");
   return res.data;
 };
