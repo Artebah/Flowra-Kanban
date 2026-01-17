@@ -1,11 +1,8 @@
 import {
   Body,
-  ClassSerializerInterceptor,
   Controller,
   Post,
-  SerializeOptions,
   UseGuards,
-  UseInterceptors,
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { RegisterDto } from "src/common/dtos/register.dto";
@@ -15,8 +12,6 @@ import { AuthGuard } from "@nestjs/passport";
 import { LoginDto } from "src/common/dtos/login.dto";
 
 @Controller("auth")
-@UseInterceptors(ClassSerializerInterceptor)
-@SerializeOptions({ strategy: "excludeAll" })
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
