@@ -1,47 +1,48 @@
 import React from "react";
-import { useFetchUser } from "../hooks/api/useFetchUser";
+import { useFetchMe } from "../hooks/api/useFetchMe";
+import { AUTH_ROUTES, PRIVATE_ROUTES, routes } from "../constants/routes";
 import { useLocation, useNavigate } from "react-router";
-import { PRIVATE_ROUTES } from "../constants/routes";
+import { AxiosError } from "axios";
+import { useLogout } from "../hooks/useLogout";
+import { useSetUser } from "../store/auth/selectors";
 
 function AuthGuard({ children }: React.PropsWithChildren) {
-  const navigate = useNavigate();
+  const { data, isError, error, isLoading } = useFetchMe();
   const location = useLocation();
-  const token = localStorage.getItem("accessToken");
-
-  const { isError, data, isSuccess, isPending } = useFetchUser();
+  const navigate = useNavigate();
+  const isPrivatePage = React.useMemo(
+    () => PRIVATE_ROUTES.includes(location.pathname),
+    [location]
+  );
+  const isAuthPage = React.useMemo(
+    () => AUTH_ROUTES.includes(location.pathname),
+    [location]
+  );
+  const setUser = useSetUser();
+  const logout = useLogout();
 
   React.useEffect(() => {
-    if (isPending) return;
-
-    if (!token || isError) {
-      if (isError) {
-        localStorage.removeItem("accessToken");
-      }
-
-      if (!PRIVATE_ROUTES.includes(location.pathname)) {
-        navigate("/login", { replace: true });
-      }
-      return;
-    }
-
-    if (isSuccess && data) {
-      if (PRIVATE_ROUTES.includes(location.pathname)) {
-        navigate("/dashboard", { replace: true });
+    if (isError) {
+      if (error instanceof AxiosError && error.status === 401) {
+        logout();
       }
     }
-  }, [isPending, isError, isSuccess, data, navigate, location.pathname, token]);
+  }, [isError, error, logout]);
 
-  if (isPending && token) {
+  React.useEffect(() => {
+    if (data) {
+      if (isAuthPage) {
+        navigate(routes.dashboard);
+      }
+
+      setUser(data);
+    }
+  }, [data, setUser, navigate, isAuthPage]);
+
+  if (isLoading && isPrivatePage) {
     return (
-      <div
-        style={{
-          height: "100vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <h3>Loading User...</h3>
+      <div className="fixed size-full flex justify-center items-center">
+        <span className="loading loading-spinner loading-xl text-secondary" />
       </div>
     );
   }

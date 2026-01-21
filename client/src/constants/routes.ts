@@ -5,3 +5,4 @@ export const routes = {
 };
 
 export const PRIVATE_ROUTES = [routes.dashboard];
+export const AUTH_ROUTES = [routes.login, routes.signup];

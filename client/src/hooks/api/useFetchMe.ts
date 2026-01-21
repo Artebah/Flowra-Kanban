@@ -4,13 +4,14 @@ import { useSetUser } from "../../store/auth/selectors";
 import type { User } from "../../types/api/auth";
 import React from "react";
 
-export const useFetchUser = () => {
+export const useFetchMe = () => {
   const setUser = useSetUser();
 
   const query = useQuery<User, Error>({
     queryKey: ["authMe"],
     queryFn: fetchMe,
     staleTime: Infinity,
+    retry: false,
   });
 
   React.useEffect(() => {
@@ -18,12 +19,6 @@ export const useFetchUser = () => {
       setUser(query.data);
     }
   }, [query.data, setUser]);
-
-  React.useEffect(() => {
-    if (query.error) {
-      console.error(query.error.message);
-    }
-  }, [query.error]);
 
   return query;
 };

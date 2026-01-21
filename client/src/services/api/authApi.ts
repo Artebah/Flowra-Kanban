@@ -17,6 +17,8 @@ export const signup = async (signupDto: SignupDto): Promise<AuthResponse> => {
 };
 
 export const fetchMe = async (): Promise<User> => {
-  const res = await axiosInstance.get("/users/me");
+  const res = await axiosInstance.get("/users/me", {
+    disableErrorToast: true,
+  });
   return res.data;
 };
