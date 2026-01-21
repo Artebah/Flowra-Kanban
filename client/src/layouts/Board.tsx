@@ -134,42 +134,45 @@ function Board() {
   );
 
   return (
-    <DndContext
-      sensors={sensors}
-      onDragEnd={handleDragEnd}
-      onDragStart={handleDragStart}
-      onDragOver={handleDragOver}
-    >
-      <div className="flex gap-2 items-start">
-        <SortableContext
-          id="sortable-columns"
-          items={columns.map((col) => `sortable-column-${col.id}`)}
-          strategy={horizontalListSortingStrategy}
-        >
-          {columns.map((column) => (
-            <Column
-              key={column.id}
-              column={column}
-              tasks={tasksByColumn[column.id] || []}
-            />
-          ))}
-        </SortableContext>
+    <div>
+      <h1 className="mb-3 text-2xl">Board title</h1>
+      <DndContext
+        sensors={sensors}
+        onDragEnd={handleDragEnd}
+        onDragStart={handleDragStart}
+        onDragOver={handleDragOver}
+      >
+        <div className="flex gap-2 items-start">
+          <SortableContext
+            id="sortable-columns"
+            items={columns.map((col) => `sortable-column-${col.id}`)}
+            strategy={horizontalListSortingStrategy}
+          >
+            {columns.map((column) => (
+              <Column
+                key={column.id}
+                column={column}
+                tasks={tasksByColumn[column.id] || []}
+              />
+            ))}
+          </SortableContext>
 
-        <AddColumnForm />
+          <AddColumnForm />
 
-        <DragOverlay>
-          {draggingColumn && (
-            <Column
-              column={draggingColumn}
-              tasks={tasksByColumn[draggingColumn.id] || []}
-              isDragOverlay
-            />
-          )}
-          {draggingTask && <Task isDragOverlayTask task={draggingTask} />}
-        </DragOverlay>
-      </div>
-      <TaskDetailsModal />
-    </DndContext>
+          <DragOverlay>
+            {draggingColumn && (
+              <Column
+                column={draggingColumn}
+                tasks={tasksByColumn[draggingColumn.id] || []}
+                isDragOverlay
+              />
+            )}
+            {draggingTask && <Task isDragOverlayTask task={draggingTask} />}
+          </DragOverlay>
+        </div>
+        <TaskDetailsModal />
+      </DndContext>
+    </div>
   );
 }
 
