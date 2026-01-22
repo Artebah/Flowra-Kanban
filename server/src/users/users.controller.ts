@@ -7,11 +7,11 @@ import { JwtPayload } from "src/auth/interfaces/jwt-payload.interface";
 
 @Controller("users")
 export class UserController {
-  constructor(private readonly UsersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) {}
 
   @Get("/me")
   @UseGuards(AuthGuard("jwt"))
   async me(@UserDecorator() user: JwtPayload): Promise<User> {
-    return this.UsersService.findOneOrFail({ email: user.email });
+    return this.usersService.findOneOrFail({ email: user.email });
   }
 }
