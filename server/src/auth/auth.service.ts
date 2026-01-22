@@ -1,13 +1,13 @@
 import { ConflictException, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { AuthResponseDto } from "src/common/dtos/auth-response.dto";
+import { AuthResponseDto } from "src/auth/dtos/auth-response.dto";
 import { RegisterDto } from "src/common/dtos/register.dto";
 import { User } from "src/users/entities/User.entity";
 import { UsersService } from "src/users/users.service";
 import { JwtPayload } from "./interfaces/jwt-payload.interface";
 import { ConfigService } from "@nestjs/config";
 import { AuthConfig } from "src/config/app.config";
-import { RefreshJwtResponseDto } from "src/common/dtos/refresh-jwt-response.dto";
+import { RefreshJwtResponseDto } from "src/auth/dtos/refresh-jwt-response.dto";
 
 @Injectable()
 export class AuthService {
