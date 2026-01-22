@@ -12,6 +12,8 @@ import { AuthModule } from "./auth/auth.module";
 import { User } from "./users/entities/User.entity";
 import { authConfig } from "./config/auth.config";
 import { UserModule } from "./users/users.module";
+import { BoardsModule } from "./boards/boards.module";
+import { Board } from "./boards/entities/Board.entity";
 
 @Module({
   imports: [
@@ -26,11 +28,12 @@ import { UserModule } from "./users/users.module";
       inject: [ConfigService],
       useFactory: async (configService: GlobalTypedConfig) => ({
         ...(await configService.get("typeorm")),
-        entities: [User],
+        entities: [User, Board],
       }),
     }),
     AuthModule,
     UserModule,
+    BoardsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
