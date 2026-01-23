@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  UseGuards,
+} from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { CreateBoardDto } from "./dtos/create-board.dto";
 import { BoardsService } from "./boards.service";
@@ -13,9 +21,9 @@ export class BoardsController {
     return this.boardsService.create(createBoardDto);
   }
 
-  @Get()
+  @Get("/:id")
   @UseGuards(AuthGuard("jwt"))
-  get() {
-    return {};
+  get(@Param("id", new ParseUUIDPipe()) id: string) {
+    return this.boardsService.get(id);
   }
 }
