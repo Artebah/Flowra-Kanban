@@ -7,7 +7,7 @@ import type { LoginDto } from "../../types/api/auth";
 import { isEmail } from "../../utils/isEmail";
 import { useLogin } from "../../hooks/api/useLogin";
 
-function Login() {
+function LoginPage() {
   const login = useLogin();
 
   const {
@@ -82,4 +82,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginPage;

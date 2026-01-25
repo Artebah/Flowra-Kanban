@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { SignupDto } from "../../types/api/auth";
 import { signup } from "../../services/api/authApi";
 
-function Signup() {
+function SignupPage() {
   const {
     register,
     handleSubmit,
@@ -92,4 +92,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default SignupPage;
