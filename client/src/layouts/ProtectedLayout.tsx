@@ -5,7 +5,7 @@ function ProtectedLayout() {
   return (
     <>
       <Header />
-      <main>
+      <main className="max-w-[1440px] mx-auto mt-7">
         <Outlet />
       </main>
     </>
