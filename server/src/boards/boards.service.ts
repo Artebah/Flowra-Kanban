@@ -16,10 +16,10 @@ export class BoardsService {
     return this.boardsRepository.save(board);
   }
 
-  async get(id: string): Promise<Board> {
+  async getCurrentBoard(boardId: string): Promise<Board> {
     const board = await this.boardsRepository.findOne({
       where: {
-        id,
+        id: boardId,
       },
     });
     console.log(board);
@@ -29,5 +29,9 @@ export class BoardsService {
     }
 
     return board;
+  }
+
+  async getAllMyBoards(userId: string): Promise<Board[]> {
+    return Promise.resolve([]);
   }
 }

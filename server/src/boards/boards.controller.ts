@@ -10,6 +10,8 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { CreateBoardDto } from "./dtos/create-board.dto";
 import { BoardsService } from "./boards.service";
+import { UserDecorator } from "src/auth/decorators/user.decorator";
+import { JwtPayload } from "src/auth/interfaces/jwt-payload.interface";
 
 @Controller("boards")
 export class BoardsController {
@@ -23,7 +25,13 @@ export class BoardsController {
 
   @Get("/:id")
   @UseGuards(AuthGuard("jwt"))
-  get(@Param("id", new ParseUUIDPipe()) id: string) {
-    return this.boardsService.get(id);
+  getCurrentBoard(@Param("id", new ParseUUIDPipe()) id: string) {
+    return this.boardsService.getCurrentBoard(id);
+  }
+
+  @Get()
+  @UseGuards(AuthGuard("jwt"))
+  getAllMyBoards(@UserDecorator() user: JwtPayload) {
+    return this.boardsService.get(user.sub);
   }
 }
