@@ -1,8 +1,10 @@
-import { Exclude, Expose } from "class-transformer";
+import { Expose } from "class-transformer";
+import { BoardMember } from "src/boards/entities/BoardMember.entity";
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
@@ -31,4 +33,7 @@ export class User {
   @UpdateDateColumn()
   @Expose()
   updatedAt: Date;
+
+  @OneToMany(() => BoardMember, (boardMember) => boardMember.user)
+  boardMembers: BoardMember[];
 }

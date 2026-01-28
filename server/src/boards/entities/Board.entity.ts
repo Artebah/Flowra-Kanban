@@ -3,8 +3,10 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { BoardMember } from "./BoardMember.entity";
 
 @Entity("boards")
 export class Board {
@@ -19,4 +21,7 @@ export class Board {
   @Expose()
   @CreateDateColumn()
   createdAt: string;
+
+  @OneToMany(() => BoardMember, (boardMember) => boardMember.board)
+  boardMembers: BoardMember[];
 }
