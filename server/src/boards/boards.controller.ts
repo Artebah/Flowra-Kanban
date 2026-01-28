@@ -32,6 +32,6 @@ export class BoardsController {
   @Get()
   @UseGuards(AuthGuard("jwt"))
   getAllMyBoards(@UserDecorator() user: JwtPayload) {
-    return this.boardsService.get(user.sub);
+    return this.boardsService.getAllMyBoards(user.sub);
   }
 }
