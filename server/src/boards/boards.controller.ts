@@ -19,8 +19,11 @@ export class BoardsController {
 
   @Post()
   @UseGuards(AuthGuard("jwt"))
-  create(@Body() createBoardDto: CreateBoardDto) {
-    return this.boardsService.create(createBoardDto);
+  create(
+    @Body() createBoardDto: CreateBoardDto,
+    @UserDecorator() user: JwtPayload,
+  ) {
+    return this.boardsService.create(createBoardDto, user.sub);
   }
 
   @Get("/:id")

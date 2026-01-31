@@ -3,17 +3,35 @@ import { Repository } from "typeorm";
 import { Board } from "./entities/Board.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CreateBoardDto } from "./dtos/create-board.dto";
+import { BoardMember } from "./entities/BoardMember.entity";
+import { BoardRole } from "./enums/BoardRole.enum";
 
 @Injectable()
 export class BoardsService {
   constructor(
     @InjectRepository(Board) private boardsRepository: Repository<Board>,
+    @InjectRepository(BoardMember)
+    private boardMembersRepository: Repository<BoardMember>,
   ) {}
 
-  create({ title }: CreateBoardDto): Promise<Board> {
-    const board = this.boardsRepository.create({ title });
+  create({ title }: CreateBoardDto, userId: string): Promise<Board> {
+    return this.boardsRepository.manager.transaction(
+      async (transactionalEntityManager) => {
+        const board = transactionalEntityManager.create(Board, { title });
 
-    return this.boardsRepository.save(board);
+        await transactionalEntityManager.save(board);
+
+        const boardMember = transactionalEntityManager.create(BoardMember, {
+          userId,
+          boardId: board.id,
+          role: BoardRole.OWNER,
+        });
+
+        await transactionalEntityManager.save(boardMember);
+
+        return board;
+      },
+    );
   }
 
   async getCurrentBoard(boardId: string): Promise<Board> {
@@ -22,7 +40,6 @@ export class BoardsService {
         id: boardId,
       },
     });
-    console.log(board);
 
     if (!board) {
       throw new NotFoundException();
@@ -32,6 +49,13 @@ export class BoardsService {
   }
 
   async getAllMyBoards(userId: string): Promise<Board[]> {
-    return Promise.resolve([]);
+    const memberships = await this.boardMembersRepository.find({
+      where: { userId },
+      relations: ["board"],
+    });
+
+    const allMyBoards = memberships.map((membership) => membership.board);
+
+    return allMyBoards;
   }
 }
