@@ -5,3 +5,7 @@ export interface IBoard {
 }
 
 export type TBoardsList = IBoard[];
+
+export interface CreateBoardDto {
+  title: string;
+}
