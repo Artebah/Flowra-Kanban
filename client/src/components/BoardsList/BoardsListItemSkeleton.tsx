@@ -1,6 +1,6 @@
 function BoardsListItemSkeleton() {
   return (
-    <div className="card bg-base-100 max-w-96 shadow-sm">
+    <div className="card bg-gray-dim max-w-96 shadow-sm">
       <div className="skeleton h-[190px]"></div>
       <div className="card-body">
         <div className="skeleton h-7 max-w-50"></div>
