@@ -1,12 +1,19 @@
 import BoardsListItem from "./BoardsListItem";
 import { useBoardsList } from "../../hooks/api/boards/useBoardsList";
+import BoardsListItemSkeleton from "./BoardsListItemSkeleton";
 
 function BoardsList() {
   const { data: boardsList, isLoading } = useBoardsList();
 
   return (
     <div className="bg-gray-charcoal p-4 ">
-      {isLoading && <div>loading...</div>}
+      {isLoading && (
+        <div className="grid grid-cols-4 gap-4">
+          {[1, 2, 3, 4].map(() => (
+            <BoardsListItemSkeleton />
+          ))}
+        </div>
+      )}
       <div className="grid grid-cols-4 gap-4">
         {boardsList &&
           boardsList.map((board) => (
