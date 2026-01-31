@@ -10,7 +10,7 @@ export const useLogin = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  return useMutation<Awaited<AuthResponse>, Error, LoginDto>({
+  return useMutation<AuthResponse, Error, LoginDto>({
     mutationFn: (loginDto) => login(loginDto),
     onSuccess: (authRes) => {
       setUser(authRes.user);
@@ -18,7 +18,7 @@ export const useLogin = () => {
       localStorage.setItem("refreshToken", authRes.refreshToken);
 
       queryClient.invalidateQueries({ queryKey: ["authMe"] });
-      navigate(routes.board);
+      navigate(routes.home);
     },
   });
 };
