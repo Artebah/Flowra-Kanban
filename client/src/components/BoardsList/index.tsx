@@ -5,16 +5,16 @@ function BoardsList() {
   const { data: boardsList, isLoading } = useBoardsList();
 
   return (
-    <div>
+    <div className="bg-gray-charcoal p-4 ">
       {isLoading && <div>loading...</div>}
-      <div className="bg-gray-charcoal p-4 grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-4 gap-4">
         {boardsList &&
           boardsList.map((board) => (
             <BoardsListItem key={board.id} {...board} />
           ))}
       </div>
       {boardsList && boardsList.length === 0 && <div>No boards found</div>}
-      {!boardsList && <div>Couldn't fetch your boards</div>}
+      {!isLoading && !boardsList && <div>Couldn't fetch your boards</div>}
     </div>
   );
 }
