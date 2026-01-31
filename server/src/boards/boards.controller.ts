@@ -26,10 +26,13 @@ export class BoardsController {
     return this.boardsService.create(createBoardDto, user.sub);
   }
 
-  @Get("/:id")
+  @Get("/:boardId")
   @UseGuards(AuthGuard("jwt"))
-  getCurrentBoard(@Param("id", new ParseUUIDPipe()) id: string) {
-    return this.boardsService.getCurrentBoard(id);
+  getCurrentBoard(
+    @Param("boardId", new ParseUUIDPipe()) boardId: string,
+    @UserDecorator() user: JwtPayload,
+  ) {
+    return this.boardsService.getCurrentBoard(boardId, user.sub);
   }
 
   @Get()

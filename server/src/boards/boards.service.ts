@@ -1,10 +1,12 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { ForbiddenException, Injectable } from "@nestjs/common";
 import { Repository } from "typeorm";
 import { Board } from "./entities/Board.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CreateBoardDto } from "./dtos/create-board.dto";
 import { BoardMember } from "./entities/BoardMember.entity";
 import { BoardRole } from "./enums/BoardRole.enum";
+import { GetCurrentBoardResponseDto } from "./dtos/get-current-board-response.dto";
+import { plainToInstance } from "class-transformer";
 
 @Injectable()
 export class BoardsService {
@@ -34,18 +36,26 @@ export class BoardsService {
     );
   }
 
-  async getCurrentBoard(boardId: string): Promise<Board> {
-    const board = await this.boardsRepository.findOne({
+  async getCurrentBoard(
+    boardId: string,
+    userId: string,
+  ): Promise<GetCurrentBoardResponseDto> {
+    const membership = await this.boardMembersRepository.findOne({
       where: {
-        id: boardId,
+        boardId,
+        userId,
       },
+      relations: ["board"],
     });
 
-    if (!board) {
-      throw new NotFoundException();
+    if (!membership) {
+      throw new ForbiddenException("You don't have access to the board");
     }
 
-    return board;
+    return plainToInstance(GetCurrentBoardResponseDto, {
+      board: membership.board,
+      role: membership.role,
+    });
   }
 
   async getAllMyBoards(userId: string): Promise<Board[]> {
