@@ -15,6 +15,7 @@ import { UserModule } from "./users/users.module";
 import { BoardsModule } from "./boards/boards.module";
 import { Board } from "./boards/entities/Board.entity";
 import { BoardMember } from "./boards/entities/BoardMember.entity";
+import { ColumnsModule } from "./columns/columns.module";
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { BoardMember } from "./boards/entities/BoardMember.entity";
     AuthModule,
     UserModule,
     BoardsModule,
+    ColumnsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
