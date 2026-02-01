@@ -6,23 +6,44 @@ import Dropzone from "../Dropzone";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { createBoardSchema, type CreateBoardFields } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import React from "react";
+import toast from "react-hot-toast";
 
 function CreateBoardButton() {
-  const { mutate } = useCreateBoard();
-  const [preview, setPreview] = useState<string | null>(null);
+  const { mutate, isPending } = useCreateBoard();
+  const [preview, setPreview] = React.useState<string | null>(null);
+  const [createBoardModalOpen, setCreateBoardModalOpen] = React.useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
+    reset,
   } = useForm<CreateBoardFields>({
     resolver: zodResolver(createBoardSchema),
   });
 
   const onSubmit: SubmitHandler<CreateBoardFields> = async (data) => {
-    mutate({ title: data.title });
+    mutate(
+      { title: data.title },
+      {
+        onSuccess(res) {
+          toast.success(`Board "${res.title}" has been created.`);
+          onCreateBoardModalClose();
+          setPreview(null);
+          reset();
+        },
+      }
+    );
+  };
+
+  const onCreateBoardModalOpen = () => {
+    setCreateBoardModalOpen(true);
+  };
+
+  const onCreateBoardModalClose = () => {
+    setCreateBoardModalOpen(false);
   };
 
   const handleImageDrop = (acceptedFiles: File[]) => {
@@ -41,9 +62,11 @@ function CreateBoardButton() {
 
   return (
     <>
-      <Button variant="primary">Create new board</Button>
+      <Button onClick={onCreateBoardModalOpen} variant="primary">
+        Create new board
+      </Button>
 
-      <Modal open onClose={() => {}}>
+      <Modal open={createBoardModalOpen} onClose={onCreateBoardModalClose}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div>
             <label
@@ -76,7 +99,12 @@ function CreateBoardButton() {
           </div>
 
           <div>
-            <Button type="submit" variant="primary" className="w-full">
+            <Button
+              disabled={isPending}
+              type="submit"
+              variant="primary"
+              className="w-full"
+            >
               Create new board
             </Button>
           </div>

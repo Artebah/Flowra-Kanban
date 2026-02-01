@@ -7,9 +7,8 @@ export const useCreateBoard = () => {
 
   const query = useMutation<IBoard, Error, CreateBoardDto>({
     mutationFn: (createBoardDto) => createBoard(createBoardDto),
-    onSuccess: (createBoardRes) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["boards-list-by-user"] });
-      console.log(createBoardRes);
     },
   });
 
