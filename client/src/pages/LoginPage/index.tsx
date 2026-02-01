@@ -1,4 +1,5 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
+import { Link } from "react-router";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import { loginSchema, type LoginFields } from "./schema";
@@ -6,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { LoginDto } from "../../types/api/auth";
 import { isEmail } from "../../utils/isEmail";
 import { useLogin } from "../../hooks/api/useLogin";
+import { routes } from "../../constants/routes";
 
 function LoginPage() {
   const login = useLogin();
@@ -77,6 +79,18 @@ function LoginPage() {
             </Button>
           </div>
         </form>
+
+        <div className="text-center mt-8">
+          <p className="text-gray-300">
+            Don't have an account yet?{" "}
+            <Link
+              to={routes.signup}
+              className="text-blue-400 hover:text-blue-300 font-semibold transition-colors duration-200 underline decoration-transparent hover:decoration-blue-300"
+            >
+              Create one now
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

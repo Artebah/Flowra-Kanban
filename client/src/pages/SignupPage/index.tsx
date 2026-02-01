@@ -1,12 +1,16 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
+import { Link } from "react-router";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import { signupSchema, type SignupFields } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { SignupDto } from "../../types/api/auth";
-import { signup } from "../../services/api/authApi";
+import { useSignup } from "../../hooks/api/useSignup";
+import { routes } from "../../constants/routes";
 
 function SignupPage() {
+  const signup = useSignup();
+
   const {
     register,
     handleSubmit,
@@ -17,9 +21,7 @@ function SignupPage() {
   const onSubmit: SubmitHandler<SignupFields> = async (data) => {
     const signupDto: SignupDto = data;
 
-    const authRes = await signup(signupDto);
-
-    localStorage.setItem("accessToken", authRes.accessToken);
+    signup.mutate(signupDto);
   };
 
   return (
@@ -87,6 +89,18 @@ function SignupPage() {
             </Button>
           </div>
         </form>
+
+        <div className="text-center mt-8">
+          <p className="text-gray-300">
+            Already have an account?{" "}
+            <Link
+              to={routes.login}
+              className="text-blue-400 hover:text-blue-300 font-semibold transition-colors duration-200 underline decoration-transparent hover:decoration-blue-300"
+            >
+              Sign in here
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
