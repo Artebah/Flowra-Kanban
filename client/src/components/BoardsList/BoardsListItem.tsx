@@ -1,10 +1,13 @@
+import { Link } from "react-router";
 import type { IBoard } from "../../types/api/boards";
+import { routes } from "../../constants/routes";
 
 interface BoardsListItemProps extends IBoard {}
 
-function BoardsListItem({ createdAt, title }: BoardsListItemProps) {
+function BoardsListItem({ createdAt, title, id }: BoardsListItemProps) {
   return (
-    <div className="card bg-gray-dim max-w-96 shadow-sm hover:shadow-[0px_0px_10px_5px_#2e2e2e] transition-all hover:-translate-y-0.5">
+    <div className="relative overflow-hidden card bg-gray-dim max-w-96 shadow-sm hover:shadow-lg transition-all hover:-translate-y-0.5">
+      <Link className="absolute z-10 size-full" to={routes.boardById(id)} />
       <figure className="h-48">
         <img
           src="https://i.pinimg.com/736x/c3/c7/71/c3c77155748f15ffee61cbc1fe9705d6.jpg"
