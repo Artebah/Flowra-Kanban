@@ -22,15 +22,7 @@ function CreateBoardButton() {
   });
 
   const onSubmit: SubmitHandler<CreateBoardFields> = async (data) => {
-    console.log(data);
-    //const loginDto = {
-    //  email: isEmail(data.emailOrUsername) ? data.emailOrUsername : undefined,
-    //  username: isEmail(data.emailOrUsername)
-    //    ? undefined
-    //    : data.emailOrUsername,
-    //  password: data.password,
-    //};
-    //login.mutate(loginDto);
+    mutate({ title: data.title });
   };
 
   const handleImageDrop = (acceptedFiles: File[]) => {
@@ -51,7 +43,7 @@ function CreateBoardButton() {
     <>
       <Button variant="primary">Create new board</Button>
 
-      <Modal className="" open onClose={() => {}}>
+      <Modal open onClose={() => {}}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div>
             <label
