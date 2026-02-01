@@ -11,7 +11,10 @@ export const useFetchMe = () => {
     queryKey: ["authMe"],
     queryFn: fetchMe,
     staleTime: Infinity,
+    gcTime: Infinity,
     retry: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });
 
   React.useEffect(() => {

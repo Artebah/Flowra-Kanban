@@ -7,6 +7,8 @@ import { routes } from "./constants/routes";
 import { Toaster } from "react-hot-toast";
 import ProtectedLayout from "./layouts/ProtectedLayout";
 import HomePage from "./pages/HomePage";
+import BoardPage from "./pages/BoardPage";
+
 const queryClient = new QueryClient();
 
 function App() {
@@ -18,7 +20,7 @@ function App() {
             <Routes>
               <Route element={<ProtectedLayout />}>
                 <Route path={routes.home} element={<HomePage />} />
-                {/*<Route path={routes.board} element={<BoardPage />} />*/}
+                <Route path={routes.boardById()} element={<BoardPage />} />
               </Route>
 
               <Route path={routes.login} element={<LoginPage />} />
