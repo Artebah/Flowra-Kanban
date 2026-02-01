@@ -23,7 +23,9 @@ function BoardsList() {
       {boardsList && boardsList.length === 0 && (
         <div className="py-8 text-center">No boards found</div>
       )}
-      {!isLoading && !boardsList && <div>Couldn't fetch your boards</div>}
+      {!isLoading && !boardsList && (
+        <div className="py-8 text-center">Couldn't fetch your boards</div>
+      )}
     </div>
   );
 }
