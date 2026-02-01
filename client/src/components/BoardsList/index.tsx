@@ -9,8 +9,8 @@ function BoardsList() {
     <div className="bg-gray-charcoal p-4 ">
       {isLoading && (
         <div className="grid grid-cols-4 gap-4">
-          {[1, 2, 3, 4].map(() => (
-            <BoardsListItemSkeleton />
+          {[1, 2, 3, 4].map((num) => (
+            <BoardsListItemSkeleton key={num} />
           ))}
         </div>
       )}
@@ -20,7 +20,9 @@ function BoardsList() {
             <BoardsListItem key={board.id} {...board} />
           ))}
       </div>
-      {boardsList && boardsList.length === 0 && <div>No boards found</div>}
+      {boardsList && boardsList.length === 0 && (
+        <div className="py-8 text-center">No boards found</div>
+      )}
       {!isLoading && !boardsList && <div>Couldn't fetch your boards</div>}
     </div>
   );
