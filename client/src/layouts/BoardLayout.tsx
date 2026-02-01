@@ -1,4 +1,4 @@
-import Column from "../components/Column";
+import Column from "../components/Column/index.tsx";
 import {
   DndContext,
   DragOverlay,
@@ -10,9 +10,9 @@ import {
   MouseSensor,
 } from "@dnd-kit/core";
 import React from "react";
-import { useColumns, useUpdateColumnOrder } from "../store/kanban/selectors";
-import { useFetchTasks } from "../hooks/useFetchTasks";
-import { debounce } from "../utils/debounce";
+import { useColumns, useUpdateColumnOrder } from "../store/kanban/selectors.ts";
+import { useFetchTasks } from "../hooks/useFetchTasks.ts";
+import { debounce } from "../utils/debounce.ts";
 import {
   horizontalListSortingStrategy,
   SortableContext,
@@ -21,14 +21,14 @@ import {
   useMoveTask,
   useTasksByColumn,
   useUpdateTaskOrder,
-} from "../store/kanban/selectors";
-import Task from "../components/Task";
+} from "../store/kanban/selectors.ts";
+import Task from "../components/Task/index.tsx";
 import type { ITask } from "../types/ITask.ts";
 import type { IColumn } from "../types/IColumn.ts";
 import AddColumnForm from "../components/AddColumnForm/index.tsx";
 import TaskDetailsModal from "../components/TaskDetailsModal/index.tsx";
 
-function Board() {
+function BoardLayout() {
   const columns = useColumns();
   const updateColumnOrder = useUpdateColumnOrder();
   const tasksByColumn = useTasksByColumn();
@@ -135,7 +135,6 @@ function Board() {
 
   return (
     <div>
-      <h1 className="mb-3 text-2xl">Board title</h1>
       <DndContext
         sensors={sensors}
         onDragEnd={handleDragEnd}
@@ -176,4 +175,4 @@ function Board() {
   );
 }
 
-export default Board;
+export default BoardLayout;
