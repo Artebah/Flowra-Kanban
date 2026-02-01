@@ -1,4 +1,5 @@
 import type {
+  BoardByIdResponse,
   CreateBoardDto,
   IBoard,
   TBoardsList,
@@ -14,5 +15,12 @@ export const createBoard = async (
   createBoardDto: CreateBoardDto
 ): Promise<IBoard> => {
   const res = await axiosInstance.post(`/boards`, createBoardDto);
+  return res.data;
+};
+
+export const getBoardById = async (
+  boardId: string
+): Promise<BoardByIdResponse> => {
+  const res = await axiosInstance.get(`/boards/${boardId}`);
   return res.data;
 };
