@@ -5,7 +5,6 @@ import Input from "../../components/Input";
 import { loginSchema, type LoginFields } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { LoginDto } from "../../types/api/auth";
-import { isEmail } from "../../utils/isEmail";
 import { useLogin } from "../../hooks/api/useLogin";
 import { routes } from "../../constants/routes";
 
@@ -21,10 +20,7 @@ function LoginPage() {
   });
   const onSubmit: SubmitHandler<LoginFields> = async (data) => {
     const loginDto: LoginDto = {
-      email: isEmail(data.emailOrUsername) ? data.emailOrUsername : undefined,
-      username: isEmail(data.emailOrUsername)
-        ? undefined
-        : data.emailOrUsername,
+      emailOrUsername: data.emailOrUsername,
       password: data.password,
     };
 

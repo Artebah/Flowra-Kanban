@@ -13,8 +13,7 @@ export interface AuthResponse {
 }
 
 export interface LoginDto {
-  email?: string;
-  username?: string;
+  emailOrUsername: string;
   password: string;
 }
 export interface SignupDto {
