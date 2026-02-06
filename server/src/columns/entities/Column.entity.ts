@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Board } from "src/boards/entities/Board.entity";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from "typeorm";
 
 @Entity("columns")
 export class BoardColumn {
@@ -12,8 +19,12 @@ export class BoardColumn {
   title: string;
 
   @Column()
-  order: string;
+  order: number;
 
   @Column({ nullable: true })
   color?: string;
+
+  @ManyToOne(() => Board, (board) => board.columns, { nullable: false })
+  @JoinColumn({ name: "boardId" })
+  board: Board;
 }

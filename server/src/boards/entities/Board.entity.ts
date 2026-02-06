@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { BoardMember } from "./BoardMember.entity";
+import { BoardColumn } from "src/columns/entities/Column.entity";
 
 @Entity("boards")
 export class Board {
@@ -24,4 +25,7 @@ export class Board {
 
   @OneToMany(() => BoardMember, (boardMember) => boardMember.board)
   boardMembers: BoardMember[];
+
+  @OneToMany(() => BoardColumn, (boardColumn) => boardColumn.board)
+  columns: BoardColumn[];
 }
