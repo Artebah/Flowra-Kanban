@@ -1,15 +1,11 @@
-import {
-  Body,
-  Controller,
-  Post,
-  UseGuards,
-} from "@nestjs/common";
+import { Body, Controller, Post, UseGuards } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { RegisterDto } from "src/common/dtos/register.dto";
 import { UserDecorator } from "./decorators/user.decorator";
 import { JwtPayload } from "./interfaces/jwt-payload.interface";
-import { AuthGuard } from "@nestjs/passport";
 import { LoginDto } from "src/common/dtos/login.dto";
+import { LocalAuthGuard } from "./guards/local-auth.guard";
+import { RefreshAuthGuard } from "./guards/refresh-auth.guard";
 
 @Controller("auth")
 export class AuthController {
@@ -20,13 +16,13 @@ export class AuthController {
     return this.authService.register(registerDto);
   }
 
-  @UseGuards(AuthGuard("local"))
+  @UseGuards(LocalAuthGuard)
   @Post("login")
   login(@Body() loginDto: LoginDto, @UserDecorator() jwtPayload: JwtPayload) {
     return this.authService.login(jwtPayload);
   }
 
-  @UseGuards(AuthGuard("refresh-jwt"))
+  @UseGuards(RefreshAuthGuard)
   @Post("refresh")
   refresh(@UserDecorator() jwtPayload: JwtPayload) {
     return this.authService.refresh(jwtPayload);
