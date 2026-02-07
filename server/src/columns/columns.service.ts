@@ -1,5 +1,4 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { CreateColumnDto } from "./dtos/create-column.dto";
 import { Repository } from "typeorm";
 import { BoardColumn } from "./entities/Column.entity";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -14,7 +13,7 @@ export class ColumnsService {
     private readonly boardsRepository: Repository<Board>,
   ) {}
 
-  async create({ boardId, title }: CreateColumnDto): Promise<BoardColumn> {
+  async create(title: string, boardId: string): Promise<BoardColumn> {
     const boardExists = await this.boardsRepository.exists({
       where: { id: boardId },
     });
@@ -36,5 +35,14 @@ export class ColumnsService {
     const savedColumn = await this.columnsRepository.save(newColumn);
 
     return savedColumn;
+  }
+
+  async getAll(boardId: string): Promise<BoardColumn[]> {
+    const foundColumns = await this.columnsRepository.find({
+      where: { boardId },
+      order: { order: "ASC" },
+    });
+
+    return foundColumns;
   }
 }
