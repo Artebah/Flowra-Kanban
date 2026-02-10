@@ -20,13 +20,13 @@ export class ColumnsController {
   @Post()
   create(
     @Body() createColumnDto: CreateColumnDto,
-    @Param(new ParseUUIDPipe()) boardId: string,
+    @Param("boardId", new ParseUUIDPipe()) boardId: string,
   ) {
     return this.columnsService.create(createColumnDto.title, boardId);
   }
 
   @Get()
-  getAll(@Param(new ParseUUIDPipe()) boardId: string) {
+  getAll(@Param("boardId", new ParseUUIDPipe()) boardId: string) {
     return this.columnsService.getAll(boardId);
   }
 }

@@ -14,11 +14,11 @@ import { JwtPayload } from "src/auth/interfaces/jwt-payload.interface";
 import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
 
 @Controller("boards")
+@UseGuards(JwtAuthGuard)
 export class BoardsController {
   constructor(private readonly boardsService: BoardsService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard)
   create(
     @Body() createBoardDto: CreateBoardDto,
     @UserDecorator() user: JwtPayload,
@@ -27,7 +27,6 @@ export class BoardsController {
   }
 
   @Get("/:boardId")
-  @UseGuards(JwtAuthGuard)
   getCurrentBoard(
     @Param("boardId", new ParseUUIDPipe()) boardId: string,
     @UserDecorator() user: JwtPayload,
@@ -36,7 +35,6 @@ export class BoardsController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard)
   getAllMyBoards(@UserDecorator() user: JwtPayload) {
     return this.boardsService.getAllMyBoards(user.sub);
   }
