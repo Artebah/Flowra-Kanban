@@ -7,15 +7,15 @@ function BoardPage() {
   const params = useParams();
   const navigate = useNavigate();
 
-  const { data, error } = useBoardById(params.id!);
+  const { data: boardData, error: boardByIdError } = useBoardById(params.id!);
 
-  if (error) {
+  if (boardByIdError) {
     navigate(routes.home);
-  } else if (data) {
+  } else if (boardData) {
     return (
       <div className="px-7 pt-4 pb-4">
-        <h1 className="mb-3 text-lg font-bold">{data.board.title}</h1>
-        <BoardLayout />
+        <h1 className="mb-3 text-lg font-bold">{boardData.board.title}</h1>
+        <BoardLayout boardId={params.id!} />
       </div>
     );
   }

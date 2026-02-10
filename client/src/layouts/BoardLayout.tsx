@@ -7,7 +7,7 @@ import {
   MouseSensor,
 } from "@dnd-kit/core";
 import React from "react";
-import { useColumns, useUpdateColumnOrder } from "../store/kanban/selectors.ts";
+import { useUpdateColumnOrder } from "../store/kanban/selectors.ts";
 import { useFetchTasks } from "../hooks/useFetchTasks.ts";
 import {
   horizontalListSortingStrategy,
@@ -24,9 +24,15 @@ import type { IColumn } from "../types/IColumn.ts";
 import AddColumnForm from "../components/AddColumnForm/index.tsx";
 import TaskDetailsModal from "../components/TaskDetailsModal/index.tsx";
 import { useDragHandlers } from "../hooks/useDragHandlers.ts";
+import { useBoardColumnsList } from "../hooks/api/useBoardColumnsList";
 
-function BoardLayout() {
-  const columns = useColumns();
+interface BoardLayoutProps {
+  boardId: string;
+}
+
+function BoardLayout({ boardId }: BoardLayoutProps) {
+  const { data: columns = [], isLoading: isLoadingColumns } =
+    useBoardColumnsList(boardId);
   const updateColumnOrder = useUpdateColumnOrder();
   const tasksByColumn = useTasksByColumn();
   const updateTaskOrder = useUpdateTaskOrder();
@@ -56,6 +62,10 @@ function BoardLayout() {
     updateTaskOrder,
     moveTask,
   });
+
+  if (isLoadingColumns) {
+    return <>loading columns...</>;
+  }
 
   return (
     <div>
