@@ -7,22 +7,30 @@ export interface ModalDetailsData {
   columnId: string | null;
 }
 
-export interface IKanbanStore {
-  tasks: ITask[];
-  tasksByColumn: ITasksByColumn;
+export interface IColumnSlice {
   columns: IColumn[];
-  modalDetailsData: ModalDetailsData;
-  setTasks: (tasks: ITask[]) => void;
   setColumns: (columns: IColumn[]) => void;
-  updateTaskOrder: (overId: string) => void;
   updateColumnOrder: (activeId: string, overId: string) => void;
-  moveTask: (activeId: string, overId: string) => void;
-  addTask: (title: string, columnId: string) => void;
   addNewColumn: (title: string) => void;
   removeColumn: (columnId: string) => void;
   updateColumn: (
     columnId: string,
     columnDataToUpdate: Partial<IColumn>
   ) => void;
+}
+
+export interface ITaskSlice {
+  tasks: ITask[];
+  tasksByColumn: ITasksByColumn;
+  setTasks: (tasks: ITask[]) => void;
+  updateTaskOrder: (overId: string) => void;
+  moveTask: (activeId: string, overId: string) => void;
+  addTask: (title: string, columnId: string) => void;
+}
+
+export interface IUISlice {
+  modalDetailsData: ModalDetailsData;
   updateModalDetailsData: (data: ModalDetailsData) => void;
 }
+
+export interface IKanbanStore extends IColumnSlice, ITaskSlice, IUISlice {}
