@@ -24,15 +24,13 @@ import type { IColumn } from "../types/IColumn.ts";
 import AddColumnForm from "../components/AddColumnForm/index.tsx";
 import TaskDetailsModal from "../components/TaskDetailsModal/index.tsx";
 import { useDragHandlers } from "../hooks/useDragHandlers.ts";
-import { useBoardColumnsList } from "../hooks/api/useBoardColumnsList";
+import type { TBoardColumns } from "../types/api/columns.ts";
 
 interface BoardLayoutProps {
-  boardId: string;
+  columns: TBoardColumns;
 }
 
-function BoardLayout({ boardId }: BoardLayoutProps) {
-  const { data: columns = [], isLoading: isLoadingColumns } =
-    useBoardColumnsList(boardId);
+function BoardLayout({ columns }: BoardLayoutProps) {
   const updateColumnOrder = useUpdateColumnOrder();
   const tasksByColumn = useTasksByColumn();
   const updateTaskOrder = useUpdateTaskOrder();
@@ -62,10 +60,6 @@ function BoardLayout({ boardId }: BoardLayoutProps) {
     updateTaskOrder,
     moveTask,
   });
-
-  if (isLoadingColumns) {
-    return <>loading columns...</>;
-  }
 
   return (
     <div>
