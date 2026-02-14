@@ -3,6 +3,7 @@ import { Repository } from "typeorm";
 import { BoardColumn } from "./entities/Column.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Board } from "src/boards/entities/Board.entity";
+import { UpdateColumnDto } from "./dtos/update.column.dto";
 
 @Injectable()
 export class ColumnsService {
@@ -44,5 +45,23 @@ export class ColumnsService {
     });
 
     return foundColumns;
+  }
+
+  async update(
+    updateColumnDto: UpdateColumnDto,
+    boardId: string,
+    columnId: string,
+  ): Promise<BoardColumn> {
+    const foundColumn = await this.columnsRepository.findOne({
+      where: { boardId, id: columnId },
+    });
+
+    if (!foundColumn) {
+      throw new NotFoundException(`Column with ID ${columnId} not found`);
+    }
+
+    Object.assign(foundColumn, updateColumnDto);
+
+    return this.columnsRepository.save(foundColumn);
   }
 }
