@@ -14,6 +14,8 @@ import { CSS } from "@dnd-kit/utilities";
 import ColumnActionsDropdown from "../ColumnActionsDropdown";
 import EditableText from "../EditableText";
 import { usePatchColumn } from "../../hooks/api/columns/usePatchColumn";
+import { useUpdateColumn } from "../../store/kanban/selectors";
+import toast from "react-hot-toast";
 
 interface ColumnProps {
   column: IColumn;
@@ -24,7 +26,9 @@ interface ColumnProps {
 function Column({ column, tasks, isDragOverlay = false }: ColumnProps) {
   const [isAddCardOpen, setIsAddCardOpen] = React.useState(false);
   const [isEditableTitle, setIsEditableTitle] = React.useState(false);
-  const { mutate: patchColumnMutate } = usePatchColumn();
+  const { mutate: patchColumnMutate, isPending: isLoadingPatchColumn } =
+    usePatchColumn();
+  const updateColumn = useUpdateColumn();
   const { setNodeRef: setEndDropNodeRef } = useDroppable({
     id: `end-droppable-${column.id}`,
     data: { columnId: column.id, isColumn: true },
@@ -55,11 +59,22 @@ function Column({ column, tasks, isDragOverlay = false }: ColumnProps) {
   };
 
   const handleTitleSave = (newTitle: string) => {
-    patchColumnMutate({
-      boardId: column.boardId,
-      columnId: column.id,
-      updateColumnDto: { title: newTitle },
-    });
+    patchColumnMutate(
+      {
+        boardId: column.boardId,
+        columnId: column.id,
+        updateColumnDto: { title: newTitle },
+      },
+      {
+        onSuccess() {
+          console.log("updateed");
+          updateColumn(column.id, { title: newTitle });
+        },
+        onError() {
+          toast.error("Couldn't update column title");
+        },
+      }
+    );
   };
 
   return (
@@ -71,14 +86,13 @@ function Column({ column, tasks, isDragOverlay = false }: ColumnProps) {
       style={{ ...style, backgroundColor: column.color }}
     >
       <div className="flex items-center mb-2">
-        <div className="font-semibold h-10 pl-2 flex items-center grow text-white cursor-pointer">
-          <EditableText
-            text={column.title}
-            onSave={handleTitleSave}
-            isEditable={isEditableTitle}
-            setIsEditable={setIsEditableTitle}
-          />
-        </div>
+        <EditableText
+          text={column.title}
+          onSave={handleTitleSave}
+          isEditable={isEditableTitle}
+          setIsEditable={setIsEditableTitle}
+          disabled={isLoadingPatchColumn}
+        />
         <ColumnActionsDropdown
           column={column}
           setAllowDraggingColumn={setAllowDraggingColumn}

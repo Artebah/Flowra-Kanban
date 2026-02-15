@@ -22,7 +22,7 @@ function ColumnColorsDropdown({
   setOpenColors,
 }: ColumnColorsDropdownProps) {
   const updateColumn = useUpdateColumn();
-  const { isPending: patchColumnIsLoading, mutate: patchColumnMutate } =
+  const { isPending: isLoadingPatchColumn, mutate: patchColumnMutate } =
     usePatchColumn();
 
   const onGoBackToActions = () => {
@@ -65,7 +65,7 @@ function ColumnColorsDropdown({
         <div className="flex justify-center flex-wrap gap-2 mt-4 pt-4 border-t border-gray-500">
           {columnColorsDarkTheme.map((columnColor) => (
             <button
-              disabled={patchColumnIsLoading}
+              disabled={isLoadingPatchColumn}
               key={columnColor.label}
               onClick={() => onChangeColumnColor(columnColor.color)}
               className="disabled:opacity-70 disabled:cursor-not-allowed rounded-md size-10 cursor-pointer transition-all hover:brightness-125"
