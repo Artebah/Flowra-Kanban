@@ -5,7 +5,7 @@ import Input from "../../components/Input";
 import { signupSchema, type SignupFields } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { SignupDto } from "../../types/api/auth";
-import { useSignup } from "../../hooks/api/useSignup";
+import { useSignup } from "../../hooks/api/auth/useSignup";
 import { routes } from "../../constants/routes";
 
 function SignupPage() {

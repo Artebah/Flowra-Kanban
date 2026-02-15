@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchMe } from "../../services/api/authApi";
-import { useSetUser } from "../../store/auth/selectors";
-import type { User } from "../../types/api/auth";
+import { fetchMe } from "../../../services/api/authApi";
+import { useSetUser } from "../../../store/auth/selectors";
+import type { User } from "../../../types/api/auth";
 import React from "react";
 
 export const useFetchMe = () => {

@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { signup } from "../../services/api/authApi";
-import type { AuthResponse, SignupDto } from "../../types/api/auth";
-import { useSetUser } from "../../store/auth/selectors";
+import { signup } from "../../../services/api/authApi";
+import type { AuthResponse, SignupDto } from "../../../types/api/auth";
+import { useSetUser } from "../../../store/auth/selectors";
 import { useNavigate } from "react-router";
-import { routes } from "../../constants/routes";
+import { routes } from "../../../constants/routes";
 
 export const useSignup = () => {
   const setUser = useSetUser();

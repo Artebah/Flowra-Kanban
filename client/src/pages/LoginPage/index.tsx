@@ -5,7 +5,7 @@ import Input from "../../components/Input";
 import { loginSchema, type LoginFields } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { LoginDto } from "../../types/api/auth";
-import { useLogin } from "../../hooks/api/useLogin";
+import { useLogin } from "../../hooks/api/auth/useLogin";
 import { routes } from "../../constants/routes";
 
 function LoginPage() {

@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router";
 import BoardLayout from "../layouts/BoardLayout";
 import { useBoardById } from "../hooks/api/boards/useBoardById";
 import { routes } from "../constants/routes";
-import { useBoardColumnsList } from "../hooks/api/useBoardColumnsList";
+import { useBoardColumnsList } from "../hooks/api/columns/useBoardColumnsList";
 import ColumnSkeleton from "../components/Column/ColumnSkeleton";
 
 function BoardPage() {

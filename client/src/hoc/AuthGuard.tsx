@@ -1,5 +1,5 @@
 import React from "react";
-import { useFetchMe } from "../hooks/api/useFetchMe";
+import { useFetchMe } from "../hooks/api/auth/useFetchMe";
 import { isPrivate, routes } from "../constants/routes";
 import { useNavigate } from "react-router";
 import { AxiosError } from "axios";
