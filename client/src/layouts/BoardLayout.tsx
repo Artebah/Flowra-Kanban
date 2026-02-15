@@ -24,13 +24,10 @@ import type { IColumn } from "../types/IColumn.ts";
 import AddColumnForm from "../components/AddColumnForm/index.tsx";
 import TaskDetailsModal from "../components/TaskDetailsModal/index.tsx";
 import { useDragHandlers } from "../hooks/useDragHandlers.ts";
-import type { TBoardColumns } from "../types/api/columns.ts";
+import { useColumns } from "../store/kanban/selectors.ts";
 
-interface BoardLayoutProps {
-  columns: TBoardColumns;
-}
-
-function BoardLayout({ columns }: BoardLayoutProps) {
+function BoardLayout() {
+  const columns = useColumns();
   const updateColumnOrder = useUpdateColumnOrder();
   const tasksByColumn = useTasksByColumn();
   const updateTaskOrder = useUpdateTaskOrder();

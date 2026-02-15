@@ -4,10 +4,13 @@ import { useBoardById } from "../hooks/api/boards/useBoardById";
 import { routes } from "../constants/routes";
 import { useBoardColumnsList } from "../hooks/api/columns/useBoardColumnsList";
 import ColumnSkeleton from "../components/Column/ColumnSkeleton";
+import { useSetColumns } from "../store/kanban/selectors";
+import React from "react";
 
 function BoardPage() {
   const params = useParams();
   const navigate = useNavigate();
+  const setColumns = useSetColumns();
 
   const boardId = params.id!;
 
@@ -18,6 +21,12 @@ function BoardPage() {
   } = useBoardById(params.id!);
   const { data: columns = [], isLoading: isLoadingColumns } =
     useBoardColumnsList(boardId);
+
+  React.useEffect(() => {
+    if (columns.length > 0) {
+      setColumns(columns);
+    }
+  }, [columns, setColumns]);
 
   if (isLoadingBoard || isLoadingColumns) {
     return (
@@ -39,7 +48,7 @@ function BoardPage() {
     return (
       <div className="px-7 pt-4 pb-4">
         <h1 className="mb-3 text-lg font-bold">{boardData.board.title}</h1>
-        <BoardLayout columns={columns} />
+        <BoardLayout />
       </div>
     );
   }
