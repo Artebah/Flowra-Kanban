@@ -6,4 +6,9 @@ export interface BoardColumn {
   color?: string;
 }
 
+export interface UpdateColumnDto {
+  title?: string;
+  color?: string;
+}
+
 export type TBoardColumns = BoardColumn[];

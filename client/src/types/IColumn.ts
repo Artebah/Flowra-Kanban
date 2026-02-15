@@ -2,6 +2,7 @@ import type { ITask } from "./ITask";
 
 export interface IColumn {
   id: string;
+  boardId: string;
   title: string;
   order: number;
   color?: string;
