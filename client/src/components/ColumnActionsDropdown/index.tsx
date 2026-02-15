@@ -64,6 +64,7 @@ function ColumnActionsDropdown({
       </Dropdown>
 
       <ColumnColorsDropdown
+        boardId={column.boardId}
         columnId={column.id}
         openColors={openColors}
         setOpenActions={setOpenActions}
@@ -83,7 +84,7 @@ function ColumnActionsDropdown({
             <Button
               onClick={onDeleteColumn}
               variant="default"
-              className="bg-red-500 hover:!bg-red-600"
+              className="bg-red-500 hover:bg-red-600!"
             >
               Delete
             </Button>

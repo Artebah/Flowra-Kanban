@@ -7,5 +7,5 @@ export class UpdateColumnDto {
 
   @IsString()
   @IsOptional()
-  color: string;
+  color?: string;
 }

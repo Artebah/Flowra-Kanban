@@ -8,7 +8,7 @@ export interface BoardColumn {
 
 export interface UpdateColumnDto {
   title?: string;
-  color?: string;
+  color: string | null;
 }
 
 export type TBoardColumns = BoardColumn[];
