@@ -2,17 +2,18 @@ import React from "react";
 import Input from "../Input";
 
 interface EditableTextProps {
-  initialText: string;
+  text: string;
+  onSave: (newText: string) => void;
   isEditable: boolean;
   setIsEditable: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function EditableText({
-  initialText,
+  text,
+  onSave,
   isEditable,
   setIsEditable,
 }: EditableTextProps) {
-  const [text, setText] = React.useState(initialText);
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
@@ -33,11 +34,9 @@ function EditableText({
     const updatedText = e.target.value;
 
     if (updatedText !== text) {
-      setText(updatedText);
-      closeTextInput();
-    } else {
-      closeTextInput();
+      onSave(updatedText);
     }
+    closeTextInput();
   };
 
   return isEditable ? (

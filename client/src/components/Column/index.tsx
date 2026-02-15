@@ -13,6 +13,7 @@ import React from "react";
 import { CSS } from "@dnd-kit/utilities";
 import ColumnActionsDropdown from "../ColumnActionsDropdown";
 import EditableText from "../EditableText";
+import { usePatchColumn } from "../../hooks/api/columns/usePatchColumn";
 
 interface ColumnProps {
   column: IColumn;
@@ -23,6 +24,7 @@ interface ColumnProps {
 function Column({ column, tasks, isDragOverlay = false }: ColumnProps) {
   const [isAddCardOpen, setIsAddCardOpen] = React.useState(false);
   const [isEditableTitle, setIsEditableTitle] = React.useState(false);
+  const { mutate: patchColumnMutate } = usePatchColumn();
   const { setNodeRef: setEndDropNodeRef } = useDroppable({
     id: `end-droppable-${column.id}`,
     data: { columnId: column.id, isColumn: true },
@@ -52,6 +54,14 @@ function Column({ column, tasks, isDragOverlay = false }: ColumnProps) {
     opacity: isDragging && !isDragOverlay ? 0 : 1,
   };
 
+  const handleTitleSave = (newTitle: string) => {
+    patchColumnMutate({
+      boardId: column.boardId,
+      columnId: column.id,
+      updateColumnDto: { title: newTitle },
+    });
+  };
+
   return (
     <div
       {...(!isDragOverlay && allowDraggingColumn ? listeners : {})}
@@ -63,7 +73,8 @@ function Column({ column, tasks, isDragOverlay = false }: ColumnProps) {
       <div className="flex items-center mb-2">
         <div className="font-semibold h-10 pl-2 flex items-center grow text-white cursor-pointer">
           <EditableText
-            initialText={column.title}
+            text={column.title}
+            onSave={handleTitleSave}
             isEditable={isEditableTitle}
             setIsEditable={setIsEditableTitle}
           />
