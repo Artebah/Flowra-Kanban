@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  HttpCode,
   Param,
   ParseUUIDPipe,
   Patch,
@@ -39,5 +41,14 @@ export class ColumnsController {
     @Param("columnId", new ParseUUIDPipe()) columnId: string,
   ) {
     return this.columnsService.update(updateColumnDto, boardId, columnId);
+  }
+
+  @Delete("/:columnId")
+  @HttpCode(204)
+  delete(
+    @Param("boardId", new ParseUUIDPipe()) boardId: string,
+    @Param("columnId", new ParseUUIDPipe()) columnId: string,
+  ) {
+    return this.columnsService.delete(boardId, columnId);
   }
 }

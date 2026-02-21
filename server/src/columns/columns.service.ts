@@ -64,4 +64,15 @@ export class ColumnsService {
 
     return this.columnsRepository.save(foundColumn);
   }
+
+  async delete(boardId: string, columnId: string): Promise<void> {
+    const result = await this.columnsRepository.delete({
+      boardId,
+      id: columnId,
+    });
+
+    if (result.affected === 0) {
+      throw new NotFoundException("Column not found");
+    }
+  }
 }

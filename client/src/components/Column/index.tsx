@@ -67,7 +67,6 @@ function Column({ column, tasks, isDragOverlay = false }: ColumnProps) {
       },
       {
         onSuccess() {
-          console.log("updateed");
           updateColumn(column.id, { title: newTitle });
         },
         onError() {
