@@ -6,6 +6,10 @@ export interface BoardColumn {
   color?: string;
 }
 
+export interface CreateColumnDto {
+  title: string;
+}
+
 export interface UpdateColumnDto {
   title?: string;
   color?: string | null;
