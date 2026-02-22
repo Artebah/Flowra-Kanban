@@ -81,7 +81,7 @@ function Column({ column, tasks, isDragOverlay = false }: ColumnProps) {
       {...(!isDragOverlay && allowDraggingColumn ? listeners : {})}
       {...(!isDragOverlay && allowDraggingColumn ? attributes : {})}
       ref={setNodeRef}
-      className="bg-gray-charcoal py-3 px-3 rounded-xl max-w-[300px] w-full flex flex-col"
+      className="bg-gray-charcoal py-3 px-3 rounded-xl basis-[300px] shrink-0 w-full flex flex-col"
       style={{ ...style, backgroundColor: column.color }}
     >
       <div className="flex items-center mb-2">

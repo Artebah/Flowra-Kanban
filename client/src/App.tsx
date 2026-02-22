@@ -13,7 +13,7 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div className="bg-gray-eerie min-h-screen pb-4">
+    <div className="bg-gray-eerie min-h-screen">
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <AuthGuard>

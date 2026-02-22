@@ -48,7 +48,7 @@ function AddColumnForm({ boardId }: AddColumnFormProps) {
   };
 
   return (
-    <div className="max-w-[300px] w-full">
+    <div className="max-w-[300px] min-w-fit w-full">
       {!isToggled ? (
         <Button
           fullWidth

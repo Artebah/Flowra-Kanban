@@ -19,6 +19,7 @@ function BoardPage() {
     error: boardByIdError,
     isLoading: isLoadingBoard,
   } = useBoardById(params.id!);
+
   const { data: columns = [], isLoading: isLoadingColumns } =
     useBoardColumnsList(boardId);
 
@@ -46,7 +47,7 @@ function BoardPage() {
     navigate(routes.home);
   } else if (boardData) {
     return (
-      <div className="px-7 pt-4 pb-4">
+      <div className="px-7 pt-4 h-[calc(100vh-80px)] flex flex-col gap-3">
         <h1 className="mb-3 text-lg font-bold">{boardData.board.title}</h1>
         <BoardLayout boardId={boardId} />
       </div>

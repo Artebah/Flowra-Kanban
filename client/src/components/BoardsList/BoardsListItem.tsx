@@ -10,6 +10,7 @@ function BoardsListItem({ createdAt, title, id }: BoardsListItemProps) {
       <Link className="absolute z-10 size-full" to={routes.boardById(id)} />
       <figure className="h-48">
         <img
+          className="size-full object-cover"
           src="https://i.pinimg.com/736x/c3/c7/71/c3c77155748f15ffee61cbc1fe9705d6.jpg"
           alt={title}
         />
