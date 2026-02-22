@@ -26,7 +26,11 @@ import TaskDetailsModal from "../components/TaskDetailsModal/index.tsx";
 import { useDragHandlers } from "../hooks/useDragHandlers.ts";
 import { useColumns } from "../store/kanban/selectors.ts";
 
-function BoardLayout() {
+interface BoardLayoutProps {
+  boardId: string;
+}
+
+function BoardLayout({ boardId }: BoardLayoutProps) {
   const columns = useColumns();
   const updateColumnOrder = useUpdateColumnOrder();
   const tasksByColumn = useTasksByColumn();
@@ -81,7 +85,7 @@ function BoardLayout() {
             ))}
           </SortableContext>
 
-          <AddColumnForm />
+          <AddColumnForm boardId={boardId} />
 
           <DragOverlay>
             {draggingColumn && (

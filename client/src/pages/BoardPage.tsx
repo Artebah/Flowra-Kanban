@@ -48,7 +48,7 @@ function BoardPage() {
     return (
       <div className="px-7 pt-4 pb-4">
         <h1 className="mb-3 text-lg font-bold">{boardData.board.title}</h1>
-        <BoardLayout />
+        <BoardLayout boardId={boardId} />
       </div>
     );
   }

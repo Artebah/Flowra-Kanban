@@ -3,11 +3,18 @@ import { useState, useRef } from "react";
 import Button from "../Button";
 import Input from "../Input";
 import { useAddNewColumn } from "../../store/kanban/selectors";
+import { useCreateColumn } from "../../hooks/api/columns/useCreateColumn";
+import toast from "react-hot-toast";
 
-function AddColumnForm() {
+interface AddColumnFormProps {
+  boardId: string;
+}
+
+function AddColumnForm({ boardId }: AddColumnFormProps) {
   const [isToggled, setIsToggled] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const addNewColumn = useAddNewColumn();
+  const createColumn = useCreateColumn();
 
   const handleToggle = () => {
     setIsToggled(!isToggled);
@@ -19,14 +26,24 @@ function AddColumnForm() {
     // Gather form data from ref
     const title = inputRef.current?.value.trim() || "";
 
-    // Call the add column function with the gathered data
     if (title) {
-      addNewColumn(title);
-      // Reset form and close
-      if (inputRef.current) {
-        inputRef.current.value = "";
-      }
-      setIsToggled(false);
+      createColumn.mutate(
+        { boardId, createColumnDto: { title } },
+        {
+          onSuccess: (column) => {
+            addNewColumn(column);
+
+            // Reset form and close
+            if (inputRef.current) {
+              inputRef.current.value = "";
+            }
+            setIsToggled(false);
+          },
+          onError: (error) => {
+            toast.error(error.message);
+          },
+        }
+      );
     }
   };
 
@@ -50,7 +67,12 @@ function AddColumnForm() {
             autoFocus
           />
           <div className="flex gap-2">
-            <Button type="submit" variant="success" className="flex-1">
+            <Button
+              disabled={createColumn.isPending}
+              type="submit"
+              variant="success"
+              className="flex-1"
+            >
               Add Column
             </Button>
             <Button
