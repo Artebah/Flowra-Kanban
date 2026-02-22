@@ -1,7 +1,5 @@
 import type { StateCreator } from "zustand";
-import { v4 as uuidv4 } from "uuid";
 import type { IColumnSlice, IKanbanStore } from "../types";
-import type { BoardColumn } from "../../../types/api/columns";
 
 export const createColumnSlice: StateCreator<
   IKanbanStore,
@@ -26,19 +24,10 @@ export const createColumnSlice: StateCreator<
     updated.splice(newIndex, 0, moved);
     set({ columns: updated });
   },
-  addNewColumn: (title) => {
-    const columns = get().columns;
-    const newColOrder = Math.max(0, columns.length - 1);
-    const newColData: BoardColumn = {
-      order: newColOrder,
-      id: uuidv4(),
-      title,
-      boardId: "",
-    };
-
+  addNewColumn: (column) => {
     set((state) => ({
-      columns: [...state.columns, newColData],
-      tasksByColumn: { ...state.tasksByColumn, [newColData.id]: [] },
+      columns: [...state.columns, column],
+      tasksByColumn: { ...state.tasksByColumn, [column.id]: [] },
     }));
   },
   removeColumn: (columnId) => {
