@@ -1,7 +1,7 @@
 import type { StateCreator } from "zustand";
 import { v4 as uuidv4 } from "uuid";
-import { columns as initialColumns } from "../../../mock/columns";
 import type { IColumnSlice, IKanbanStore } from "../types";
+import type { BoardColumn } from "../../../types/api/columns";
 
 export const createColumnSlice: StateCreator<
   IKanbanStore,
@@ -9,7 +9,7 @@ export const createColumnSlice: StateCreator<
   [],
   IColumnSlice
 > = (set, get) => ({
-  columns: initialColumns,
+  columns: [],
   setColumns: (columns) => set({ columns }),
   updateColumnOrder: (activeId, overId) => {
     const columns = get().columns;
@@ -29,7 +29,12 @@ export const createColumnSlice: StateCreator<
   addNewColumn: (title) => {
     const columns = get().columns;
     const newColOrder = Math.max(0, columns.length - 1);
-    const newColData = { order: newColOrder, id: uuidv4(), title };
+    const newColData: BoardColumn = {
+      order: newColOrder,
+      id: uuidv4(),
+      title,
+      boardId: "",
+    };
 
     set((state) => ({
       columns: [...state.columns, newColData],
