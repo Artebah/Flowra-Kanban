@@ -6,6 +6,8 @@ import React from "react";
 import type { IColumn } from "../../types/IColumn";
 import { useRemoveColumn } from "../../store/kanban/selectors";
 import ColumnColorsDropdown from "./ColumnColorsDropdown";
+import { useDeleteColumn } from "../../hooks/api/columns/useDeleteColumn";
+import toast from "react-hot-toast";
 
 interface ColumnActionsDropdownProps {
   setIsAddCardOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,17 +23,31 @@ function ColumnActionsDropdown({
   const [openDeleteColumnModal, setOpenDeleteColumnModal] =
     React.useState(false);
   const removeColumn = useRemoveColumn();
+  const deleteColumnService = useDeleteColumn();
   const [openActions, setOpenActions] = React.useState(false);
   const [openColors, setOpenColors] = React.useState(false);
-
-  const onDeleteColumn = () => {
-    removeColumn(column.id);
-    setOpenDeleteColumnModal(false);
-  };
 
   React.useEffect(() => {
     setAllowDraggingColumn(!openActions && !openDeleteColumnModal);
   }, [openDeleteColumnModal, openActions, setAllowDraggingColumn]);
+
+  const onDeleteColumn = () => {
+    deleteColumnService.mutate(
+      {
+        boardId: column.boardId,
+        columnId: column.id,
+      },
+      {
+        onSuccess: () => {
+          setOpenDeleteColumnModal(false);
+          removeColumn(column.id);
+        },
+        onError: (error) => {
+          toast.error(error.message);
+        },
+      }
+    );
+  };
 
   return (
     <>
