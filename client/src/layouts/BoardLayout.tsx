@@ -63,14 +63,14 @@ function BoardLayout({ boardId }: BoardLayoutProps) {
   });
 
   return (
-    <div className="h-full">
+    <div className="grow flex">
       <DndContext
         sensors={sensors}
         onDragEnd={handleDragEnd}
         onDragStart={handleDragStart}
         onDragOver={handleDragOver}
       >
-        <div className="flex gap-2 items-start overflow-x-auto h-full pb-4">
+        <div className="flex gap-2 items-start overflow-x-auto px-7 grow pb-4">
           <SortableContext
             id="sortable-columns"
             items={columns.map((col) => `sortable-column-${col.id}`)}

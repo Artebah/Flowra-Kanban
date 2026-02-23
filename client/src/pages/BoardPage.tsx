@@ -31,8 +31,8 @@ function BoardPage() {
 
   if (isLoadingBoard || isLoadingColumns) {
     return (
-      <div className="px-7 pt-4 pb-4">
-        <div className="skeleton h-7 w-32 mb-3"></div>
+      <div className="pt-4 pb-4">
+        <div className="px-7 skeleton h-7 w-32 mb-3"></div>
         <div className="flex gap-4">
           <ColumnSkeleton />
           <ColumnSkeleton />
@@ -47,8 +47,8 @@ function BoardPage() {
     navigate(routes.home);
   } else if (boardData) {
     return (
-      <div className="px-7 pt-4 h-[calc(100vh-80px)] flex flex-col gap-3">
-        <h1 className="mb-3 text-lg font-bold">{boardData.board.title}</h1>
+      <div className="pt-4 min-h-[calc(100vh-80px)] flex flex-col gap-3">
+        <h1 className="px-7 mb-3 text-lg font-bold">{boardData.board.title}</h1>
         <BoardLayout boardId={boardId} />
       </div>
     );

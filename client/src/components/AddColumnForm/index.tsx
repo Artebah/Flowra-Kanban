@@ -66,21 +66,15 @@ function AddColumnForm({ boardId }: AddColumnFormProps) {
             placeholder="Enter column title..."
             autoFocus
           />
-          <div className="flex gap-2">
+          <div className="grid grid-cols-2 gap-2">
             <Button
               disabled={createColumn.isPending}
               type="submit"
               variant="success"
-              className="flex-1"
             >
               Add Column
             </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleToggle}
-              className="flex-1"
-            >
+            <Button type="button" variant="outline" onClick={handleToggle}>
               Cancel
             </Button>
           </div>
