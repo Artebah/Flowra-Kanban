@@ -20,7 +20,7 @@ import {
 } from "../store/kanban/selectors.ts";
 import Task from "../components/Task/index.tsx";
 import type { ITask } from "../types/ITask.ts";
-import type { IColumn } from "../types/IColumn.ts";
+import type { BoardColumn } from "../types/api/columns.ts";
 import AddColumnForm from "../components/AddColumnForm/index.tsx";
 import TaskDetailsModal from "../components/TaskDetailsModal/index.tsx";
 import { useDragHandlers } from "../hooks/useDragHandlers.ts";
@@ -49,7 +49,7 @@ function BoardLayout({ boardId }: BoardLayoutProps) {
     undefined
   );
   const [draggingColumn, setDraggingColumn] = React.useState<
-    IColumn | undefined
+    BoardColumn | undefined
   >(undefined);
 
   const { handleDragEnd, handleDragStart, handleDragOver } = useDragHandlers({

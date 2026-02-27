@@ -5,15 +5,15 @@ import type {
   DragStartEvent,
 } from "@dnd-kit/core";
 import type { ITask } from "../types/ITask.ts";
-import type { IColumn } from "../types/IColumn.ts";
+import type { BoardColumn } from "../types/api/columns.ts";
 import type { ITasksByColumn } from "../types/ITasksByColumn.ts";
 import { debounce } from "../utils/debounce.ts";
 
 interface UseDragHandlersParams {
-  columns: IColumn[];
+  columns: BoardColumn[];
   tasksByColumn: ITasksByColumn;
   setDraggingTask: (task: ITask | undefined) => void;
-  setDraggingColumn: (column: IColumn | undefined) => void;
+  setDraggingColumn: (column: BoardColumn | undefined) => void;
   updateColumnOrder: (activeId: string, overId: string) => void;
   updateTaskOrder: (overId: string) => void;
   moveTask: (activeId: string, overId: string) => void;

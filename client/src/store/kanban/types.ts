@@ -1,6 +1,5 @@
 import type { ITask } from "../../types/ITask";
 import type { ITasksByColumn } from "../../types/ITasksByColumn";
-import type { IColumn } from "../../types/IColumn";
 import type { BoardColumn } from "../../types/api/columns";
 
 export interface ModalDetailsData {
@@ -9,14 +8,14 @@ export interface ModalDetailsData {
 }
 
 export interface IColumnSlice {
-  columns: IColumn[];
-  setColumns: (columns: IColumn[]) => void;
+  columns: BoardColumn[];
+  setColumns: (columns: BoardColumn[]) => void;
   updateColumnOrder: (activeId: string, overId: string) => void;
   addNewColumn: (column: BoardColumn) => void;
   removeColumn: (columnId: string) => void;
   updateColumn: (
     columnId: string,
-    columnDataToUpdate: Partial<IColumn>
+    columnDataToUpdate: Partial<BoardColumn>
   ) => void;
 }
 

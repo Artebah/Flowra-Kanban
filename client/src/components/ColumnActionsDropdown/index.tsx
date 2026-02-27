@@ -3,7 +3,7 @@ import Dropdown from "../Dropdown";
 import Button from "../Button";
 import Modal from "../Modal";
 import React from "react";
-import type { IColumn } from "../../types/IColumn";
+import type { BoardColumn } from "../../types/api/columns";
 import { useRemoveColumn } from "../../store/kanban/selectors";
 import ColumnColorsDropdown from "./ColumnColorsDropdown";
 import { useDeleteColumn } from "../../hooks/api/columns/useDeleteColumn";
@@ -12,7 +12,7 @@ import toast from "react-hot-toast";
 interface ColumnActionsDropdownProps {
   setIsAddCardOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setAllowDraggingColumn: React.Dispatch<React.SetStateAction<boolean>>;
-  column: IColumn;
+  column: BoardColumn;
 }
 
 function ColumnActionsDropdown({

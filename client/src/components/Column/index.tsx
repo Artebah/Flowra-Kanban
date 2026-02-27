@@ -1,4 +1,4 @@
-import type { IColumn } from "../../types/IColumn";
+import type { BoardColumn } from "../../types/api/columns";
 import type { ITask } from "../../types/ITask";
 import Task from "../Task";
 import {
@@ -18,7 +18,7 @@ import { useUpdateColumn } from "../../store/kanban/selectors";
 import toast from "react-hot-toast";
 
 interface ColumnProps {
-  column: IColumn;
+  column: BoardColumn;
   tasks: ITask[];
   isDragOverlay?: boolean;
 }
