@@ -14,7 +14,7 @@ interface UseDragHandlersParams {
   tasksByColumn: ITasksByColumn;
   setDraggingTask: (task: ITask | undefined) => void;
   setDraggingColumn: (column: BoardColumn | undefined) => void;
-  updateColumnOrder: (activeId: string, overId: string) => void;
+  updateLocalColumnOrder: (activeId: string, overId: string) => void;
   updateTaskOrder: (overId: string) => void;
   moveTask: (activeId: string, overId: string) => void;
 }
@@ -24,7 +24,7 @@ export function useDragHandlers({
   tasksByColumn,
   setDraggingTask,
   setDraggingColumn,
-  updateColumnOrder,
+  updateLocalColumnOrder,
   updateTaskOrder,
   moveTask,
 }: UseDragHandlersParams) {
@@ -45,14 +45,19 @@ export function useDragHandlers({
         activeId.startsWith("sortable-column-") &&
         overId.startsWith("sortable-column-")
       ) {
-        updateColumnOrder(activeId, overId);
+        updateLocalColumnOrder(activeId, overId);
         return;
       }
 
       // Otherwise, handle task drag
       updateTaskOrder(overId);
     },
-    [setDraggingColumn, setDraggingTask, updateColumnOrder, updateTaskOrder]
+    [
+      setDraggingColumn,
+      setDraggingTask,
+      updateLocalColumnOrder,
+      updateTaskOrder,
+    ]
   );
 
   const handleDragStart = useCallback(

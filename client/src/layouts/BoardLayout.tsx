@@ -7,7 +7,7 @@ import {
   MouseSensor,
 } from "@dnd-kit/core";
 import React from "react";
-import { useUpdateColumnOrder } from "../store/kanban/selectors.ts";
+import { useUpdateLocalColumnOrder } from "../store/kanban/selectors.ts";
 import { useFetchTasks } from "../hooks/useFetchTasks.ts";
 import {
   horizontalListSortingStrategy,
@@ -32,7 +32,7 @@ interface BoardLayoutProps {
 
 function BoardLayout({ boardId }: BoardLayoutProps) {
   const columns = useColumns();
-  const updateColumnOrder = useUpdateColumnOrder();
+  const updateLocalColumnOrder = useUpdateLocalColumnOrder();
   const tasksByColumn = useTasksByColumn();
   const updateTaskOrder = useUpdateTaskOrder();
   const moveTask = useMoveTask();
@@ -57,7 +57,7 @@ function BoardLayout({ boardId }: BoardLayoutProps) {
     tasksByColumn,
     setDraggingTask,
     setDraggingColumn,
-    updateColumnOrder,
+    updateLocalColumnOrder,
     updateTaskOrder,
     moveTask,
   });

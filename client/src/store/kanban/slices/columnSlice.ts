@@ -9,7 +9,7 @@ export const createColumnSlice: StateCreator<
 > = (set, get) => ({
   columns: [],
   setColumns: (columns) => set({ columns }),
-  updateColumnOrder: (activeId, overId) => {
+  updateLocalColumnOrder: (activeId, overId) => {
     const columns = get().columns;
     const oldIndex = columns.findIndex(
       (col) => `sortable-column-${col.id}` === activeId
