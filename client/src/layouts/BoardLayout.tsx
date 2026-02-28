@@ -7,17 +7,12 @@ import {
   MouseSensor,
 } from "@dnd-kit/core";
 import React from "react";
-import { useUpdateLocalColumnOrder } from "../store/kanban/selectors.ts";
+import { useTasksByColumn } from "../store/kanban/selectors.ts";
 import { useFetchTasks } from "../hooks/useFetchTasks.ts";
 import {
   horizontalListSortingStrategy,
   SortableContext,
 } from "@dnd-kit/sortable";
-import {
-  useMoveTask,
-  useTasksByColumn,
-  useUpdateTaskOrder,
-} from "../store/kanban/selectors.ts";
 import Task from "../components/Task/index.tsx";
 import type { ITask } from "../types/ITask.ts";
 import type { BoardColumn } from "../types/api/columns.ts";
@@ -32,10 +27,7 @@ interface BoardLayoutProps {
 
 function BoardLayout({ boardId }: BoardLayoutProps) {
   const columns = useColumns();
-  const updateLocalColumnOrder = useUpdateLocalColumnOrder();
   const tasksByColumn = useTasksByColumn();
-  const updateTaskOrder = useUpdateTaskOrder();
-  const moveTask = useMoveTask();
   useFetchTasks();
   const sensors = useSensors(
     useSensor(MouseSensor, {
@@ -57,9 +49,6 @@ function BoardLayout({ boardId }: BoardLayoutProps) {
     tasksByColumn,
     setDraggingTask,
     setDraggingColumn,
-    updateLocalColumnOrder,
-    updateTaskOrder,
-    moveTask,
   });
 
   return (

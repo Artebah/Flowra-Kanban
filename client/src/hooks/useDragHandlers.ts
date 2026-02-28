@@ -8,15 +8,15 @@ import type { ITask } from "../types/ITask.ts";
 import type { BoardColumn } from "../types/api/columns.ts";
 import type { ITasksByColumn } from "../types/ITasksByColumn.ts";
 import { debounce } from "../utils/debounce.ts";
+import { useUpdateLocalColumnOrder } from "../store/kanban/selectors.ts";
+import { useMoveTask } from "../store/kanban/selectors.ts";
+import { useUpdateTaskOrder } from "../store/kanban/selectors.ts";
 
 interface UseDragHandlersParams {
   columns: BoardColumn[];
   tasksByColumn: ITasksByColumn;
   setDraggingTask: (task: ITask | undefined) => void;
   setDraggingColumn: (column: BoardColumn | undefined) => void;
-  updateLocalColumnOrder: (activeId: string, overId: string) => void;
-  updateTaskOrder: (overId: string) => void;
-  moveTask: (activeId: string, overId: string) => void;
 }
 
 export function useDragHandlers({
@@ -24,10 +24,11 @@ export function useDragHandlers({
   tasksByColumn,
   setDraggingTask,
   setDraggingColumn,
-  updateLocalColumnOrder,
-  updateTaskOrder,
-  moveTask,
 }: UseDragHandlersParams) {
+  const updateLocalColumnOrder = useUpdateLocalColumnOrder();
+  const updateTaskOrder = useUpdateTaskOrder();
+  const moveTask = useMoveTask();
+
   const handleDragEnd = useCallback(
     (e: DragEndEvent) => {
       setDraggingColumn(undefined);
