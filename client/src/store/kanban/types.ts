@@ -10,7 +10,6 @@ export interface ModalDetailsData {
 export interface IColumnSlice {
   columns: BoardColumn[];
   setColumns: (columns: BoardColumn[]) => void;
-  updateLocalColumnOrder: (activeId: string, overId: string) => void;
   addNewColumn: (column: BoardColumn) => void;
   removeColumn: (columnId: string) => void;
   updateColumn: (

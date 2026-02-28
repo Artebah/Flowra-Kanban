@@ -8,9 +8,10 @@ import type { ITask } from "../types/ITask.ts";
 import type { BoardColumn } from "../types/api/columns.ts";
 import type { ITasksByColumn } from "../types/ITasksByColumn.ts";
 import { debounce } from "../utils/debounce.ts";
-import { useUpdateLocalColumnOrder } from "../store/kanban/selectors.ts";
+import { useSetColumns } from "../store/kanban/selectors.ts";
 import { useMoveTask } from "../store/kanban/selectors.ts";
 import { useUpdateTaskOrder } from "../store/kanban/selectors.ts";
+import { arrayMove } from "@dnd-kit/sortable";
 
 interface UseDragHandlersParams {
   columns: BoardColumn[];
@@ -25,9 +26,9 @@ export function useDragHandlers({
   setDraggingTask,
   setDraggingColumn,
 }: UseDragHandlersParams) {
-  const updateLocalColumnOrder = useUpdateLocalColumnOrder();
   const updateTaskOrder = useUpdateTaskOrder();
   const moveTask = useMoveTask();
+  const setColumns = useSetColumns();
 
   const handleDragEnd = useCallback(
     (e: DragEndEvent) => {
@@ -46,19 +47,29 @@ export function useDragHandlers({
         activeId.startsWith("sortable-column-") &&
         overId.startsWith("sortable-column-")
       ) {
-        updateLocalColumnOrder(activeId, overId);
+        const oldIndex = columns.findIndex(
+          (col) => `sortable-column-${col.id}` === activeId
+        );
+        const newIndex = columns.findIndex(
+          (col) => `sortable-column-${col.id}` === overId
+        );
+        if (oldIndex === -1 || newIndex === -1) return;
+
+        const updated = arrayMove(columns, oldIndex, newIndex);
+        const columnsWithUpdatedOrder = updated.map((item, index) => ({
+          ...item,
+          order: index,
+        }));
+
+        // TODO: Move this to new update bulk columns (api)
+        setColumns(columnsWithUpdatedOrder);
         return;
       }
 
       // Otherwise, handle task drag
       updateTaskOrder(overId);
     },
-    [
-      setDraggingColumn,
-      setDraggingTask,
-      updateLocalColumnOrder,
-      updateTaskOrder,
-    ]
+    [setDraggingColumn, setDraggingTask, updateTaskOrder, setColumns, columns]
   );
 
   const handleDragStart = useCallback(
