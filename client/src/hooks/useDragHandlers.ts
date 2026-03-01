@@ -8,12 +8,13 @@ import type { ITask } from "../types/ITask.ts";
 import type { BoardColumn } from "../types/api/columns.ts";
 import type { ITasksByColumn } from "../types/ITasksByColumn.ts";
 import { debounce } from "../utils/debounce.ts";
-import { useSetColumns } from "../store/kanban/selectors.ts";
 import { useMoveTask } from "../store/kanban/selectors.ts";
 import { useUpdateTaskOrder } from "../store/kanban/selectors.ts";
 import { arrayMove } from "@dnd-kit/sortable";
+import { useReorderColumns } from "./api/columns/useReorderColumns.ts";
 
 interface UseDragHandlersParams {
+  boardId: string;
   columns: BoardColumn[];
   tasksByColumn: ITasksByColumn;
   setDraggingTask: (task: ITask | undefined) => void;
@@ -21,6 +22,7 @@ interface UseDragHandlersParams {
 }
 
 export function useDragHandlers({
+  boardId,
   columns,
   tasksByColumn,
   setDraggingTask,
@@ -28,7 +30,7 @@ export function useDragHandlers({
 }: UseDragHandlersParams) {
   const updateTaskOrder = useUpdateTaskOrder();
   const moveTask = useMoveTask();
-  const setColumns = useSetColumns();
+  const reorderColumns = useReorderColumns();
 
   const handleDragEnd = useCallback(
     (e: DragEndEvent) => {
@@ -61,15 +63,24 @@ export function useDragHandlers({
           order: index,
         }));
 
-        // TODO: Move this to new update bulk columns (api)
-        setColumns(columnsWithUpdatedOrder);
+        reorderColumns.mutate({
+          boardId,
+          columnsWithUpdatedOrder,
+        });
         return;
       }
 
       // Otherwise, handle task drag
       updateTaskOrder(overId);
     },
-    [setDraggingColumn, setDraggingTask, updateTaskOrder, setColumns, columns]
+    [
+      setDraggingColumn,
+      setDraggingTask,
+      updateTaskOrder,
+      columns,
+      boardId,
+      reorderColumns,
+    ]
   );
 
   const handleDragStart = useCallback(

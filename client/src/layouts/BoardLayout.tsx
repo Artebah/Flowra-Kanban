@@ -45,6 +45,7 @@ function BoardLayout({ boardId }: BoardLayoutProps) {
   >(undefined);
 
   const { handleDragEnd, handleDragStart, handleDragOver } = useDragHandlers({
+    boardId,
     columns,
     tasksByColumn,
     setDraggingTask,
