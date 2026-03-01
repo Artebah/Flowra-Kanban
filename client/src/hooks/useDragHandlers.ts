@@ -8,7 +8,7 @@ import type { ITask } from "../types/ITask.ts";
 import type { BoardColumn } from "../types/api/columns.ts";
 import type { ITasksByColumn } from "../types/ITasksByColumn.ts";
 import { debounce } from "../utils/debounce.ts";
-import { useMoveTask } from "../store/kanban/selectors.ts";
+import { useMoveTask, useSetColumns } from "../store/kanban/selectors.ts";
 import { useUpdateTaskOrder } from "../store/kanban/selectors.ts";
 import { arrayMove } from "@dnd-kit/sortable";
 import { useReorderColumns } from "./api/columns/useReorderColumns.ts";
@@ -31,6 +31,7 @@ export function useDragHandlers({
   const updateTaskOrder = useUpdateTaskOrder();
   const moveTask = useMoveTask();
   const reorderColumns = useReorderColumns();
+  const setColumns = useSetColumns();
 
   const handleDragEnd = useCallback(
     (e: DragEndEvent) => {
@@ -63,9 +64,12 @@ export function useDragHandlers({
           order: index,
         }));
 
+        setColumns(columnsWithUpdatedOrder);
+
         reorderColumns.mutate({
           boardId,
-          columnsWithUpdatedOrder,
+          previousColumns: columns,
+          updatedColumns: columnsWithUpdatedOrder,
         });
         return;
       }
@@ -77,6 +81,7 @@ export function useDragHandlers({
       setDraggingColumn,
       setDraggingTask,
       updateTaskOrder,
+      setColumns,
       columns,
       boardId,
       reorderColumns,
