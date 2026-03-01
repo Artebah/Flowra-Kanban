@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   Param,
+  ParseArrayPipe,
   ParseUUIDPipe,
   Patch,
   Post,
@@ -15,6 +16,7 @@ import { ColumnsService } from "./columns.service";
 import { BoardAccessGuard } from "src/common/guards/board-access.guard";
 import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
 import { UpdateColumnDto } from "./dtos/update.column.dto";
+import { UpdateColumnOrderDto } from "./dtos/update-column-order.dto";
 
 @Controller("boards/:boardId/columns")
 @UseGuards(JwtAuthGuard, BoardAccessGuard)
@@ -32,6 +34,15 @@ export class ColumnsController {
   @Get()
   getAll(@Param("boardId", new ParseUUIDPipe()) boardId: string) {
     return this.columnsService.getAll(boardId);
+  }
+
+  @Patch("/reorder")
+  @HttpCode(204)
+  updateOrders(
+    @Body(new ParseArrayPipe({ items: UpdateColumnOrderDto }))
+    updateColumnOrderDtos: UpdateColumnOrderDto[],
+  ) {
+    return this.columnsService.updateOrders(updateColumnOrderDtos);
   }
 
   @Patch("/:columnId")

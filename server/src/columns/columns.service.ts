@@ -4,6 +4,7 @@ import { BoardColumn } from "./entities/Column.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Board } from "src/boards/entities/Board.entity";
 import { UpdateColumnDto } from "./dtos/update.column.dto";
+import { UpdateColumnOrderDto } from "./dtos/update-column-order.dto";
 
 @Injectable()
 export class ColumnsService {
@@ -74,5 +75,9 @@ export class ColumnsService {
     if (result.affected === 0) {
       throw new NotFoundException("Column not found");
     }
+  }
+
+  async updateOrders(updateColumnOrderDtos: UpdateColumnOrderDto[]) {
+    await this.columnsRepository.save(updateColumnOrderDtos);
   }
 }
