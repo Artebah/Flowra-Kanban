@@ -3,6 +3,7 @@ import type {
   CreateColumnDto,
   TBoardColumns,
   UpdateColumnDto,
+  UpdateColumnOrderDto,
 } from "../../types/api/columns";
 import axiosInstance from "./axiosInstance";
 
@@ -41,4 +42,14 @@ export const deleteColumn = async (
   columnId: string
 ): Promise<void> => {
   await axiosInstance.delete(`/boards/${boardId}/columns/${columnId}`);
+};
+
+export const reorderColumns = async (
+  boardId: string,
+  updateColumnOrderDtos: UpdateColumnOrderDto[]
+): Promise<void> => {
+  await axiosInstance.patch(
+    `/boards/${boardId}/columns/reorder`,
+    updateColumnOrderDtos
+  );
 };

@@ -15,4 +15,9 @@ export interface UpdateColumnDto {
   color?: string | null;
 }
 
+export interface UpdateColumnOrderDto {
+  id: string;
+  order: number;
+}
+
 export type TBoardColumns = BoardColumn[];
