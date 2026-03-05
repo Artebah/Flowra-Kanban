@@ -18,11 +18,14 @@ export class TasksService {
     columnId: string;
     authorId: string;
     createTaskDto: CreateTaskDto;
-  }) {
-    return this.tasksRepository.create({
+  }): Promise<Task> {
+    const task = this.tasksRepository.create({
       authorId,
       columnId,
+      order: 1,
       ...createTaskDto,
     });
+
+    return this.tasksRepository.save(task);
   }
 }
