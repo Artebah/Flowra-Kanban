@@ -1,5 +1,6 @@
 import { Expose } from "class-transformer";
 import { BoardMember } from "src/boards/entities/BoardMember.entity";
+import { Task } from "src/tasks/entities/Task.entity";
 import {
   Column,
   CreateDateColumn,
@@ -36,4 +37,7 @@ export class User {
 
   @OneToMany(() => BoardMember, (boardMember) => boardMember.user)
   boardMembers: BoardMember[];
+
+  @OneToMany(() => Task, (task) => task.author)
+  tasks: Task[];
 }
