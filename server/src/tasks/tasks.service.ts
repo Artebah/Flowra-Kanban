@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Task } from "./entities/Task.entity";
 import { Repository } from "typeorm";
+import { CreateTaskDto } from "./dtos/create-task.dto";
 
 @Injectable()
 export class TasksService {
@@ -9,5 +10,19 @@ export class TasksService {
     @InjectRepository(Task) private readonly tasksRepository: Repository<Task>,
   ) {}
 
-  create() {}
+  create({
+    columnId,
+    authorId,
+    createTaskDto,
+  }: {
+    columnId: string;
+    authorId: string;
+    createTaskDto: CreateTaskDto;
+  }) {
+    return this.tasksRepository.create({
+      authorId,
+      columnId,
+      ...createTaskDto,
+    });
+  }
 }
