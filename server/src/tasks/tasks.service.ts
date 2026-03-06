@@ -28,4 +28,8 @@ export class TasksService {
 
     return this.tasksRepository.save(task);
   }
+
+  getAll({ boardId }: { boardId: string }): Promise<Task[]> {
+    return this.tasksRepository.find({ where: { column: { boardId } } });
+  }
 }
