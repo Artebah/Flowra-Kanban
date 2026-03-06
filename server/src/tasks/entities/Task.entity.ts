@@ -25,6 +25,10 @@ export class Task {
   @Expose()
   title: string;
 
+  @Column({ nullable: true })
+  @Expose()
+  description?: string;
+
   @Column({ nullable: false })
   @Expose()
   columnId: string;
