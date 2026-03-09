@@ -4,7 +4,6 @@ import type {
   DragOverEvent,
   DragStartEvent,
 } from "@dnd-kit/core";
-import type { ITask } from "../types/ITask.ts";
 import type { BoardColumn } from "../types/api/columns.ts";
 import type { ITasksByColumn } from "../types/ITasksByColumn.ts";
 import { debounce } from "../utils/debounce.ts";
@@ -12,6 +11,7 @@ import { useMoveTask, useSetColumns } from "../store/kanban/selectors.ts";
 import { useUpdateTaskOrder } from "../store/kanban/selectors.ts";
 import { arrayMove } from "@dnd-kit/sortable";
 import { useReorderColumns } from "./api/columns/useReorderColumns.ts";
+import type { ITask } from "../types/api/tasks.ts";
 
 interface UseDragHandlersParams {
   boardId: string;

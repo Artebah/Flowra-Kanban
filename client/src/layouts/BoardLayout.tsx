@@ -14,12 +14,12 @@ import {
   SortableContext,
 } from "@dnd-kit/sortable";
 import Task from "../components/Task/index.tsx";
-import type { ITask } from "../types/ITask.ts";
 import type { BoardColumn } from "../types/api/columns.ts";
 import AddColumnForm from "../components/AddColumnForm/index.tsx";
 import TaskDetailsModal from "../components/TaskDetailsModal/index.tsx";
 import { useDragHandlers } from "../hooks/useDragHandlers.ts";
 import { useColumns } from "../store/kanban/selectors.ts";
+import type { ITask } from "../types/api/tasks.ts";
 
 interface BoardLayoutProps {
   boardId: string;
