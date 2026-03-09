@@ -1,3 +1,3 @@
-import type { ITask } from "./ITask";
+import type { ITask } from "./api/tasks";
 
 export type ITasksByColumn = Record<string, ITask[]>;

@@ -1,4 +1,4 @@
-import type { ITask } from "../../types/ITask";
+import type { ITask } from "../../types/api/tasks";
 import type { ITasksByColumn } from "../../types/ITasksByColumn";
 import type { BoardColumn } from "../../types/api/columns";
 

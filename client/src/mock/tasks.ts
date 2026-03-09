@@ -1,4 +1,4 @@
-import type { ITask } from "../types/ITask";
+import type { ITask } from "../types/api/tasks";
 
 export const mockedTasks: ITask[] = [
   { id: "1", title: "Review project requirements", order: 1, columnId: "1" },

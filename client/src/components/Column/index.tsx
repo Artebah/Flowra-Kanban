@@ -1,5 +1,5 @@
 import type { BoardColumn } from "../../types/api/columns";
-import type { ITask } from "../../types/ITask";
+import type { ITask } from "../../types/api/tasks";
 import Task from "../Task";
 import {
   SortableContext,

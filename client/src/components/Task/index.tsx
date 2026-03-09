@@ -1,4 +1,4 @@
-import type { ITask } from "../../types/ITask";
+import type { ITask } from "../../types/api/tasks";
 import Button from "../Button";
 import { CSS } from "@dnd-kit/utilities";
 import { useSortable } from "@dnd-kit/sortable";
