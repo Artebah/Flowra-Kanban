@@ -123,6 +123,7 @@ function Column({ column, tasks, isDragOverlay = false }: ColumnProps) {
         isAddCardOpen={isAddCardOpen}
         setIsAddCardOpen={setIsAddCardOpen}
         columnId={column.id}
+        boardId={column.boardId}
       />
     </div>
   );

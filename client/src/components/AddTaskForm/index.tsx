@@ -3,20 +3,25 @@ import Button from "../Button";
 import Textarea from "../Textarea";
 import React from "react";
 import { useAddTask } from "../../store/kanban/selectors";
+import { useCreateTask } from "../../hooks/api/tasks/useCreateTask";
+import toast from "react-hot-toast";
 
 interface AddTaskFormProps {
   columnId: string;
+  boardId: string;
   isAddCardOpen: boolean;
   setIsAddCardOpen: (open: boolean) => void;
 }
 
 function AddTaskForm({
   columnId,
+  boardId,
   isAddCardOpen,
   setIsAddCardOpen,
 }: AddTaskFormProps) {
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
   const addTask = useAddTask();
+  const createTask = useCreateTask();
 
   React.useEffect(() => {
     if (isAddCardOpen && textareaRef.current) {
@@ -30,10 +35,21 @@ function AddTaskForm({
     const titleValue = textareaRef.current?.value.trim();
 
     if (titleValue !== undefined && titleValue !== "") {
-      addTask(titleValue, columnId);
+      createTask.mutate(
+        { boardId, columnId, createTaskDto: { title: titleValue } },
+        {
+          onSuccess: () => {
+            addTask(titleValue, columnId);
+            handleOpen(false);
+          },
+          onError: (error) => {
+            toast.error("Failed to create task." + error.message);
+          },
+        }
+      );
+    } else {
+      handleOpen(false);
     }
-
-    handleOpen(false);
   };
 
   const handleOpen = (open: boolean) => setIsAddCardOpen(open);
