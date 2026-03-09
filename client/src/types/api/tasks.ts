@@ -4,6 +4,9 @@ export interface ITask {
   description?: string;
   order: number;
   columnId: string;
+  authorId: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface CreateTaskDto {
@@ -15,3 +18,9 @@ export interface CreateTaskOptions {
   boardId: string;
   columnId: string;
 }
+
+export interface GetAllTasksOptions {
+  boardId: string;
+}
+
+export type TTasksList = ITask[];
