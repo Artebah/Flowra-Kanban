@@ -22,5 +22,3 @@ export interface CreateTaskOptions {
 export interface GetAllTasksOptions {
   boardId: string;
 }
-
-export type TTasksList = ITask[];
