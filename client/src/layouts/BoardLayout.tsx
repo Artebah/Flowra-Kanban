@@ -8,7 +8,6 @@ import {
 } from "@dnd-kit/core";
 import React from "react";
 import { useTasksByColumn } from "../store/kanban/selectors.ts";
-import { useFetchTasks } from "../hooks/useFetchTasks.ts";
 import {
   horizontalListSortingStrategy,
   SortableContext,
@@ -28,7 +27,6 @@ interface BoardLayoutProps {
 function BoardLayout({ boardId }: BoardLayoutProps) {
   const columns = useColumns();
   const tasksByColumn = useTasksByColumn();
-  useFetchTasks();
   const sensors = useSensors(
     useSensor(MouseSensor, {
       activationConstraint: {

@@ -19,7 +19,6 @@ export interface IColumnSlice {
 }
 
 export interface ITaskSlice {
-  tasks: ITask[];
   tasksByColumn: ITasksByColumn;
   setTasks: (tasks: ITask[]) => void;
   updateTaskOrder: (overId: string) => void;
