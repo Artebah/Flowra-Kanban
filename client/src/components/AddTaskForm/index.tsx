@@ -38,8 +38,8 @@ function AddTaskForm({
       createTask.mutate(
         { boardId, columnId, createTaskDto: { title: titleValue } },
         {
-          onSuccess: () => {
-            addTask(titleValue, columnId);
+          onSuccess: (task) => {
+            addTask(task);
             handleOpen(false);
           },
           onError: (error) => {

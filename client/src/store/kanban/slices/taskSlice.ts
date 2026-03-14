@@ -2,9 +2,7 @@ import type { StateCreator } from "zustand";
 import { getTasksByColumn } from "../../../utils/getTasksByColumn";
 import { getReorderTaskData } from "../../../utils/getReorderTaskData";
 import { getMoveTaskData } from "../../../utils/getMoveTaskData";
-import { v4 as uuidv4 } from "uuid";
 import type { IKanbanStore, ITaskSlice } from "../types";
-import type { ITask } from "../../../types/api/tasks";
 
 export const createTaskSlice: StateCreator<IKanbanStore, [], [], ITaskSlice> = (
   set,
@@ -43,24 +41,15 @@ export const createTaskSlice: StateCreator<IKanbanStore, [], [], ITaskSlice> = (
 
     set({ tasksByColumn: newState });
   },
-  addTask: (title, columnId) => {
+  addTask: (task) => {
     const { tasksByColumn } = get();
-    const lastTask =
-      tasksByColumn[columnId]?.[tasksByColumn[columnId].length - 1];
-    const newTask: ITask = {
-      columnId,
-      title,
-      order: (lastTask?.order || 0) + 1,
-      id: uuidv4(),
-      authorId: "",
-      createdAt: "",
-      updatedAt: "",
-    };
+    const columnId = task.columnId;
+    const colTasks = tasksByColumn[columnId] || [];
 
     set({
       tasksByColumn: {
         ...tasksByColumn,
-        [columnId]: [...(tasksByColumn[columnId] || []), newTask],
+        [columnId]: [...colTasks, task],
       },
     });
   },

@@ -23,7 +23,7 @@ export interface ITaskSlice {
   setTasksByColumn: (tasks: ITask[]) => void;
   updateTaskOrder: (overId: string) => void;
   moveTask: (activeId: string, overId: string) => void;
-  addTask: (title: string, columnId: string) => void;
+  addTask: (task: ITask) => void;
 }
 
 export interface IUISlice {
