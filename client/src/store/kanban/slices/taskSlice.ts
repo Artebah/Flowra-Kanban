@@ -37,7 +37,7 @@ export const createTaskSlice: StateCreator<IKanbanStore, [], [], ITaskSlice> = (
       (t) => t.id !== activeId
     );
 
-    const targetCol = [...newState[overColId]];
+    const targetCol = [...(newState[overColId] || [])];
     targetCol.splice(overIndex, 0, activeTaskObj);
     newState[overColId] = targetCol;
 

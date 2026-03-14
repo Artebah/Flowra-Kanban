@@ -7,11 +7,14 @@ export function getMoveTaskData(
   activeId: string,
   overId: string
 ) {
-  // найти колонку/индекс active и over в prev
   let activeColId: string | null = null;
   let activeIndex = -1;
-  let overColId: string | null = null;
+  let overColId: string | null = getEmptyColumnIdFromString(overId) || null;
   let overIndex = -1;
+
+  if (overColId) {
+    overIndex = 0;
+  }
 
   for (const [colId, colTasks] of Object.entries(tasksByColumn)) {
     const ai = getItemIndexFromArray(colTasks, activeId);
