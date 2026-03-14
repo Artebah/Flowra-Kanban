@@ -3,6 +3,7 @@ import type { ITask } from "../../types/api/tasks";
 import Task from "../Task";
 import {
   SortableContext,
+  defaultAnimateLayoutChanges,
   useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
@@ -43,6 +44,14 @@ function Column({ column, tasks, isDragOverlay = false }: ColumnProps) {
   } = useSortable({
     id: `sortable-column-${column.id}`,
     data: { columnId: column.id, isColumn: true },
+    animateLayoutChanges: (args) => {
+      if (args.isSorting || args.wasDragging) {
+        return defaultAnimateLayoutChanges(args);
+      }
+
+      // Keep layout animation enabled for external order updates (e.g. rollback on API error).
+      return true;
+    },
   });
 
   const [allowDraggingColumn, setAllowDraggingColumn] = React.useState(true);

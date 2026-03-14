@@ -5,7 +5,6 @@ import type {
   BoardColumn,
   UpdateColumnOrderDto,
 } from "../../../types/api/columns";
-import toast from "react-hot-toast";
 
 interface ReorderColumnsParams {
   boardId: string;
@@ -33,11 +32,12 @@ export const useReorderColumns = () => {
         return { previousColumns };
       },
 
-      onError: (err, _variables, context) => {
-        if (context?.previousColumns) {
-          setColumns(context.previousColumns);
-        }
-        toast.error(`Couldn't update column order: ${err.message}`);
+      onError: (_err, _variables, context) => {
+        setTimeout(() => {
+          if (context?.previousColumns) {
+            setColumns(context.previousColumns);
+          }
+        }, 500);
       },
     }
   );

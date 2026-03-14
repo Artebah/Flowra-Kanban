@@ -2,6 +2,7 @@ import Column from "../components/Column/index.tsx";
 import {
   DndContext,
   DragOverlay,
+  MeasuringStrategy,
   useSensors,
   useSensor,
   MouseSensor,
@@ -54,6 +55,11 @@ function BoardLayout({ boardId }: BoardLayoutProps) {
     <div className="grow flex">
       <DndContext
         sensors={sensors}
+        measuring={{
+          droppable: {
+            strategy: MeasuringStrategy.Always,
+          },
+        }}
         onDragEnd={handleDragEnd}
         onDragStart={handleDragStart}
         onDragOver={handleDragOver}
