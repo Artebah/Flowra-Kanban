@@ -10,7 +10,7 @@ export class TasksService {
     @InjectRepository(Task) private readonly tasksRepository: Repository<Task>,
   ) {}
 
-  create({
+  async create({
     columnId,
     authorId,
     createTaskDto,
@@ -19,10 +19,14 @@ export class TasksService {
     authorId: string;
     createTaskDto: CreateTaskDto;
   }): Promise<Task> {
+    const columnsCount = await this.tasksRepository.count({
+      where: { columnId },
+    });
+
     const task = this.tasksRepository.create({
       authorId,
       columnId,
-      order: 1,
+      order: columnsCount + 1,
       ...createTaskDto,
     });
 
