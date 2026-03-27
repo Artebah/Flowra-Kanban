@@ -79,7 +79,7 @@ export function useDragHandlers({
       }
 
       // Otherwise, handle task drag
-      updateTaskOrder(overId);
+      updateTaskOrder(activeId, overId);
     },
     [
       setDraggingColumn,

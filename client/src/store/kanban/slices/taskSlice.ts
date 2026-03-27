@@ -10,9 +10,9 @@ export const createTaskSlice: StateCreator<IKanbanStore, [], [], ITaskSlice> = (
 ) => ({
   tasksByColumn: {},
   setTasksByColumn: (tasks) => set({ tasksByColumn: getTasksByColumn(tasks) }),
-  updateTaskOrder: (overId) => {
+  updateTaskOrder: (activeId, overId) => {
     const { tasksByColumn } = get();
-    const reorderTaskData = getReorderTaskData(tasksByColumn, overId);
+    const reorderTaskData = getReorderTaskData(tasksByColumn, activeId, overId);
     if (!reorderTaskData) return;
 
     const { columnId, newOrder, task } = reorderTaskData;

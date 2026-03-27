@@ -15,3 +15,12 @@ export const getEmptyColumnIdFromString = (str: string) =>
   str.startsWith(EMPTY_COLUMN_PREFIX)
     ? str.slice(EMPTY_COLUMN_PREFIX.length)
     : undefined;
+
+export const getColumnIdFromDroppableId = (id: string) =>
+  id.startsWith(EMPTY_COLUMN_PREFIX)
+    ? id.slice(EMPTY_COLUMN_PREFIX.length)
+    : id.startsWith(END_DROPPABLE_PREFIX)
+      ? id.slice(END_DROPPABLE_PREFIX.length)
+      : id.startsWith(SORTABLE_COLUMN_PREFIX)
+        ? id.slice(SORTABLE_COLUMN_PREFIX.length)
+        : undefined;
