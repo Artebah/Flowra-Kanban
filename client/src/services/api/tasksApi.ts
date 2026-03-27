@@ -2,6 +2,7 @@ import type {
   CreateTaskOptions,
   GetAllTasksOptions,
   ITask,
+  ReorderTaskOptions,
 } from "../../types/api/tasks";
 import axiosInstance from "./axiosInstance";
 
@@ -22,4 +23,15 @@ export const getAllTasks = async ({
 }: GetAllTasksOptions): Promise<ITask[]> => {
   const res = await axiosInstance.get(`boards/${boardId}/tasks`);
   return res.data;
+};
+
+export const reorderTask = async ({
+  boardId,
+  taskId,
+  updateTaskOrderDto,
+}: ReorderTaskOptions): Promise<void> => {
+  await axiosInstance.patch(
+    `boards/${boardId}/tasks/${taskId}/reorder`,
+    updateTaskOrderDto
+  );
 };

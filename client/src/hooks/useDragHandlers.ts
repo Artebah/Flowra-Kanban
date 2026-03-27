@@ -16,6 +16,8 @@ import {
   getSortableColumnId,
   SORTABLE_COLUMN_PREFIX,
 } from "../constants/dndPrefixes.ts";
+import { getReorderTaskData } from "../utils/getReorderTaskData.ts";
+import { useReorderTask } from "./api/tasks/useReorderTask.ts";
 
 interface UseDragHandlersParams {
   boardId: string;
@@ -35,6 +37,7 @@ export function useDragHandlers({
   const updateTaskOrder = useUpdateTaskOrder();
   const moveTask = useMoveTask();
   const reorderColumns = useReorderColumns();
+  const reorderTask = useReorderTask();
   const setColumns = useSetColumns();
 
   const handleDragEnd = useCallback(
@@ -79,7 +82,23 @@ export function useDragHandlers({
       }
 
       // Otherwise, handle task drag
+      const reorderTaskData = getReorderTaskData(
+        tasksByColumn,
+        activeId,
+        overId
+      );
+      if (!reorderTaskData) return;
+
       updateTaskOrder(activeId, overId);
+
+      reorderTask.mutate({
+        boardId,
+        taskId: reorderTaskData.task.id,
+        updateTaskOrderDto: {
+          columnId: reorderTaskData.columnId,
+          order: reorderTaskData.newOrder,
+        },
+      });
     },
     [
       setDraggingColumn,
@@ -89,6 +108,8 @@ export function useDragHandlers({
       columns,
       boardId,
       reorderColumns,
+      reorderTask,
+      tasksByColumn,
     ]
   );
 

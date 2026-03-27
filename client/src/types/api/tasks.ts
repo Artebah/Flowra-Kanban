@@ -22,3 +22,14 @@ export interface CreateTaskOptions {
 export interface GetAllTasksOptions {
   boardId: string;
 }
+
+export interface UpdateTaskOrderDto {
+  columnId: string;
+  order: number;
+}
+
+export interface ReorderTaskOptions {
+  boardId: string;
+  taskId: string;
+  updateTaskOrderDto: UpdateTaskOrderDto;
+}
