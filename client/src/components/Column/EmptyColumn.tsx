@@ -1,5 +1,8 @@
 import { useDroppable } from "@dnd-kit/core";
-import { getEmptyColumnIdString } from "../../utils/emptyColumn";
+import {
+  getEmptyColumnIdString,
+  getEndDroppableId,
+} from "../../constants/dndPrefixes";
 
 interface EmptyColumnProps {
   columnId: string;
@@ -8,7 +11,7 @@ interface EmptyColumnProps {
 
 function EmptyColumn({ columnId, isEndDroppable }: EmptyColumnProps) {
   const droppableId = isEndDroppable
-    ? `end-droppable-${columnId}`
+    ? getEndDroppableId(columnId)
     : getEmptyColumnIdString(columnId);
   const { setNodeRef } = useDroppable({ id: droppableId });
 

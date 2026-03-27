@@ -12,6 +12,10 @@ import { useUpdateTaskOrder } from "../store/kanban/selectors.ts";
 import { arrayMove } from "@dnd-kit/sortable";
 import { useReorderColumns } from "./api/columns/useReorderColumns.ts";
 import type { ITask } from "../types/api/tasks.ts";
+import {
+  getSortableColumnId,
+  SORTABLE_COLUMN_PREFIX,
+} from "../constants/dndPrefixes.ts";
 
 interface UseDragHandlersParams {
   boardId: string;
@@ -47,14 +51,14 @@ export function useDragHandlers({
 
       // If dragging a column
       if (
-        activeId.startsWith("sortable-column-") &&
-        overId.startsWith("sortable-column-")
+        activeId.startsWith(SORTABLE_COLUMN_PREFIX) &&
+        overId.startsWith(SORTABLE_COLUMN_PREFIX)
       ) {
         const oldIndex = columns.findIndex(
-          (col) => `sortable-column-${col.id}` === activeId
+          (col) => getSortableColumnId(col.id) === activeId
         );
         const newIndex = columns.findIndex(
-          (col) => `sortable-column-${col.id}` === overId
+          (col) => getSortableColumnId(col.id) === overId
         );
         if (oldIndex === -1 || newIndex === -1) return;
 

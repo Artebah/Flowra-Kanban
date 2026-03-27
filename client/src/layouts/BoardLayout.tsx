@@ -20,6 +20,7 @@ import TaskDetailsModal from "../components/TaskDetailsModal/index.tsx";
 import { useDragHandlers } from "../hooks/useDragHandlers.ts";
 import { useColumns } from "../store/kanban/selectors.ts";
 import type { ITask } from "../types/api/tasks.ts";
+import { getSortableColumnId } from "../constants/dndPrefixes.ts";
 
 interface BoardLayoutProps {
   boardId: string;
@@ -67,7 +68,7 @@ function BoardLayout({ boardId }: BoardLayoutProps) {
         <div className="flex gap-2 items-start overflow-x-auto px-7 grow pb-4">
           <SortableContext
             id="sortable-columns"
-            items={columns.map((col) => `sortable-column-${col.id}`)}
+            items={columns.map((col) => getSortableColumnId(col.id))}
             strategy={horizontalListSortingStrategy}
           >
             {columns.map((column) => (

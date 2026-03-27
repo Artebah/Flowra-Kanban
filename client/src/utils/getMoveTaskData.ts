@@ -1,5 +1,8 @@
 import type { ITasksByColumn } from "../types/ITasksByColumn";
-import { getEmptyColumnIdFromString } from "./emptyColumn";
+import {
+  getEmptyColumnIdFromString,
+  getEndDroppableId,
+} from "../constants/dndPrefixes";
 import { getItemIndexFromArray } from "./getItemIndexFromArray";
 
 export function getMoveTaskData(
@@ -25,9 +28,9 @@ export function getMoveTaskData(
 
     // when move to empty column
     if (!colTasks.length && colId === getEmptyColumnIdFromString(overId)) {
-      overColId = getEmptyColumnIdFromString(overId);
+      overColId = getEmptyColumnIdFromString(overId) || null;
       overIndex = 0;
-    } else if (overId === `end-droppable-${colId}`) {
+    } else if (overId === getEndDroppableId(colId)) {
       // when move to end of column
       overColId = colId;
       overIndex = colTasks.length;

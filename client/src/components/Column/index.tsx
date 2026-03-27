@@ -17,6 +17,10 @@ import EditableText from "../EditableText";
 import { usePatchColumn } from "../../hooks/api/columns/usePatchColumn";
 import { useUpdateColumn } from "../../store/kanban/selectors";
 import toast from "react-hot-toast";
+import {
+  getEndDroppableId,
+  getSortableColumnId,
+} from "../../constants/dndPrefixes";
 
 interface ColumnProps {
   column: BoardColumn;
@@ -31,7 +35,7 @@ function Column({ column, tasks, isDragOverlay = false }: ColumnProps) {
     usePatchColumn();
   const updateColumn = useUpdateColumn();
   const { setNodeRef: setEndDropNodeRef } = useDroppable({
-    id: `end-droppable-${column.id}`,
+    id: getEndDroppableId(column.id),
     data: { columnId: column.id, isColumn: true },
   });
   const {
@@ -42,7 +46,7 @@ function Column({ column, tasks, isDragOverlay = false }: ColumnProps) {
     transform,
     isDragging,
   } = useSortable({
-    id: `sortable-column-${column.id}`,
+    id: getSortableColumnId(column.id),
     data: { columnId: column.id, isColumn: true },
     animateLayoutChanges: (args) => {
       if (args.isSorting || args.wasDragging) {
@@ -109,7 +113,7 @@ function Column({ column, tasks, isDragOverlay = false }: ColumnProps) {
       </div>
       <div className="flex flex-col gap-1 min-h-28">
         <SortableContext
-          id={"sortable-column-" + column.id}
+          id={getSortableColumnId(column.id)}
           items={tasks}
           strategy={verticalListSortingStrategy}
         >
