@@ -17,7 +17,17 @@ export class Task {
   @Expose()
   id: string;
 
-  @Column({ nullable: false })
+  @Column({
+    nullable: false,
+    type: "decimal",
+    precision: 20,
+    scale: 15,
+    default: 0,
+    transformer: {
+      to: (value: number) => value,
+      from: (value: string) => parseFloat(value),
+    },
+  })
   @Expose()
   order: number;
 
