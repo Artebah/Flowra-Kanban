@@ -55,7 +55,9 @@ export class Task {
   @Expose()
   updatedAt: Date;
 
-  @ManyToOne(() => BoardColumn, (column) => column.tasks)
+  @ManyToOne(() => BoardColumn, (column) => column.tasks, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({ name: "columnId" })
   column: BoardColumn;
 
