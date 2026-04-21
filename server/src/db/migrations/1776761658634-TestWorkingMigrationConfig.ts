@@ -1,15 +1,17 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class Init1774707876816 implements MigrationInterface {
-    name = 'Init1774707876816'
+export class TestWorkingMigrationConfig1776761658634 implements MigrationInterface {
+    name = 'TestWorkingMigrationConfig1776761658634'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`ALTER TABLE "tasks" DROP CONSTRAINT "FK_0ecfe75e5bd731e00e634d70e5f"`);
+        await queryRunner.query(`ALTER TABLE "users" ADD "test" character varying`);
         await queryRunner.query(`ALTER TABLE "tasks" ADD CONSTRAINT "FK_0ecfe75e5bd731e00e634d70e5f" FOREIGN KEY ("columnId") REFERENCES "columns"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`ALTER TABLE "tasks" DROP CONSTRAINT "FK_0ecfe75e5bd731e00e634d70e5f"`);
+        await queryRunner.query(`ALTER TABLE "users" DROP COLUMN "test"`);
         await queryRunner.query(`ALTER TABLE "tasks" ADD CONSTRAINT "FK_0ecfe75e5bd731e00e634d70e5f" FOREIGN KEY ("columnId") REFERENCES "columns"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
     }
 
