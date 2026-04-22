@@ -24,7 +24,7 @@ function TaskDetailsModal() {
   const descriptionFieldRef = React.useRef<HTMLTextAreaElement>(null);
   const modalDetailsData = useModalDetailsData();
   const updateModalDetailsData = useUpdateModalDetailsData();
-  const taskDetails = useGetTaskDetails({
+  const { data: taskDetails } = useGetTaskDetails({
     boardId: modalDetailsData.boardId || "",
     taskId: modalDetailsData.taskId || "",
   });
@@ -44,6 +44,10 @@ function TaskDetailsModal() {
     setActiveDescriptionField(false);
   };
 
+  if (!taskDetails) {
+    return null;
+  }
+
   return (
     <Modal
       className="flex flex-col px-0 py-0 max-h-[calc(100vh-5rem)] max-w-[620px] top-0! overflow-y-hidden"
@@ -52,7 +56,9 @@ function TaskDetailsModal() {
       open={modalDetailsData.isOpen}
     >
       <div className="flex justify-between basis-16 shrink-0 items-center border-b border-gray-400 px-6">
-        <span className="py-1 px-3 bg-gray-600 rounded-md">To-do</span>
+        <span className="py-1 px-3 bg-gray-600 rounded-md">
+          {/*taskDetails.columnId*/}
+        </span>
         <div>
           <Button className="size-10" isIconOnly>
             <XIcon />
@@ -64,7 +70,7 @@ function TaskDetailsModal() {
         <div className="mt-6 px-6">
           <div className="flex items-center gap-4">
             <CompleteCircleCheckbox />
-            <h3 className="font-bold text-3xl">Complete my future plans</h3>
+            <h3 className="font-bold text-3xl">{taskDetails.title}</h3>
           </div>
         </div>
 
