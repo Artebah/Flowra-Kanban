@@ -45,6 +45,18 @@ export class TasksService {
     return this.tasksRepository.find({ where: { column: { boardId } } });
   }
 
+  getOne({
+    boardId,
+    taskId,
+  }: {
+    boardId: string;
+    taskId: string;
+  }): Promise<Task | null> {
+    return this.tasksRepository.findOne({
+      where: { column: { boardId }, id: taskId },
+    });
+  }
+
   async updateTaskOrder({
     boardId,
     taskId,

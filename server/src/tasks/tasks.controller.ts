@@ -43,6 +43,14 @@ export class TasksController {
     return this.tasksService.getAll({ boardId });
   }
 
+  @Get("boards/:boardId/tasks/:taskId")
+  getOne(
+    @Param("boardId", new ParseUUIDPipe()) boardId: string,
+    @Param("taskId", new ParseUUIDPipe()) taskId: string,
+  ) {
+    return this.tasksService.getOne({ boardId, taskId });
+  }
+
   @Patch("boards/:boardId/tasks/:taskId/reorder")
   @HttpCode(204)
   updateTaskOrder(
