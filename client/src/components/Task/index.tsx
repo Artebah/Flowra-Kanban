@@ -7,10 +7,11 @@ import { useUpdateModalDetailsData } from "../../store/kanban/selectors";
 
 interface TaskProps {
   task: ITask;
+  boardId: string;
   isDragOverlayTask?: boolean;
 }
 
-function Task({ task, isDragOverlayTask }: TaskProps) {
+function Task({ task, boardId, isDragOverlayTask }: TaskProps) {
   const {
     transition,
     isDragging,
@@ -37,7 +38,7 @@ function Task({ task, isDragOverlayTask }: TaskProps) {
       fullWidth
       className="justify-start bg-gray-rich hover:bg-white/5 font-medium"
       onClick={() =>
-        updateModalDetailsData({ columnId: task.columnId, isOpen: true })
+        updateModalDetailsData({ boardId, taskId: task.id, isOpen: true })
       }
       style={style}
     >

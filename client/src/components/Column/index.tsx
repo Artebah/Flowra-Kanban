@@ -119,7 +119,7 @@ function Column({ column, tasks, isDragOverlay = false }: ColumnProps) {
         >
           {tasks.length === 0 && <EmptyColumn columnId={column.id} />}
           {tasks.map((task) => (
-            <Task key={task.id} task={task} />
+            <Task key={task.id} boardId={column.boardId} task={task} />
           ))}
         </SortableContext>
         {/* Droppable area at the end of the column for dropping at last position */}

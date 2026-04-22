@@ -4,7 +4,8 @@ import type { BoardColumn } from "../../types/api/columns";
 
 export interface ModalDetailsData {
   isOpen: boolean;
-  columnId: string | null;
+  boardId: string | null;
+  taskId: string | null;
 }
 
 export interface IColumnSlice {

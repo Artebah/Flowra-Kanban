@@ -16,6 +16,7 @@ import {
   useModalDetailsData,
   useUpdateModalDetailsData,
 } from "../../store/kanban/selectors";
+import { useGetTaskDetails } from "../../hooks/api/tasks/useGetTaskDetails";
 
 function TaskDetailsModal() {
   const [activeDescriptionField, setActiveDescriptionField] =
@@ -23,6 +24,11 @@ function TaskDetailsModal() {
   const descriptionFieldRef = React.useRef<HTMLTextAreaElement>(null);
   const modalDetailsData = useModalDetailsData();
   const updateModalDetailsData = useUpdateModalDetailsData();
+  const taskDetails = useGetTaskDetails({
+    boardId: modalDetailsData.boardId || "",
+    taskId: modalDetailsData.taskId || "",
+  });
+  console.log(taskDetails);
 
   const onSubmitSavingDescription = () => {
     const descriptionField = descriptionFieldRef.current;
@@ -34,13 +40,13 @@ function TaskDetailsModal() {
   };
 
   const onCloseModal = () => {
-    updateModalDetailsData({ columnId: null, isOpen: false });
+    updateModalDetailsData({ boardId: null, taskId: null, isOpen: false });
     setActiveDescriptionField(false);
   };
 
   return (
     <Modal
-      className="flex flex-col px-0 py-0 max-h-[calc(100vh-5rem)] max-w-[620px] !top-0 overflow-y-hidden"
+      className="flex flex-col px-0 py-0 max-h-[calc(100vh-5rem)] max-w-[620px] top-0! overflow-y-hidden"
       backdropClassName="pt-16 items-start"
       onClose={onCloseModal}
       open={modalDetailsData.isOpen}

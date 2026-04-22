@@ -1,13 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
-import type { ITask } from "../../../types/api/tasks";
+import type { GetTaskDetailsOptions, ITask } from "../../../types/api/tasks";
 import { getTaskDetails } from "../../../services/api/tasksApi";
 
-export const useGetTaskDetails = (boardId: string, taskId: string) => {
+export const useGetTaskDetails = ({
+  boardId,
+  taskId,
+}: GetTaskDetailsOptions) => {
   const query = useQuery<ITask | null, Error>({
     queryKey: [`board-tasks-${boardId}-${taskId}`],
     queryFn: () => getTaskDetails({ boardId, taskId }),
     staleTime: Infinity,
     retry: false,
+    enabled: Boolean(boardId && taskId),
   });
 
   return query;
