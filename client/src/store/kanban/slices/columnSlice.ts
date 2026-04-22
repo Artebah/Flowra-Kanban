@@ -21,7 +21,6 @@ export const createColumnSlice: StateCreator<
       delete updatedTasksByColumn[columnId];
       return {
         columns: state.columns.filter((col) => col.id !== columnId),
-        tasks: state.tasks.filter((task) => task.columnId !== columnId),
         tasksByColumn: updatedTasksByColumn,
       };
     });

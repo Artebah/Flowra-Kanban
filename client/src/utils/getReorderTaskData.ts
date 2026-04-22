@@ -25,7 +25,7 @@ export function getReorderTaskData(
     let newOrder: number;
 
     if (prevNeighborOrder === undefined && nextNeighborOrder === undefined) {
-      newOrder = 1000;
+      newOrder = 1;
     } else if (prevNeighborOrder === undefined) {
       newOrder = nextNeighborOrder - 1;
     } else if (nextNeighborOrder === undefined) {
