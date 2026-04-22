@@ -1,3 +1,5 @@
+import type { BoardColumn } from "./columns";
+
 export interface ITask {
   id: string;
   title: string;
@@ -7,6 +9,10 @@ export interface ITask {
   authorId: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface ITaskDetails extends ITask {
+  column: BoardColumn;
 }
 
 export interface CreateTaskDto {

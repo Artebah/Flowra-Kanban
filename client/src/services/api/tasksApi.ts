@@ -3,6 +3,7 @@ import type {
   GetAllTasksOptions,
   GetTaskDetailsOptions,
   ITask,
+  ITaskDetails,
   ReorderTaskOptions,
 } from "../../types/api/tasks";
 import axiosInstance from "./axiosInstance";
@@ -29,7 +30,7 @@ export const getAllTasks = async ({
 export const getTaskDetails = async ({
   boardId,
   taskId,
-}: GetTaskDetailsOptions): Promise<ITask | null> => {
+}: GetTaskDetailsOptions): Promise<ITaskDetails | null> => {
   const res = await axiosInstance.get(`boards/${boardId}/tasks/${taskId}`);
   return res.data;
 };

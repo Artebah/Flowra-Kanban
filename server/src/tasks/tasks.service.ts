@@ -54,6 +54,9 @@ export class TasksService {
   }): Promise<Task | null> {
     return this.tasksRepository.findOne({
       where: { column: { boardId }, id: taskId },
+      relations: {
+        column: true,
+      },
     });
   }
 

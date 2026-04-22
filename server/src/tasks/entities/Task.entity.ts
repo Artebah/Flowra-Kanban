@@ -1,4 +1,4 @@
-import { Expose } from "class-transformer";
+import { Expose, Type } from "class-transformer";
 import { BoardColumn } from "src/columns/entities/Column.entity";
 import { User } from "src/users/entities/User.entity";
 import {
@@ -55,6 +55,8 @@ export class Task {
   @Expose()
   updatedAt: Date;
 
+  @Expose()
+  @Type(() => BoardColumn)
   @ManyToOne(() => BoardColumn, (column) => column.tasks, {
     onDelete: "CASCADE",
   })
