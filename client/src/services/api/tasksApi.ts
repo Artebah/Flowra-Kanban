@@ -1,6 +1,7 @@
 import type {
   CreateTaskOptions,
   GetAllTasksOptions,
+  GetTaskDetailsOptions,
   ITask,
   ReorderTaskOptions,
 } from "../../types/api/tasks";
@@ -22,6 +23,14 @@ export const getAllTasks = async ({
   boardId,
 }: GetAllTasksOptions): Promise<ITask[]> => {
   const res = await axiosInstance.get(`boards/${boardId}/tasks`);
+  return res.data;
+};
+
+export const getTaskDetails = async ({
+  boardId,
+  taskId,
+}: GetTaskDetailsOptions): Promise<ITask | null> => {
+  const res = await axiosInstance.get(`boards/${boardId}/tasks/${taskId}`);
   return res.data;
 };
 

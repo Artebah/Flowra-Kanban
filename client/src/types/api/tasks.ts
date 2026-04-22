@@ -23,6 +23,11 @@ export interface GetAllTasksOptions {
   boardId: string;
 }
 
+export interface GetTaskDetailsOptions {
+  boardId: string;
+  taskId: string;
+}
+
 export interface UpdateTaskOrderDto {
   columnId: string;
   order: number;
