@@ -57,7 +57,7 @@ function TaskDetailsModal() {
     >
       <div className="flex justify-between basis-16 shrink-0 items-center border-b border-gray-400 px-6">
         <span className="py-1 px-3 bg-gray-600 rounded-md">
-          {/*taskDetails.columnId*/}
+          {taskDetails.column.title}
         </span>
         <div>
           <Button className="size-10" isIconOnly>
@@ -116,6 +116,7 @@ function TaskDetailsModal() {
               className={classNames("w-full", {
                 "min-h-36": activeDescriptionField,
               })}
+              value={taskDetails.description}
               placeholder="Add a more detailed description…"
             />
             {activeDescriptionField && (
