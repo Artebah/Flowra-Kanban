@@ -19,6 +19,7 @@ import { ColumnsModule } from "./columns/columns.module";
 import { BoardColumn } from "./columns/entities/Column.entity";
 import { TasksModule } from "./tasks/tasks.module";
 import { Task } from "./tasks/entities/Task.entity";
+import { StorageModule } from './storage/storage.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { Task } from "./tasks/entities/Task.entity";
     BoardsModule,
     ColumnsModule,
     TasksModule,
+    StorageModule,
   ],
   controllers: [AppController],
   providers: [AppService],
