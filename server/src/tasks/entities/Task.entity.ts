@@ -35,9 +35,13 @@ export class Task {
   @Expose()
   title: string;
 
-  @Column({ nullable: true })
+  @Column({ type: "jsonb", nullable: true })
   @Expose()
-  description?: string;
+  descriptionContent: any;
+
+  @Column({ type: "text", nullable: true })
+  @Expose()
+  descriptionSearch: string;
 
   @Column({ nullable: false })
   @Expose()

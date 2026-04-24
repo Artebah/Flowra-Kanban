@@ -17,11 +17,36 @@ import { JwtPayload } from "src/auth/interfaces/jwt-payload.interface";
 import { CreateTaskDto } from "./dtos/create-task.dto";
 import { Task } from "./entities/Task.entity";
 import { UpdateTaskOrderDto } from "./dtos/update-task-order.dto";
+import { StorageService } from "src/storage/storage.service";
+import { GetTaskUploadUrlDto } from "./dtos/get-task-upload-url.dto";
 
 @Controller()
 @UseGuards(JwtAuthGuard, BoardAccessGuard)
 export class TasksController {
-  constructor(private readonly tasksService: TasksService) {}
+  constructor(
+    private readonly tasksService: TasksService,
+    private readonly storageService: StorageService,
+  ) {}
+
+  @Post("boards/:boardId/columns/:columnId/tasks/:taskId/upload-url")
+  @UseGuards(JwtAuthGuard, BoardAccessGuard)
+  async getTaskUploadUrl(
+    @Param("boardId") boardId: string,
+    @Param("taskId") taskId: string,
+    @Body() dto: GetTaskUploadUrlDto,
+  ) {
+    const subFolder = dto.purpose ? `${dto.purpose}/` : "";
+
+    const fileKey = `boards/${boardId}/tasks/${taskId}/${subFolder}${Date.now()}-${dto.fileName}`;
+
+    const uploadUrl = await this.storageService.getPresignedUrl(
+      fileKey,
+      dto.fileType,
+    );
+    const publicUrl = `https://your-cdn.flowra.com/${fileKey}`;
+
+    return { uploadUrl, publicUrl, fileKey };
+  }
 
   @Post("boards/:boardId/columns/:columnId/tasks")
   create(
