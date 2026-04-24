@@ -5,6 +5,7 @@ import { Repository } from "typeorm";
 import { CreateTaskDto } from "./dtos/create-task.dto";
 import { UpdateTaskOrderDto } from "./dtos/update-task-order.dto";
 import { BoardColumn } from "src/columns/entities/Column.entity";
+import { UpdateTaskDto } from "./dtos/update-task.dto";
 
 @Injectable()
 export class TasksService {
@@ -58,6 +59,15 @@ export class TasksService {
         column: true,
       },
     });
+  }
+
+  async updateTask(taskId: string, dto: UpdateTaskDto) {
+    const task = await this.tasksRepository.findOneBy({ id: taskId });
+    if (!task) throw new NotFoundException("Task not found");
+
+    Object.assign(task, dto);
+
+    return this.tasksRepository.save(task);
   }
 
   async updateTaskOrder({
