@@ -19,6 +19,7 @@ import { Task } from "./entities/Task.entity";
 import { UpdateTaskOrderDto } from "./dtos/update-task-order.dto";
 import { StorageService } from "src/storage/storage.service";
 import { GetTaskUploadUrlDto } from "./dtos/get-task-upload-url.dto";
+import { ConfigService } from "@nestjs/config";
 
 @Controller()
 @UseGuards(JwtAuthGuard, BoardAccessGuard)
@@ -26,6 +27,7 @@ export class TasksController {
   constructor(
     private readonly tasksService: TasksService,
     private readonly storageService: StorageService,
+    private readonly configService: ConfigService,
   ) {}
 
   @Post("boards/:boardId/columns/:columnId/tasks/:taskId/upload-url")
@@ -43,7 +45,9 @@ export class TasksController {
       fileKey,
       dto.fileType,
     );
-    const publicUrl = `https://your-cdn.flowra.com/${fileKey}`;
+
+    const r2PublicUrl = this.configService.getOrThrow<string>("R2_PUBLIC_URL");
+    const publicUrl = `${r2PublicUrl}/${fileKey}`;
 
     return { uploadUrl, publicUrl, fileKey };
   }
