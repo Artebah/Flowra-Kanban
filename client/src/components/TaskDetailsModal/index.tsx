@@ -17,6 +17,7 @@ import {
   useUpdateModalDetailsData,
 } from "../../store/kanban/selectors";
 import { useGetTaskDetails } from "../../hooks/api/tasks/useGetTaskDetails";
+import TaskDescriptionEditor from "../TaskDescriptionEditor";
 
 function TaskDetailsModal() {
   const [activeDescriptionField, setActiveDescriptionField] =
@@ -28,7 +29,6 @@ function TaskDetailsModal() {
     boardId: modalDetailsData.boardId || "",
     taskId: modalDetailsData.taskId || "",
   });
-  console.log(taskDetails);
 
   const onSubmitSavingDescription = () => {
     const descriptionField = descriptionFieldRef.current;
@@ -132,6 +132,64 @@ function TaskDetailsModal() {
                 </Button>
               </div>
             )}
+            <TaskDescriptionEditor
+              boardId="123"
+              taskId="123"
+              initialContent={{
+                type: "doc",
+                content: [
+                  {
+                    type: "heading",
+                    attrs: { level: 1 },
+                    content: [{ type: "text", text: "Привет от Tiptap!" }],
+                  },
+                  {
+                    type: "paragraph",
+                    content: [
+                      {
+                        type: "text",
+                        text: "Это обычный текст, в котором есть ",
+                      },
+                      {
+                        type: "text",
+                        marks: [{ type: "bold" }],
+                        text: "жирное начертание",
+                      },
+                      { type: "text", text: " и даже " },
+                      {
+                        type: "text",
+                        marks: [{ type: "italic" }],
+                        text: "курсив",
+                      },
+                      { type: "text", text: "." },
+                    ],
+                  },
+                  {
+                    type: "bulletList",
+                    content: [
+                      {
+                        type: "listItem",
+                        content: [
+                          {
+                            type: "paragraph",
+                            content: [{ type: "text", text: "Первый пункт" }],
+                          },
+                        ],
+                      },
+                      {
+                        type: "listItem",
+                        content: [
+                          {
+                            type: "paragraph",
+                            content: [{ type: "text", text: "Второй пункт" }],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              }}
+            />
           </div>
         </div>
       </div>
