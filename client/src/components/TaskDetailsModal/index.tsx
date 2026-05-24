@@ -9,9 +9,6 @@ import {
 import Button from "../Button";
 import Modal from "../Modal";
 import CompleteCircleCheckbox from "../CompleteCircleCheckbox";
-import Textarea from "../Textarea";
-import classNames from "classnames";
-import React from "react";
 import {
   useModalDetailsData,
   useUpdateModalDetailsData,
@@ -20,9 +17,6 @@ import { useGetTaskDetails } from "../../hooks/api/tasks/useGetTaskDetails";
 import TaskDescriptionEditor from "../TaskDescriptionEditor";
 
 function TaskDetailsModal() {
-  const [activeDescriptionField, setActiveDescriptionField] =
-    React.useState(false);
-  const descriptionFieldRef = React.useRef<HTMLTextAreaElement>(null);
   const modalDetailsData = useModalDetailsData();
   const updateModalDetailsData = useUpdateModalDetailsData();
   const { data: taskDetails } = useGetTaskDetails({
@@ -30,18 +24,8 @@ function TaskDetailsModal() {
     taskId: modalDetailsData.taskId || "",
   });
 
-  const onSubmitSavingDescription = () => {
-    const descriptionField = descriptionFieldRef.current;
-
-    if (descriptionField) {
-      console.log(descriptionField.value);
-      setActiveDescriptionField(false);
-    }
-  };
-
   const onCloseModal = () => {
     updateModalDetailsData({ boardId: null, taskId: null, isOpen: false });
-    setActiveDescriptionField(false);
   };
 
   if (!taskDetails) {
@@ -110,16 +94,7 @@ function TaskDetailsModal() {
             <TextIcon /> <p className="font-bold">Description</p>
           </div>
           <div className="ml-8 mt-3">
-            <Textarea
-              ref={descriptionFieldRef}
-              onFocus={() => setActiveDescriptionField(true)}
-              className={classNames("w-full", {
-                "min-h-36": activeDescriptionField,
-              })}
-              value={taskDetails.description}
-              placeholder="Add a more detailed description…"
-            />
-            {activeDescriptionField && (
+            {/*{activeDescriptionField && (
               <div className="flex gap-3 mt-3">
                 <Button onClick={onSubmitSavingDescription} variant="success">
                   Submit
@@ -131,7 +106,7 @@ function TaskDetailsModal() {
                   Cancel
                 </Button>
               </div>
-            )}
+            )}*/}
             <TaskDescriptionEditor
               boardId="123"
               taskId="123"
@@ -140,7 +115,7 @@ function TaskDetailsModal() {
                 content: [
                   {
                     type: "heading",
-                    attrs: { level: 1 },
+                    attrs: { level: 2 },
                     content: [{ type: "text", text: "Привет от Tiptap!" }],
                   },
                   {

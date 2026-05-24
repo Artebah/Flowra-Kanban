@@ -1,6 +1,7 @@
 import { useEditor, EditorContent, type JSONContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
+import MenuBar from "./MenuBar";
 
 interface TaskDescriptionEditorProps {
   initialContent: JSONContent;
@@ -34,8 +35,7 @@ function TaskDescriptionEditor({
     input.onchange = async () => {
       const file = input.files?.[0];
       if (file) {
-        //const url = await handleImageUpload(file, boardId, taskId);
-        //editor?.chain().focus().setImage({ src: url }).run();
+        // logic
       }
     };
     input.click();
@@ -44,10 +44,8 @@ function TaskDescriptionEditor({
   if (!editor) return null;
 
   return (
-    <div className="editor-container">
-      <button onClick={addImage} type="button">
-        Add Image
-      </button>
+    <div className="editor-container border border-gray-500 rounded-sm">
+      <MenuBar editor={editor} onAddImage={addImage} />
       <EditorContent editor={editor} />
     </div>
   );
