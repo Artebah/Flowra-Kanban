@@ -6,7 +6,8 @@ export const createUISlice: StateCreator<IKanbanStore, [], [], IUISlice> = (
 ) => ({
   modalDetailsData: {
     isOpen: false,
-    columnId: null,
+    boardId: null,
+    taskId: null,
   },
   updateModalDetailsData: (data) => set({ modalDetailsData: data }),
 });

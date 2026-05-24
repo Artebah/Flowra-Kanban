@@ -71,6 +71,7 @@ function SignupPage() {
               Password
             </label>
             <Input
+              type="password"
               id="password"
               {...register("password")}
               className="w-full"
