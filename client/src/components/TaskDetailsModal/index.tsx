@@ -93,66 +93,15 @@ function TaskDetailsModal() {
           <div className="flex gap-3">
             <TextIcon /> <p className="font-bold">Description</p>
           </div>
-          <div className="ml-8 mt-3">
-            <TaskDescriptionEditor
-              boardId="123"
-              taskId="123"
-              initialContent={{
-                type: "doc",
-                content: [
-                  {
-                    type: "heading",
-                    attrs: { level: 2 },
-                    content: [{ type: "text", text: "Привет от Tiptap!" }],
-                  },
-                  {
-                    type: "paragraph",
-                    content: [
-                      {
-                        type: "text",
-                        text: "Это обычный текст, в котором есть ",
-                      },
-                      {
-                        type: "text",
-                        marks: [{ type: "bold" }],
-                        text: "жирное начертание",
-                      },
-                      { type: "text", text: " и даже " },
-                      {
-                        type: "text",
-                        marks: [{ type: "italic" }],
-                        text: "курсив",
-                      },
-                      { type: "text", text: "." },
-                    ],
-                  },
-                  {
-                    type: "bulletList",
-                    content: [
-                      {
-                        type: "listItem",
-                        content: [
-                          {
-                            type: "paragraph",
-                            content: [{ type: "text", text: "Первый пункт" }],
-                          },
-                        ],
-                      },
-                      {
-                        type: "listItem",
-                        content: [
-                          {
-                            type: "paragraph",
-                            content: [{ type: "text", text: "Второй пункт" }],
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                ],
-              }}
-            />
-          </div>
+          {modalDetailsData.boardId && modalDetailsData.taskId && (
+            <div className="ml-8 mt-3">
+              <TaskDescriptionEditor
+                boardId={modalDetailsData.boardId}
+                taskId={modalDetailsData.taskId}
+                initialContent={taskDetails.descriptionContent || {}}
+              />
+            </div>
+          )}
         </div>
       </div>
     </Modal>

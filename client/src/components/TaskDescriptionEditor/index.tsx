@@ -4,6 +4,7 @@ import Image from "@tiptap/extension-image";
 import MenuBar from "./MenuBar";
 import Button from "../Button";
 import React from "react";
+import { useUpdateTask } from "../../hooks/api/tasks/useUpdateTask";
 
 interface TaskDescriptionEditorProps {
   initialContent: JSONContent;
@@ -17,6 +18,7 @@ function TaskDescriptionEditor({
   taskId,
 }: TaskDescriptionEditorProps) {
   const [isDescriptionActive, setIsDescriptionActive] = React.useState(false);
+  const updateTask = useUpdateTask();
 
   const editor = useEditor({
     extensions: [
@@ -40,7 +42,13 @@ function TaskDescriptionEditor({
     setIsDescriptionActive(false);
   };
   const handleSubmit = () => {
-    console.log(editor.getJSON());
+    const contentJson = editor.getJSON() as JSONContent;
+
+    updateTask.mutate({
+      boardId,
+      taskId,
+      updateTaskDto: { descriptionContent: contentJson },
+    });
   };
 
   const addImage = async () => {

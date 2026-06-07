@@ -1,9 +1,11 @@
 import type { BoardColumn } from "./columns";
+import { type JSONContent } from "@tiptap/react";
 
 export interface ITask {
   id: string;
   title: string;
-  description?: string;
+  descriptionContent: JSONContent | null;
+  descriptionSearch: string;
   order: number;
   columnId: string;
   authorId: string;
@@ -43,4 +45,15 @@ export interface ReorderTaskOptions {
   boardId: string;
   taskId: string;
   updateTaskOrderDto: UpdateTaskOrderDto;
+}
+
+export interface UpdateTaskDto {
+  title?: string;
+  descriptionContent?: JSONContent;
+}
+
+export interface UpdateTaskOptions {
+  boardId: string;
+  taskId: string;
+  updateTaskDto: UpdateTaskDto;
 }

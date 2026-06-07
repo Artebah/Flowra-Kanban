@@ -5,6 +5,7 @@ import type {
   ITask,
   ITaskDetails,
   ReorderTaskOptions,
+  UpdateTaskOptions,
 } from "../../types/api/tasks";
 import axiosInstance from "./axiosInstance";
 
@@ -44,4 +45,12 @@ export const reorderTask = async ({
     `boards/${boardId}/tasks/${taskId}/reorder`,
     updateTaskOrderDto
   );
+};
+
+export const updateTask = async ({
+  boardId,
+  taskId,
+  updateTaskDto,
+}: UpdateTaskOptions): Promise<void> => {
+  await axiosInstance.patch(`boards/${boardId}/tasks/${taskId}`, updateTaskDto);
 };
