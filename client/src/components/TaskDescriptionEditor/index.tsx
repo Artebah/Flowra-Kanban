@@ -2,6 +2,8 @@ import { useEditor, EditorContent, type JSONContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import MenuBar from "./MenuBar";
+import Button from "../Button";
+import React from "react";
 
 interface TaskDescriptionEditorProps {
   initialContent: JSONContent;
@@ -14,6 +16,8 @@ function TaskDescriptionEditor({
   boardId,
   taskId,
 }: TaskDescriptionEditorProps) {
+  const [isDescriptionActive, setIsDescriptionActive] = React.useState(false);
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -25,7 +29,19 @@ function TaskDescriptionEditor({
       }),
     ],
     content: initialContent,
+
+    onFocus() {
+      setIsDescriptionActive(true);
+    },
   });
+
+  const handleCancel = () => {
+    editor.commands.setContent(initialContent);
+    setIsDescriptionActive(false);
+  };
+  const handleSubmit = () => {
+    console.log(editor.getJSON());
+  };
 
   const addImage = async () => {
     const input = document.createElement("input");
@@ -44,9 +60,21 @@ function TaskDescriptionEditor({
   if (!editor) return null;
 
   return (
-    <div className="editor-container border border-gray-500 rounded-sm">
-      <MenuBar editor={editor} onAddImage={addImage} />
-      <EditorContent editor={editor} />
+    <div>
+      <div className="editor-container border border-gray-500 rounded-sm">
+        <MenuBar editor={editor} onAddImage={addImage} />
+        <EditorContent editor={editor} />
+      </div>
+      {isDescriptionActive && (
+        <div className="flex gap-3 mt-3">
+          <Button onClick={handleSubmit} variant="success">
+            Submit
+          </Button>
+          <Button onClick={handleCancel} variant="outline">
+            Cancel
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

@@ -94,19 +94,6 @@ function TaskDetailsModal() {
             <TextIcon /> <p className="font-bold">Description</p>
           </div>
           <div className="ml-8 mt-3">
-            {/*{activeDescriptionField && (
-              <div className="flex gap-3 mt-3">
-                <Button onClick={onSubmitSavingDescription} variant="success">
-                  Submit
-                </Button>
-                <Button
-                  onClick={() => setActiveDescriptionField(false)}
-                  variant="outline"
-                >
-                  Cancel
-                </Button>
-              </div>
-            )}*/}
             <TaskDescriptionEditor
               boardId="123"
               taskId="123"
