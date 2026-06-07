@@ -20,6 +20,7 @@ import { UpdateTaskOrderDto } from "./dtos/update-task-order.dto";
 import { StorageService } from "src/storage/storage.service";
 import { GetTaskUploadUrlDto } from "./dtos/get-task-upload-url.dto";
 import { ConfigService } from "@nestjs/config";
+import { UpdateTaskDto } from "./dtos/update-task.dto";
 
 @Controller()
 @UseGuards(JwtAuthGuard, BoardAccessGuard)
@@ -78,6 +79,18 @@ export class TasksController {
     @Param("taskId", new ParseUUIDPipe()) taskId: string,
   ) {
     return this.tasksService.getOne({ boardId, taskId });
+  }
+
+  @Patch("boards/:boardId/tasks/:taskId")
+  @HttpCode(204)
+  updateTask(
+    @Param("taskId", new ParseUUIDPipe()) taskId: string,
+    @Body() updateTaskDto: UpdateTaskDto,
+  ) {
+    return this.tasksService.updateTask({
+      taskId,
+      updateTaskDto,
+    });
   }
 
   @Patch("boards/:boardId/tasks/:taskId/reorder")

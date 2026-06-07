@@ -6,6 +6,7 @@ import { CreateTaskDto } from "./dtos/create-task.dto";
 import { UpdateTaskOrderDto } from "./dtos/update-task-order.dto";
 import { BoardColumn } from "src/columns/entities/Column.entity";
 import { UpdateTaskDto } from "./dtos/update-task.dto";
+import { extractTextFromTiptap } from "src/common/utils/tiptap-parser.util";
 
 @Injectable()
 export class TasksService {
@@ -61,11 +62,24 @@ export class TasksService {
     });
   }
 
-  async updateTask(taskId: string, dto: UpdateTaskDto) {
+  async updateTask({
+    taskId,
+    updateTaskDto,
+  }: {
+    taskId: string;
+    updateTaskDto: UpdateTaskDto;
+  }): Promise<Task> {
     const task = await this.tasksRepository.findOneBy({ id: taskId });
     if (!task) throw new NotFoundException("Task not found");
 
-    Object.assign(task, dto);
+    const { descriptionContent, ...rest } = updateTaskDto;
+
+    Object.assign(task, rest);
+
+    if (descriptionContent !== undefined) {
+      task.descriptionContent = descriptionContent;
+      task.descriptionSearch = extractTextFromTiptap(descriptionContent);
+    }
 
     return this.tasksRepository.save(task);
   }
