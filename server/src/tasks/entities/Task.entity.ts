@@ -1,5 +1,6 @@
 import { Expose, Type } from "class-transformer";
 import { BoardColumn } from "src/columns/entities/Column.entity";
+import { JSONContent } from "src/common/types/json-content.interface";
 import { User } from "src/users/entities/User.entity";
 import {
   Column,
@@ -37,7 +38,7 @@ export class Task {
 
   @Column({ type: "jsonb", nullable: true })
   @Expose()
-  descriptionContent: any;
+  descriptionContent: JSONContent | null;
 
   @Column({ type: "text", nullable: true })
   @Expose()
