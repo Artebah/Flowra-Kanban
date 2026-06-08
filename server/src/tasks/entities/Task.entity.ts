@@ -34,6 +34,10 @@ export class Task {
 
   @Column({ nullable: false })
   @Expose()
+  isCompleted: boolean;
+
+  @Column({ nullable: false })
+  @Expose()
   title: string;
 
   @Column({ type: "jsonb", nullable: true })
