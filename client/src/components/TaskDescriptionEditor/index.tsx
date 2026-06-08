@@ -44,11 +44,18 @@ function TaskDescriptionEditor({
   const handleSubmit = () => {
     const contentJson = editor.getJSON() as JSONContent;
 
-    updateTask.mutate({
-      boardId,
-      taskId,
-      updateTaskDto: { descriptionContent: contentJson },
-    });
+    updateTask.mutate(
+      {
+        boardId,
+        taskId,
+        updateTaskDto: { descriptionContent: contentJson },
+      },
+      {
+        onSuccess: () => {
+          setIsDescriptionActive(false);
+        },
+      }
+    );
   };
 
   const addImage = async () => {
@@ -70,7 +77,9 @@ function TaskDescriptionEditor({
   return (
     <div>
       <div className="editor-container border border-gray-500 rounded-sm">
-        <MenuBar editor={editor} onAddImage={addImage} />
+        {isDescriptionActive && (
+          <MenuBar editor={editor} onAddImage={addImage} />
+        )}
         <EditorContent editor={editor} />
       </div>
       {isDescriptionActive && (
