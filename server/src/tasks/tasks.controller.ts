@@ -7,6 +7,7 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  SerializeOptions,
   UseGuards,
 } from "@nestjs/common";
 import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
@@ -74,6 +75,7 @@ export class TasksController {
   }
 
   @Get("boards/:boardId/tasks/:taskId")
+  @SerializeOptions({ strategy: "exposeAll" })
   getOne(
     @Param("boardId", new ParseUUIDPipe()) boardId: string,
     @Param("taskId", new ParseUUIDPipe()) taskId: string,
