@@ -58,6 +58,7 @@ function EditableText({
     >
       {isEditable ? (
         <Input
+          className="grow"
           ref={inputRef}
           defaultValue={text}
           onBlur={onSaveText}

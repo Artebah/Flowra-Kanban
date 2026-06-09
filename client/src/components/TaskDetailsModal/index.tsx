@@ -8,13 +8,13 @@ import {
 } from "lucide-react";
 import Button from "../Button";
 import Modal from "../Modal";
-import CompleteCircleCheckbox from "../CompleteCircleCheckbox";
 import {
   useModalDetailsData,
   useUpdateModalDetailsData,
 } from "../../store/kanban/selectors";
 import { useGetTaskDetails } from "../../hooks/api/tasks/useGetTaskDetails";
 import TaskDescriptionEditor from "../TaskDescriptionEditor";
+import TaskDetailsHeader from "./TaskDetailsHeader";
 
 function TaskDetailsModal() {
   const modalDetailsData = useModalDetailsData();
@@ -51,12 +51,7 @@ function TaskDetailsModal() {
       </div>
 
       <div className="overflow-y-auto">
-        <div className="mt-6 px-6">
-          <div className="flex items-center gap-4">
-            <CompleteCircleCheckbox />
-            <h3 className="font-bold text-3xl">{taskDetails.title}</h3>
-          </div>
-        </div>
+        <TaskDetailsHeader title={taskDetails.title} />
 
         <div className="px-6 ml-9 flex gap-3 mt-5">
           <Button
