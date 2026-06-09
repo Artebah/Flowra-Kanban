@@ -7,6 +7,10 @@ export class UpdateTaskDto {
   title?: string;
 
   @IsOptional()
+  @IsString()
+  isCompleted?: string;
+
+  @IsOptional()
   @IsObject()
   descriptionContent?: JSONContent;
 }
