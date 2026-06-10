@@ -51,7 +51,13 @@ function TaskDetailsModal() {
       </div>
 
       <div className="overflow-y-auto">
-        <TaskDetailsHeader title={taskDetails.title} />
+        {modalDetailsData.boardId && modalDetailsData.taskId && (
+          <TaskDetailsHeader
+            boardId={modalDetailsData.boardId}
+            taskId={modalDetailsData.taskId}
+            taskDetails={taskDetails}
+          />
+        )}
 
         <div className="px-6 ml-9 flex gap-3 mt-5">
           <Button

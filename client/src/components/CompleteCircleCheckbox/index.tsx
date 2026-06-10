@@ -4,22 +4,25 @@ import { CheckIcon } from "lucide-react";
 interface CompleteCircleCheckboxProps {
   isCompleted: boolean;
   onToggle: () => void;
+  disabled?: boolean;
 }
 
 function CompleteCircleCheckbox({
   isCompleted,
   onToggle,
+  disabled,
 }: CompleteCircleCheckboxProps) {
   return (
     <div
       className={classNames(
         "size-5 transition-all duration-200 ease-[cubic-bezier(0,0,0.58,1)]",
-        "flex justify-center items-center border-gray-600 border bg-transparent relative rounded-full cursor-pointer", // Додано cursor-pointer
+        "flex justify-center items-center border-gray-600 border bg-transparent relative rounded-full cursor-pointer",
         {
           "!border-emerald-400 !bg-emerald-400": isCompleted,
+          "cursor-not-allowed! opacity-60": disabled,
         }
       )}
-      onClick={onToggle}
+      onClick={disabled ? undefined : onToggle}
     >
       <div
         className={classNames(

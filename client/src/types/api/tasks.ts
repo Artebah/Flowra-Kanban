@@ -4,6 +4,7 @@ import { type JSONContent } from "@tiptap/react";
 export interface ITask {
   id: string;
   title: string;
+  isCompleted: boolean;
   descriptionContent: JSONContent | null;
   descriptionSearch: string;
   order: number;
@@ -49,6 +50,7 @@ export interface ReorderTaskOptions {
 
 export interface UpdateTaskDto {
   title?: string;
+  isCompleted?: boolean;
   descriptionContent?: JSONContent;
 }
 

@@ -1,4 +1,4 @@
-import { IsObject, IsOptional, IsString } from "class-validator";
+import { IsBoolean, IsObject, IsOptional, IsString } from "class-validator";
 import { JSONContent } from "src/common/types/json-content.interface";
 
 export class UpdateTaskDto {
@@ -7,8 +7,8 @@ export class UpdateTaskDto {
   title?: string;
 
   @IsOptional()
-  @IsString()
-  isCompleted?: string;
+  @IsBoolean()
+  isCompleted?: boolean;
 
   @IsOptional()
   @IsObject()
