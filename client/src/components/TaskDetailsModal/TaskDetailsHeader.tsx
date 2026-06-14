@@ -45,6 +45,7 @@ function TaskDetailsHeader({
         />
         <h3 className="w-full font-bold text-3xl">
           <EditableText
+            disabled={updateTask.isPending}
             isEditable={isEditableTitle}
             setIsEditable={setIsEditableTitle}
             onSave={handleSaveTitle}
