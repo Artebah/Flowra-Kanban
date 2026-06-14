@@ -69,7 +69,10 @@ export class TasksService {
     taskId: string;
     updateTaskDto: UpdateTaskDto;
   }): Promise<Task> {
-    const task = await this.tasksRepository.findOneBy({ id: taskId });
+    const task = await this.tasksRepository.findOne({
+      where: { id: taskId },
+      relations: ["column"],
+    });
     if (!task) throw new NotFoundException("Task not found");
 
     const { descriptionContent, ...rest } = updateTaskDto;

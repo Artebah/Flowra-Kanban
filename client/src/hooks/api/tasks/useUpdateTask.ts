@@ -11,7 +11,7 @@ export const useUpdateTask = () => {
       console.log(data);
       queryClient.setQueryData(
         ["boards", variables.boardId, "tasks", variables.taskId],
-        [data]
+        data
       );
     },
   });
