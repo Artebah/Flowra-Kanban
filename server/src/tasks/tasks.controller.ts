@@ -84,7 +84,6 @@ export class TasksController {
   }
 
   @Patch("boards/:boardId/tasks/:taskId")
-  @HttpCode(204)
   updateTask(
     @Param("taskId", new ParseUUIDPipe()) taskId: string,
     @Body() updateTaskDto: UpdateTaskDto,

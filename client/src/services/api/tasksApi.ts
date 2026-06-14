@@ -51,6 +51,11 @@ export const updateTask = async ({
   boardId,
   taskId,
   updateTaskDto,
-}: UpdateTaskOptions): Promise<void> => {
-  await axiosInstance.patch(`boards/${boardId}/tasks/${taskId}`, updateTaskDto);
+}: UpdateTaskOptions): Promise<ITaskDetails> => {
+  const { data } = await axiosInstance.patch(
+    `boards/${boardId}/tasks/${taskId}`,
+    updateTaskDto
+  );
+
+  return data;
 };
