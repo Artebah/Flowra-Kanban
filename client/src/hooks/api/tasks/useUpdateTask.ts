@@ -1,5 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { ITaskDetails, UpdateTaskOptions } from "../../../types/api/tasks";
+import type {
+  ITask,
+  ITaskDetails,
+  UpdateTaskOptions,
+} from "../../../types/api/tasks";
 import { updateTask } from "../../../services/api/tasksApi";
 
 export const useUpdateTask = () => {
@@ -8,10 +12,17 @@ export const useUpdateTask = () => {
   const query = useMutation<ITaskDetails, Error, UpdateTaskOptions>({
     mutationFn: (options) => updateTask(options),
     onSuccess(data, variables) {
-      console.log(data);
       queryClient.setQueryData(
         ["boards", variables.boardId, "tasks", variables.taskId],
         data
+      );
+
+      queryClient.setQueryData<ITask[]>(
+        [`board-tasks-${variables.boardId}`],
+        (prev) =>
+          prev?.map((task) =>
+            task.id === variables.taskId ? { ...task, ...data } : task
+          )
       );
     },
   });

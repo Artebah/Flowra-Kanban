@@ -44,7 +44,7 @@ function TaskDetailsModal() {
           {taskDetails.column.title}
         </span>
         <div>
-          <Button className="size-10" isIconOnly>
+          <Button onClick={onCloseModal} className="size-10" isIconOnly>
             <XIcon />
           </Button>
         </div>
