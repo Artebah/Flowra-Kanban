@@ -84,6 +84,7 @@ export class TasksController {
   }
 
   @Patch("boards/:boardId/tasks/:taskId")
+  @SerializeOptions({ strategy: "exposeAll" })
   updateTask(
     @Param("taskId", new ParseUUIDPipe()) taskId: string,
     @Body() updateTaskDto: UpdateTaskDto,
