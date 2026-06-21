@@ -80,6 +80,6 @@ export class Task {
   author: User;
 
   @ManyToMany(() => Label)
-  @JoinTable()
+  @JoinTable({ name: "task_labels" })
   labels: Label[];
 }
