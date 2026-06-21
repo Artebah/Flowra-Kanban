@@ -19,7 +19,8 @@ import { ColumnsModule } from "./columns/columns.module";
 import { BoardColumn } from "./columns/entities/Column.entity";
 import { TasksModule } from "./tasks/tasks.module";
 import { Task } from "./tasks/entities/Task.entity";
-import { StorageModule } from './storage/storage.module';
+import { StorageModule } from "./storage/storage.module";
+import { Label } from "./tasks/entities/Label.entity";
 
 @Module({
   imports: [
@@ -34,7 +35,7 @@ import { StorageModule } from './storage/storage.module';
       inject: [ConfigService],
       useFactory: async (configService: GlobalTypedConfig) => ({
         ...(await configService.get("typeorm")),
-        entities: [User, Board, BoardMember, BoardColumn, Task],
+        entities: [User, Board, BoardMember, BoardColumn, Task, Label],
       }),
     }),
     AuthModule,
