@@ -7,10 +7,13 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { Label } from "./Label.entity";
 
 @Entity("tasks")
 export class Task {
@@ -75,4 +78,8 @@ export class Task {
   @ManyToOne(() => User, (user) => user.tasks)
   @JoinColumn({ name: "authorId" })
   author: User;
+
+  @ManyToMany(() => Label)
+  @JoinTable()
+  labels: Label[];
 }
