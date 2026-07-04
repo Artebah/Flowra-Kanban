@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { Repository } from "typeorm";
 import { Label } from "./entities/Label.entity";
 import { InjectRepository } from "@nestjs/typeorm";
-import { AddLabelsForTaskDto } from "./dtos/add-labels-for-task.dto";
+import { CreateLabelDto } from "./dtos/create-label.dto";
 
 @Injectable()
 export class LabelsService {
@@ -11,7 +11,12 @@ export class LabelsService {
     private readonly labelsRepository: Repository<Label>,
   ) {}
 
-  addLabelsForTask({ labels }: AddLabelsForTaskDto) {
-    return this.labelsRepository.save(labels);
+  createLabel({ boardId, dto }: { boardId: string; dto: CreateLabelDto }) {
+    const createdLabel = this.labelsRepository.create({
+      boardId,
+      ...dto,
+    });
+
+    return this.labelsRepository.save(createdLabel);
   }
 }
