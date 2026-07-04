@@ -1,6 +1,13 @@
 import { Expose } from "class-transformer";
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { Task } from "./Task.entity";
+import { Board } from "src/boards/entities/Board.entity";
 
 @Entity("labels")
 export class Label {
@@ -18,4 +25,10 @@ export class Label {
 
   @ManyToMany(() => Task, (task) => task.labels)
   tasks: Task[];
+
+  @Column()
+  boardId: string;
+
+  @ManyToOne(() => Board, (board) => board.labels)
+  board: Board;
 }
