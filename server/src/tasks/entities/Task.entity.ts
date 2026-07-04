@@ -79,7 +79,7 @@ export class Task {
   @JoinColumn({ name: "authorId" })
   author: User;
 
-  @ManyToMany(() => Label)
+  @ManyToMany(() => Label, (label) => label.tasks)
   @JoinTable({ name: "task_labels" })
   labels: Label[];
 }

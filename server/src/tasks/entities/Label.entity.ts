@@ -16,6 +16,6 @@ export class Label {
   @Expose()
   color: string;
 
-  @ManyToMany(() => Task)
+  @ManyToMany(() => Task, (task) => task.labels)
   tasks: Task[];
 }
