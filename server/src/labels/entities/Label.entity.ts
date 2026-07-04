@@ -6,7 +6,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Task } from "./Task.entity";
+import { Task } from "src/tasks/entities/Task.entity";
 import { Board } from "src/boards/entities/Board.entity";
 
 @Entity("labels")
@@ -23,11 +23,11 @@ export class Label {
   @Expose()
   color: string;
 
-  @ManyToMany(() => Task, (task) => task.labels)
-  tasks: Task[];
-
   @Column()
   boardId: string;
+
+  @ManyToMany(() => Task, (task) => task.labels)
+  tasks: Task[];
 
   @ManyToOne(() => Board, (board) => board.labels)
   board: Board;

@@ -8,7 +8,7 @@ import {
 } from "typeorm";
 import { BoardMember } from "./BoardMember.entity";
 import { BoardColumn } from "src/columns/entities/Column.entity";
-import { Label } from "src/tasks/entities/Label.entity";
+import { Label } from "src/labels/entities/Label.entity";
 
 @Entity("boards")
 export class Board {

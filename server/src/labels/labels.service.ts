@@ -12,11 +12,7 @@ export class LabelsService {
   ) {}
 
   createLabel({ boardId, dto }: { boardId: string; dto: CreateLabelDto }) {
-    const createdLabel = this.labelsRepository.create({
-      boardId,
-      ...dto,
-    });
-
-    return this.labelsRepository.save(createdLabel);
+    const label = this.labelsRepository.create({ boardId, ...dto });
+    return this.labelsRepository.save(label);
   }
 }

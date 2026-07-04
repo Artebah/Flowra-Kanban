@@ -13,7 +13,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { Label } from "./Label.entity";
+import { Label } from "src/labels/entities/Label.entity";
 
 @Entity("tasks")
 export class Task {

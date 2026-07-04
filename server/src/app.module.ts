@@ -20,7 +20,8 @@ import { BoardColumn } from "./columns/entities/Column.entity";
 import { TasksModule } from "./tasks/tasks.module";
 import { Task } from "./tasks/entities/Task.entity";
 import { StorageModule } from "./storage/storage.module";
-import { Label } from "./tasks/entities/Label.entity";
+import { Label } from "./labels/entities/Label.entity";
+import { LabelsModule } from "./labels/labels.module";
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { Label } from "./tasks/entities/Label.entity";
     BoardsModule,
     ColumnsModule,
     TasksModule,
+    LabelsModule,
     StorageModule,
   ],
   controllers: [AppController],
