@@ -22,6 +22,7 @@ import { StorageService } from "src/storage/storage.service";
 import { GetTaskUploadUrlDto } from "./dtos/get-task-upload-url.dto";
 import { ConfigService } from "@nestjs/config";
 import { UpdateTaskDto } from "./dtos/update-task.dto";
+import { CreateLabelDto } from "src/labels/dtos/create-label.dto";
 
 @Controller()
 @UseGuards(JwtAuthGuard, BoardAccessGuard)
@@ -106,6 +107,19 @@ export class TasksController {
       boardId,
       taskId,
       updateTaskOrderDto,
+    });
+  }
+
+  @Post("boards/:boardId/tasks/:taskId/labels")
+  createLabelAndAssignToTask(
+    @Param("boardId", new ParseUUIDPipe()) boardId: string,
+    @Param("taskId", new ParseUUIDPipe()) taskId: string,
+    @Body() createLabelDto: CreateLabelDto,
+  ) {
+    return this.tasksService.createLabelAndAssignToTask({
+      boardId,
+      taskId,
+      dto: createLabelDto,
     });
   }
 }
