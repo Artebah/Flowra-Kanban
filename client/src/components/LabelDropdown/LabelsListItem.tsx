@@ -17,9 +17,10 @@ function LabelsListItem({ label }: LabelsListItemProps) {
         />
         <label
           htmlFor={label.id}
-          className="cursor-pointer group-hover:brightness-110 grow bg-emerald-700 rounded-xs px-4 h-7 flex items-center"
+          style={{ backgroundColor: label.color }}
+          className="cursor-pointer group-hover:brightness-110 grow rounded-xs px-4 h-7 flex items-center"
         >
-          <span className="text-sm">label 1</span>
+          <span className="text-sm">{label.title}</span>
         </label>
       </div>
       <Button className="p-2 size-8">
