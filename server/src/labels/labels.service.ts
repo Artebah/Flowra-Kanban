@@ -15,4 +15,12 @@ export class LabelsService {
     const label = this.labelsRepository.create({ boardId, ...dto });
     return this.labelsRepository.save(label);
   }
+
+  getAll(boardId: string) {
+    return this.labelsRepository.find({
+      where: {
+        boardId: boardId,
+      },
+    });
+  }
 }
