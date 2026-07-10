@@ -2,7 +2,17 @@ import { labelColors } from "@/constants/labelColors";
 import Input from "../Input";
 import type { FormEvent } from "react";
 
-function CreateLabelDropdownContent() {
+interface InitialData {
+  title: string;
+  color: string;
+}
+
+interface LabelFormProps {
+  initialData?: InitialData;
+  mode: "create" | "edit";
+}
+
+function LabelForm({ initialData, mode }: LabelFormProps) {
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
@@ -15,6 +25,7 @@ function CreateLabelDropdownContent() {
         </label>
         <Input
           type="text"
+          defaultValue={initialData?.title}
           className="border border-gray-400 w-full"
           id="create-label-form-title"
         />
@@ -32,4 +43,4 @@ function CreateLabelDropdownContent() {
   );
 }
 
-export default CreateLabelDropdownContent;
+export default LabelForm;

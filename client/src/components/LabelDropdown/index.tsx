@@ -2,8 +2,8 @@ import React from "react";
 import Button from "../Button";
 import { TagIcon } from "lucide-react";
 import Dropdown from "../Dropdown";
-import CreateLabelDropdownContent from "./CreateLabelDropdownContent";
-import LabelsListItem from "./LabelsListItem";
+import CreateLabelDropdownContent from "./LabelForm";
+import LabelDropdownContent from "./LabelDropdownContent";
 
 function LabelDropdown() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -29,22 +29,9 @@ function LabelDropdown() {
           </div>
 
           {isLabelCreation ? (
-            <CreateLabelDropdownContent />
+            <CreateLabelDropdownContent mode="create" />
           ) : (
-            <div>
-              <div>
-                <p className="text-xs font-semibold">Labels</p>
-                <LabelsListItem />
-              </div>
-
-              <Button
-                onClick={() => setIsLabelCreation(true)}
-                className="mt-4 w-full"
-                variant="outline"
-              >
-                Create a new label
-              </Button>
-            </div>
+            <LabelDropdownContent setIsLabelCreation={setIsLabelCreation} />
           )}
         </Dropdown.Menu>
       </Dropdown>
