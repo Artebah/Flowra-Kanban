@@ -68,7 +68,7 @@ function TaskDetailsModal() {
             Attachment
           </Button>
 
-          <LabelDropdown />
+          <LabelDropdown boardId={modalDetailsData.boardId || ""} />
 
           <Button
             leadingIcon={<ClockIcon className="size-4" />}

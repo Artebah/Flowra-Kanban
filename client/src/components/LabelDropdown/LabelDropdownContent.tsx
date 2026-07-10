@@ -1,19 +1,23 @@
-import type { ILabel } from "@/types/api/labels";
 import Button from "../Button";
 import LabelsListItem from "./LabelsListItem";
+import { useLabelsList } from "@/hooks/api/labels/useLabelsList";
 
 interface LabelDropdownContentProps {
+  boardId: string;
   setIsLabelCreation: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function LabelDropdownContent({
+  boardId,
   setIsLabelCreation,
 }: LabelDropdownContentProps) {
+  const { data: labels = [] } = useLabelsList(boardId);
+
   return (
     <div>
       <div>
         <p className="text-xs font-semibold">Labels</p>
-        {([] as ILabel[]).map((label) => (
+        {labels.map((label) => (
           <LabelsListItem key={label.id} label={label} />
         ))}
       </div>

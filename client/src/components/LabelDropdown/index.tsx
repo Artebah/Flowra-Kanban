@@ -5,7 +5,11 @@ import Dropdown from "../Dropdown";
 import CreateLabelDropdownContent from "./LabelForm";
 import LabelDropdownContent from "./LabelDropdownContent";
 
-function LabelDropdown() {
+interface LabelDropdownProps {
+  boardId: string;
+}
+
+function LabelDropdown({ boardId }: LabelDropdownProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isLabelCreation, setIsLabelCreation] = React.useState(false);
 
@@ -31,7 +35,7 @@ function LabelDropdown() {
           {isLabelCreation ? (
             <CreateLabelDropdownContent mode="create" />
           ) : (
-            <LabelDropdownContent setIsLabelCreation={setIsLabelCreation} />
+            <LabelDropdownContent boardId={boardId} setIsLabelCreation={setIsLabelCreation} />
           )}
         </Dropdown.Menu>
       </Dropdown>
