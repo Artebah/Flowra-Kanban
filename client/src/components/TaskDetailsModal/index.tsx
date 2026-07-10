@@ -33,73 +33,76 @@ function TaskDetailsModal() {
   }
 
   return (
-    <Dialog open={modalDetailsData.isOpen} onOpenChange={(o) => !o && onCloseModal()}>
+    <Dialog
+      open={modalDetailsData.isOpen}
+      onOpenChange={(o) => !o && onCloseModal()}
+    >
       <DialogContent
         showCloseButton={false}
-        className="flex flex-col px-0 py-0 max-h-[calc(100vh-5rem)] max-w-[620px] overflow-y-hidden top-16! translate-y-0!"
+        className="flex flex-col px-0 py-0 max-h-[calc(100vh-5rem)] md:min-w-[620px] min-w-[96vw] overflow-y-hidden top-16! translate-y-0!"
       >
-      <div className="flex justify-between basis-16 shrink-0 items-center border-b border-gray-400 px-6">
-        <span className="py-1 px-3 bg-gray-600 rounded-md">
-          {taskDetails.column.title}
-        </span>
-        <div>
-          <Button onClick={onCloseModal} className="size-10" isIconOnly>
-            <XIcon />
-          </Button>
-        </div>
-      </div>
-
-      <div className="overflow-y-auto">
-        {modalDetailsData.boardId && modalDetailsData.taskId && (
-          <TaskDetailsHeader
-            boardId={modalDetailsData.boardId}
-            taskId={modalDetailsData.taskId}
-            taskDetails={taskDetails}
-          />
-        )}
-
-        <div className="px-6 ml-9 flex gap-3 mt-5">
-          <Button
-            leadingIcon={<PaperclipIcon className="size-4" />}
-            variant="outline"
-            className="h-8 px-2"
-          >
-            Attachment
-          </Button>
-
-          <LabelDropdown boardId={modalDetailsData.boardId || ""} />
-
-          <Button
-            leadingIcon={<ClockIcon className="size-4" />}
-            variant="outline"
-            className="h-8 px-2"
-          >
-            Deadlines
-          </Button>
-          <Button
-            leadingIcon={<UserRoundPlusIcon className="size-4" />}
-            variant="outline"
-            className="h-8 px-2"
-          >
-            Members
-          </Button>
-        </div>
-
-        <div className="px-6 mt-8 pb-8">
-          <div className="flex gap-3">
-            <TextIcon /> <p className="font-bold">Description</p>
+        <div className="flex justify-between basis-16 shrink-0 items-center border-b border-gray-400 px-6">
+          <span className="py-1 px-3 bg-gray-600 rounded-md">
+            {taskDetails.column.title}
+          </span>
+          <div>
+            <Button onClick={onCloseModal} className="size-10" isIconOnly>
+              <XIcon />
+            </Button>
           </div>
-          {modalDetailsData.boardId && modalDetailsData.taskId && (
-            <div className="ml-8 mt-3">
-              <TaskDescriptionEditor
-                boardId={modalDetailsData.boardId}
-                taskId={modalDetailsData.taskId}
-                initialContent={taskDetails.descriptionContent || {}}
-              />
-            </div>
-          )}
         </div>
-      </div>
+
+        <div className="overflow-y-auto">
+          {modalDetailsData.boardId && modalDetailsData.taskId && (
+            <TaskDetailsHeader
+              boardId={modalDetailsData.boardId}
+              taskId={modalDetailsData.taskId}
+              taskDetails={taskDetails}
+            />
+          )}
+
+          <div className="px-6 ml-9 flex gap-3 mt-5">
+            <Button
+              leadingIcon={<PaperclipIcon className="size-4" />}
+              variant="outline"
+              className="h-8 px-2"
+            >
+              Attachment
+            </Button>
+
+            <LabelDropdown boardId={modalDetailsData.boardId || ""} />
+
+            <Button
+              leadingIcon={<ClockIcon className="size-4" />}
+              variant="outline"
+              className="h-8 px-2"
+            >
+              Deadlines
+            </Button>
+            <Button
+              leadingIcon={<UserRoundPlusIcon className="size-4" />}
+              variant="outline"
+              className="h-8 px-2"
+            >
+              Members
+            </Button>
+          </div>
+
+          <div className="px-6 mt-8 pb-8">
+            <div className="flex gap-3">
+              <TextIcon /> <p className="font-bold">Description</p>
+            </div>
+            {modalDetailsData.boardId && modalDetailsData.taskId && (
+              <div className="ml-8 mt-3">
+                <TaskDescriptionEditor
+                  boardId={modalDetailsData.boardId}
+                  taskId={modalDetailsData.taskId}
+                  initialContent={taskDetails.descriptionContent || {}}
+                />
+              </div>
+            )}
+          </div>
+        </div>
       </DialogContent>
     </Dialog>
   );
