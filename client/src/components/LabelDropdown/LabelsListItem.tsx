@@ -1,17 +1,22 @@
 import { Edit } from "lucide-react";
 import Button from "../Button";
 import { Checkbox } from "../ui/checkbox";
+import type { ILabel } from "../../types/api/labels";
 
-function LabelsListItem() {
+interface LabelsListItemProps {
+  label: ILabel;
+}
+
+function LabelsListItem({ label }: LabelsListItemProps) {
   return (
     <div className="flex gap-2 items-center">
       <div className="flex grow items-center gap-2 group">
         <Checkbox
-          id={"label1-check"}
+          id={label.id}
           className="cursor-pointer group-hover:brightness-110"
         />
         <label
-          htmlFor="label1-check"
+          htmlFor={label.id}
           className="cursor-pointer group-hover:brightness-110 grow bg-emerald-700 rounded-xs px-4 h-7 flex items-center"
         >
           <span className="text-sm">label 1</span>

@@ -1,3 +1,4 @@
+import type { ILabel } from "@/types/api/labels";
 import Button from "../Button";
 import LabelsListItem from "./LabelsListItem";
 
@@ -12,7 +13,9 @@ function LabelDropdownContent({
     <div>
       <div>
         <p className="text-xs font-semibold">Labels</p>
-        <LabelsListItem />
+        {([] as ILabel[]).map((label) => (
+          <LabelsListItem key={label.id} label={label} />
+        ))}
       </div>
 
       <Button
