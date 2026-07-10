@@ -6,7 +6,7 @@ import {
   DropdownMenuItem,
 } from "../ui/dropdown-menu";
 import Button from "../Button";
-import Modal from "../Modal";
+import { Dialog, DialogContent } from "../ui/dialog";
 import React from "react";
 import type { BoardColumn } from "../../types/api/columns";
 import { useRemoveColumn } from "../../store/kanban/selectors";
@@ -111,12 +111,11 @@ function ColumnActionsDropdown({
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <Modal
-        className="bg-gray-charcoal"
+      <Dialog
         open={openDeleteColumnModal}
-        onClose={() => setOpenDeleteColumnModal(false)}
+        onOpenChange={(o) => !o && setOpenDeleteColumnModal(false)}
       >
-        <div className="p-4">
+        <DialogContent className="bg-gray-charcoal">
           <h2 className="text-lg font-semibold mb-4">
             Are you sure you want to delete column "{column.title}"?
           </h2>
@@ -135,8 +134,8 @@ function ColumnActionsDropdown({
               Cancel
             </Button>
           </div>
-        </div>
-      </Modal>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

@@ -1,6 +1,6 @@
 import Button from "../Button";
 import { useCreateBoard } from "../../hooks/api/boards/useCreateBoard";
-import Modal from "../Modal";
+import { Dialog, DialogContent } from "../ui/dialog";
 import Input from "../Input";
 import Dropzone from "../Dropzone";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -66,7 +66,8 @@ function CreateBoardButton() {
         Create new board
       </Button>
 
-      <Modal open={createBoardModalOpen} onClose={onCreateBoardModalClose}>
+      <Dialog open={createBoardModalOpen} onOpenChange={(o) => !o && onCreateBoardModalClose()}>
+        <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div>
             <label
@@ -109,7 +110,8 @@ function CreateBoardButton() {
             </Button>
           </div>
         </form>
-      </Modal>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

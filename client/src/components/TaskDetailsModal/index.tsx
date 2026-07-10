@@ -6,7 +6,7 @@ import {
   XIcon,
 } from "lucide-react";
 import Button from "../Button";
-import Modal from "../Modal";
+import { Dialog, DialogContent } from "../ui/dialog";
 import {
   useModalDetailsData,
   useUpdateModalDetailsData,
@@ -33,12 +33,11 @@ function TaskDetailsModal() {
   }
 
   return (
-    <Modal
-      className="flex flex-col px-0 py-0 max-h-[calc(100vh-5rem)] max-w-[620px] top-0! overflow-y-hidden"
-      backdropClassName="pt-16 items-start"
-      onClose={onCloseModal}
-      open={modalDetailsData.isOpen}
-    >
+    <Dialog open={modalDetailsData.isOpen} onOpenChange={(o) => !o && onCloseModal()}>
+      <DialogContent
+        showCloseButton={false}
+        className="flex flex-col px-0 py-0 max-h-[calc(100vh-5rem)] max-w-[620px] overflow-y-hidden top-16! translate-y-0!"
+      >
       <div className="flex justify-between basis-16 shrink-0 items-center border-b border-gray-400 px-6">
         <span className="py-1 px-3 bg-gray-600 rounded-md">
           {taskDetails.column.title}
@@ -101,7 +100,8 @@ function TaskDetailsModal() {
           )}
         </div>
       </div>
-    </Modal>
+      </DialogContent>
+    </Dialog>
   );
 }
 
