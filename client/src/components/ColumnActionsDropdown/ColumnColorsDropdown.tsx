@@ -1,4 +1,8 @@
-import Dropdown from "../Dropdown";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+} from "../ui/dropdown-menu";
 import { ChevronLeftIcon } from "lucide-react";
 import Button from "../Button";
 import { columnColorsDarkTheme } from "../../constants/columnColors";
@@ -51,10 +55,11 @@ function ColumnColorsDropdown({
   };
 
   return (
-    <Dropdown open={openColors} onChange={(open) => setOpenColors(open)}>
-      <Dropdown.Menu
-        className="mt-5 min-w-[250px] px-3 pt-2 pb-5"
-        align="right"
+    <DropdownMenu open={openColors} onOpenChange={setOpenColors}>
+      <DropdownMenuTrigger render={<span />} className="sr-only" />
+      <DropdownMenuContent
+        align="end"
+        className="min-w-[250px] px-3 pt-2 pb-5"
       >
         <div className="flex gap-2 items-center">
           <Button onClick={onGoBackToActions} isIconOnly className="size-7">
@@ -82,8 +87,8 @@ function ColumnColorsDropdown({
             Set default
           </Button>
         </div>
-      </Dropdown.Menu>
-    </Dropdown>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 

@@ -1,5 +1,10 @@
 import { EllipsisVerticalIcon } from "lucide-react";
-import Dropdown from "../Dropdown";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "../ui/dropdown-menu";
 import Button from "../Button";
 import Modal from "../Modal";
 import React from "react";
@@ -51,33 +56,36 @@ function ColumnActionsDropdown({
 
   return (
     <>
-      <Dropdown onChange={(open) => setOpenActions(open)} open={openActions}>
-        <Dropdown.Target asChild>
-          <Button
-            isIconOnly
-            variant="outline"
-            className="h-8 w-8 border-0 hover:bg-gray-700"
-          >
-            <EllipsisVerticalIcon className="size-4" />
-          </Button>
-        </Dropdown.Target>
+      <DropdownMenu open={openActions} onOpenChange={setOpenActions}>
+        <DropdownMenuTrigger
+          render={
+            <Button
+              isIconOnly
+              variant="outline"
+              className="h-8 w-8 border-0 hover:bg-gray-700"
+            >
+              <EllipsisVerticalIcon className="size-4" />
+            </Button>
+          }
+        />
 
-        <Dropdown.Menu className="min-w-[180px]" align="right">
-          <Dropdown.MenuItem onClick={() => setIsAddCardOpen(true)}>
+        <DropdownMenuContent className="min-w-[180px]" align="end">
+          <DropdownMenuItem onClick={() => setIsAddCardOpen(true)}>
             <div className="flex items-center gap-2">Add task in column</div>
-          </Dropdown.MenuItem>
+          </DropdownMenuItem>
 
-          <Dropdown.MenuItem
+          <DropdownMenuItem
             onClick={() => setOpenDeleteColumnModal(true)}
-            destructive
+            variant="destructive"
           >
             <div className="flex items-center gap-2">Delete Column</div>
-          </Dropdown.MenuItem>
-          <Dropdown.MenuItem onClick={() => setOpenColors(true)}>
+          </DropdownMenuItem>
+
+          <DropdownMenuItem onClick={() => setOpenColors(true)}>
             Change column color
-          </Dropdown.MenuItem>
-        </Dropdown.Menu>
-      </Dropdown>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
 
       <ColumnColorsDropdown
         boardId={column.boardId}

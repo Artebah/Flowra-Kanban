@@ -1,7 +1,11 @@
 import React from "react";
 import Button from "../Button";
 import { TagIcon } from "lucide-react";
-import Dropdown from "../Dropdown";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+} from "../ui/dropdown-menu";
 import CreateLabelDropdownContent from "./LabelForm";
 import LabelDropdownContent from "./LabelDropdownContent";
 
@@ -14,9 +18,9 @@ function LabelDropdown({ boardId }: LabelDropdownProps) {
   const [isLabelCreation, setIsLabelCreation] = React.useState(false);
 
   return (
-    <>
-      <Dropdown open={isOpen} onChange={(open) => setIsOpen(open)}>
-        <Dropdown.Target asChild>
+    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+      <DropdownMenuTrigger
+        render={
           <Button
             leadingIcon={<TagIcon className="size-4" />}
             variant="outline"
@@ -24,22 +28,25 @@ function LabelDropdown({ boardId }: LabelDropdownProps) {
           >
             Labels
           </Button>
-        </Dropdown.Target>
-        <Dropdown.Menu className="min-w-[300px] px-2 py-3 bg-dropdown-bg! shadow-2xl shadow-dropdown-shadow">
-          <div className="pb-2">
-            <p className="text-sm text-center font-semibold">
-              {isLabelCreation ? "Create label" : "Labels"}
-            </p>
-          </div>
+        }
+      />
+      <DropdownMenuContent className="min-w-[300px] px-2 py-3 bg-dropdown-bg! shadow-2xl shadow-dropdown-shadow">
+        <div className="pb-2">
+          <p className="text-sm text-center font-semibold">
+            {isLabelCreation ? "Create label" : "Labels"}
+          </p>
+        </div>
 
-          {isLabelCreation ? (
-            <CreateLabelDropdownContent mode="create" />
-          ) : (
-            <LabelDropdownContent boardId={boardId} setIsLabelCreation={setIsLabelCreation} />
-          )}
-        </Dropdown.Menu>
-      </Dropdown>
-    </>
+        {isLabelCreation ? (
+          <CreateLabelDropdownContent mode="create" />
+        ) : (
+          <LabelDropdownContent
+            boardId={boardId}
+            setIsLabelCreation={setIsLabelCreation}
+          />
+        )}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
