@@ -30,11 +30,20 @@ function ColumnActionsDropdown({
   const removeColumn = useRemoveColumn();
   const deleteColumnService = useDeleteColumn();
   const [openActions, setOpenActions] = React.useState(false);
-  const [openColors, setOpenColors] = React.useState(false);
+  const [showColors, setShowColors] = React.useState(false);
 
   React.useEffect(() => {
     setAllowDraggingColumn(!openActions && !openDeleteColumnModal);
   }, [openDeleteColumnModal, openActions, setAllowDraggingColumn]);
+
+  const onOpenChange = (open: boolean) => {
+    setOpenActions(open);
+
+    if (!open)
+      setTimeout(() => {
+        setShowColors(false);
+      }, 300);
+  };
 
   const onDeleteColumn = () => {
     deleteColumnService.mutate(
@@ -56,7 +65,7 @@ function ColumnActionsDropdown({
 
   return (
     <>
-      <DropdownMenu open={openActions} onOpenChange={setOpenActions}>
+      <DropdownMenu open={openActions} onOpenChange={onOpenChange}>
         <DropdownMenuTrigger
           render={
             <Button
@@ -69,31 +78,38 @@ function ColumnActionsDropdown({
           }
         />
 
-        <DropdownMenuContent className="min-w-[180px]" align="end">
-          <DropdownMenuItem onClick={() => setIsAddCardOpen(true)}>
-            <div className="flex items-center gap-2">Add task in column</div>
-          </DropdownMenuItem>
+        <DropdownMenuContent className="min-w-[180px] w-auto" align="end">
+          {showColors ? (
+            <ColumnColorsDropdown
+              boardId={column.boardId}
+              columnId={column.id}
+              onBack={() => setShowColors(false)}
+            />
+          ) : (
+            <>
+              <DropdownMenuItem onClick={() => setIsAddCardOpen(true)}>
+                <div className="flex items-center gap-2">
+                  Add task in column
+                </div>
+              </DropdownMenuItem>
 
-          <DropdownMenuItem
-            onClick={() => setOpenDeleteColumnModal(true)}
-            variant="destructive"
-          >
-            <div className="flex items-center gap-2">Delete Column</div>
-          </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => setOpenDeleteColumnModal(true)}
+                variant="destructive"
+              >
+                <div className="flex items-center gap-2">Delete Column</div>
+              </DropdownMenuItem>
 
-          <DropdownMenuItem onClick={() => setOpenColors(true)}>
-            Change column color
-          </DropdownMenuItem>
+              <DropdownMenuItem
+                closeOnClick={false}
+                onClick={() => setShowColors(true)}
+              >
+                Change column color
+              </DropdownMenuItem>
+            </>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
-
-      <ColumnColorsDropdown
-        boardId={column.boardId}
-        columnId={column.id}
-        openColors={openColors}
-        setOpenActions={setOpenActions}
-        setOpenColors={setOpenColors}
-      />
 
       <Modal
         className="bg-gray-charcoal"
