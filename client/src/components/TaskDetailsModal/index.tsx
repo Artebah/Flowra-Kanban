@@ -1,7 +1,6 @@
 import {
   ClockIcon,
   PaperclipIcon,
-  TagIcon,
   TextIcon,
   UserRoundPlusIcon,
   XIcon,
@@ -15,6 +14,7 @@ import {
 import { useGetTaskDetails } from "../../hooks/api/tasks/useGetTaskDetails";
 import TaskDescriptionEditor from "../TaskDescriptionEditor";
 import TaskDetailsHeader from "./TaskDetailsHeader";
+import LabelDropdown from "../LabelDropdown";
 
 function TaskDetailsModal() {
   const modalDetailsData = useModalDetailsData();
@@ -67,13 +67,9 @@ function TaskDetailsModal() {
           >
             Attachment
           </Button>
-          <Button
-            leadingIcon={<TagIcon className="size-4" />}
-            variant="outline"
-            className="h-8 px-2"
-          >
-            Labels
-          </Button>
+
+          <LabelDropdown />
+
           <Button
             leadingIcon={<ClockIcon className="size-4" />}
             variant="outline"

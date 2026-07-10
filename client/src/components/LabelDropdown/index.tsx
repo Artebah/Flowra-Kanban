@@ -1,0 +1,55 @@
+import React from "react";
+import Button from "../Button";
+import { TagIcon } from "lucide-react";
+import Dropdown from "../Dropdown";
+import CreateLabelDropdownContent from "./CreateLabelDropdownContent";
+import LabelsListItem from "./LabelsListItem";
+
+function LabelDropdown() {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [isLabelCreation, setIsLabelCreation] = React.useState(false);
+
+  return (
+    <>
+      <Dropdown open={isOpen} onChange={(open) => setIsOpen(open)}>
+        <Dropdown.Target asChild>
+          <Button
+            leadingIcon={<TagIcon className="size-4" />}
+            variant="outline"
+            className="h-8 px-2"
+          >
+            Labels
+          </Button>
+        </Dropdown.Target>
+        <Dropdown.Menu className="min-w-[300px] px-2 py-3 bg-dropdown-bg! shadow-2xl shadow-dropdown-shadow">
+          <div className="pb-2">
+            <p className="text-sm text-center font-semibold">
+              {isLabelCreation ? "Create label" : "Labels"}
+            </p>
+          </div>
+
+          {isLabelCreation ? (
+            <CreateLabelDropdownContent />
+          ) : (
+            <div>
+              <div>
+                <p className="text-xs font-semibold">Labels</p>
+                <LabelsListItem />
+              </div>
+
+              <Button
+                onClick={() => setIsLabelCreation(true)}
+                className="mt-4 w-full"
+                variant="outline"
+              >
+                Create a new label
+              </Button>
+            </div>
+          )}
+        </Dropdown.Menu>
+      </Dropdown>
+    </>
+  );
+}
+
+export default LabelDropdown;
