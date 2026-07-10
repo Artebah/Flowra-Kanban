@@ -1,49 +1,41 @@
-export const labelColors: string[] = [
-  // Vibrant & Primary
-  "#DC2626",
-  "#EF4444",
-  "#F97316",
-  "#F59E0B",
-  "#FACC15",
-  "#84CC16",
-  "#10B981",
-  "#14B8A6",
-  "#06B6D4",
-  "#3B82F6",
-  "#6366F1",
-  "#8B5CF6",
-  "#A855F7",
-  "#D946EF",
-  "#EC4899",
+export interface LabelColor {
+  bg: string;
+  border: string;
+}
 
-  // Soft Pastel
-  "#FCE7F3",
-  "#FFEDD5",
-  "#FEF3C7",
-  "#D1FAE5",
-  "#E0F2FE",
-  "#E0E7FF",
-  "#F3E8FF",
+export const labelColors: LabelColor[] = [
+  // Row 1: Delicate Pastels
+  { bg: "#FFE4E6", border: "#F1C0C5" },
+  { bg: "#FFEDD5", border: "#E6D0B3" },
+  { bg: "#D1FAE5", border: "#B5E3CB" },
+  { bg: "#E0F2FE", border: "#C2DEF0" },
+  { bg: "#F3E8FF", border: "#DDD0EB" },
 
-  // Deep & Earthy
-  "#7F1D1D",
-  "#991B1B",
-  "#9A3412",
-  "#064E3B",
-  "#115E59",
-  "#1E3A8A",
-  "#581C87",
-  "#3F6212",
+  // Row 2: Soft Pastels
+  { bg: "#EAA1A9", border: "#D18B93" },
+  { bg: "#EBBFA5", border: "#D0A88E" },
+  { bg: "#A2D9C3", border: "#89C0A9" },
+  { bg: "#A5CCE0", border: "#8BB3C7" },
+  { bg: "#CEBFDF", border: "#B4A4C5" },
 
-  // Neutrals & Muted Tones
-  "#64748B",
-  "#334155",
-  "#78716C",
-  "#D6D3D1",
-  "#94A3B8",
-  "#451A03",
-  "#B45309",
-  "#86EFAC",
-  "#1E40AF",
-  "#1E293B",
+  // Row 3: Muted Mid-Light
+  { bg: "#DB878E", border: "#C17178" },
+  { bg: "#DCAB86", border: "#C29470" },
+  { bg: "#89BEA9", border: "#71A590" },
+  { bg: "#8EBCDB", border: "#74A3C2" },
+  { bg: "#AF9BCE", border: "#9681B5" },
+
+  // Row 4: Elegant Mid-Tones
+  { bg: "#CD6B75", border: "#B3555E" },
+  { bg: "#C98D60", border: "#AF764A" },
+  { bg: "#6AA893", border: "#538E7A" },
+  { bg: "#6E9EC5", border: "#5684AC" },
+  { bg: "#957EAF", border: "#7C6496" },
+
+  // Row 5: Rich Deep Mid-Tones
+  { bg: "#B4535C", border: "#9B3D46" },
+  { bg: "#AB7249", border: "#925B33" },
+  { bg: "#4F8F7B", border: "#3A7663" },
+  { bg: "#5182AA", border: "#3A698F" },
+  { bg: "#7A6293", border: "#624B7A" },
 ];

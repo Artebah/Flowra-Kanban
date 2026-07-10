@@ -1,6 +1,9 @@
 import { labelColors } from "@/constants/labelColors";
 import Input from "../Input";
 import type { FormEvent } from "react";
+import { Check } from "lucide-react";
+import React from "react";
+import { cn } from "@/lib/utils";
 
 interface InitialData {
   title: string;
@@ -13,8 +16,16 @@ interface LabelFormProps {
 }
 
 function LabelForm({ initialData, mode }: LabelFormProps) {
+  const [selectedBgColor, setSelectedBgColor] = React.useState<
+    string | undefined
+  >(initialData?.color);
+
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+  };
+
+  const onSelectBgColor = (color: string) => {
+    setSelectedBgColor(color);
   };
 
   return (
@@ -32,9 +43,23 @@ function LabelForm({ initialData, mode }: LabelFormProps) {
 
         <div className="mt-3 space-y-2">
           <p className="mb-2 inline-block">Select a color</p>
-          <div>
-            {labelColors.map((labelColor) => (
-              <button style={{ backgroundColor: labelColor }}></button>
+          <div className="grid grid-cols-5 gap-2">
+            {labelColors.map((labelColor, index) => (
+              <button
+                onClick={() => onSelectBgColor(labelColor.bg)}
+                key={index}
+                className="cursor-pointer flex justify-center items-center h-8 rounded-sm border transition-transform hover:scale-105 active:scale-95"
+                style={{
+                  backgroundColor: labelColor.bg,
+                  borderColor: labelColor.border,
+                }}
+              >
+                <Check
+                  className={cn("text-black hidden", {
+                    block: selectedBgColor === labelColor.bg,
+                  })}
+                />
+              </button>
             ))}
           </div>
         </div>
