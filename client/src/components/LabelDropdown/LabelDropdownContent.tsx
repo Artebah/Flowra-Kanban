@@ -1,29 +1,29 @@
+import type { LabelEditionData } from ".";
 import Button from "../Button";
 import LabelsListItem from "./LabelsListItem";
 import { useLabelsList } from "@/hooks/api/labels/useLabelsList";
 
 interface LabelDropdownContentProps {
   boardId: string;
-  setIsLabelCreation: React.Dispatch<React.SetStateAction<boolean>>;
+  setLabelEditionData: React.Dispatch<React.SetStateAction<LabelEditionData>>;
 }
 
 function LabelDropdownContent({
   boardId,
-  setIsLabelCreation,
+  setLabelEditionData,
 }: LabelDropdownContentProps) {
   const { data: labels = [] } = useLabelsList(boardId);
 
   return (
     <div>
-      <div>
-        <p className="text-xs font-semibold">Labels</p>
+      <div className="flex flex-col gap-1">
         {labels.map((label) => (
           <LabelsListItem key={label.id} label={label} />
         ))}
       </div>
 
       <Button
-        onClick={() => setIsLabelCreation(true)}
+        onClick={() => setLabelEditionData({ mode: "create" })}
         className="mt-4 w-full"
         variant="outline"
       >

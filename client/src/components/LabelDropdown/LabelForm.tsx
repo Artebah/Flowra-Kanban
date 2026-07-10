@@ -4,16 +4,9 @@ import type { FormEvent } from "react";
 import { Check } from "lucide-react";
 import React from "react";
 import { cn } from "@/lib/utils";
+import type { LabelEditionData } from ".";
 
-interface InitialData {
-  title: string;
-  color: string;
-}
-
-interface LabelFormProps {
-  initialData?: InitialData;
-  mode: "create" | "edit";
-}
+interface LabelFormProps extends LabelEditionData {}
 
 function LabelForm({ initialData, mode }: LabelFormProps) {
   const [selectedBgColor, setSelectedBgColor] = React.useState<
