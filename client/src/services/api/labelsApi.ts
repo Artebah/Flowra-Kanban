@@ -1,7 +1,19 @@
-import type { ILabel } from "@/types/api/labels";
+import type { ILabel, UpdateLabelOptions } from "@/types/api/labels";
 import axiosInstance from "./axiosInstance";
 
 export const getLabelsList = async (boardId: string): Promise<ILabel[]> => {
   const res = await axiosInstance.get(`/boards/${boardId}/labels`);
+  return res.data;
+};
+
+export const updateLabel = async ({
+  boardId,
+  labelId,
+  updateLabelDto,
+}: UpdateLabelOptions): Promise<ILabel[]> => {
+  const res = await axiosInstance.patch(
+    `/boards/${boardId}/labels/${labelId}`,
+    updateLabelDto
+  );
   return res.data;
 };
