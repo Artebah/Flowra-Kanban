@@ -91,7 +91,12 @@ function LabelForm({
         </div>
 
         <div className="mt-3 space-y-2 flex gap-2">
-          <Button variant="primary" className="grow" type="submit">
+          <Button
+            variant="primary"
+            className="grow"
+            type="submit"
+            disabled={updateLabelMutation.isPending}
+          >
             {mode === "create" ? "Create" : "Edit"}
           </Button>
           {mode === "edit" && (
