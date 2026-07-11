@@ -1,8 +1,9 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { Repository } from "typeorm";
 import { Label } from "./entities/Label.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CreateLabelDto } from "./dtos/create-label.dto";
+import { UpdateLabelDto } from "./dtos/update-label.dto";
 
 @Injectable()
 export class LabelsService {
@@ -22,5 +23,17 @@ export class LabelsService {
         boardId: boardId,
       },
     });
+  }
+
+  async update({ boardId, dto }: { boardId: string; dto: UpdateLabelDto }) {
+    const labelToUpdate = await this.labelsRepository.find({
+      where: { boardId },
+    });
+
+    if (!labelToUpdate) throw new NotFoundException();
+
+    Object.assign(labelToUpdate, dto);
+
+    return this.labelsRepository.save(labelToUpdate);
   }
 }
