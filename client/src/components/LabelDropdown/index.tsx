@@ -37,16 +37,11 @@ function LabelDropdown({ boardId }: LabelDropdownProps) {
     React.useMemo(
       () => ({
         create: (
-          <LabelForm
-            setLabelEditionData={setLabelEditionData}
-            boardId={boardId}
-            mode="create"
-          />
+          <LabelForm setLabelEditionData={setLabelEditionData} mode="create" />
         ),
         edit: (
           <LabelForm
             setLabelEditionData={setLabelEditionData}
-            boardId={boardId}
             mode="edit"
             initialData={labelEditionData.initialData}
           />

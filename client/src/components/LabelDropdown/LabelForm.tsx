@@ -7,18 +7,16 @@ import { cn } from "@/lib/utils";
 import type { LabelEditionData } from ".";
 import { useUpdateLabel } from "@/hooks/api/labels/useUpdateLabel";
 import Button from "../Button";
+import { useCreateLabelAndAssignToTask } from "@/hooks/api/labels/useCreateLabelAndAssignToTask";
+import { useModalDetailsData } from "@/store/kanban/selectors";
 
 interface LabelFormProps extends LabelEditionData {
-  boardId: string;
   setLabelEditionData: React.Dispatch<React.SetStateAction<LabelEditionData>>;
 }
 
-function LabelForm({
-  setLabelEditionData,
-  initialData,
-  mode,
-  boardId,
-}: LabelFormProps) {
+function LabelForm({ setLabelEditionData, initialData, mode }: LabelFormProps) {
+  const { boardId, taskId } = useModalDetailsData();
+
   const [selectedBgColor, setSelectedBgColor] = React.useState(
     initialData?.color
   );
@@ -26,6 +24,7 @@ function LabelForm({
     initialData?.title ?? ""
   );
   const updateLabelMutation = useUpdateLabel();
+  const createLabelAndAssignToTaskMutation = useCreateLabelAndAssignToTask();
 
   React.useEffect(() => {
     if (mode === "create") {
@@ -38,10 +37,22 @@ function LabelForm({
 
     switch (mode) {
       case "create":
-        // TODO: add functionality
+        if (selectedBgColor && taskId && boardId) {
+          createLabelAndAssignToTaskMutation.mutate(
+            {
+              boardId: boardId,
+              taskId: taskId,
+              createLabelDto: { color: selectedBgColor, title: updatedTitle },
+            },
+            {
+              onSuccess: () =>
+                setLabelEditionData({ mode: "none", initialData: null }),
+            }
+          );
+        }
         return;
       case "edit":
-        if (initialData) {
+        if (initialData && boardId) {
           updateLabelMutation.mutate(
             {
               boardId: boardId,
