@@ -1,11 +1,7 @@
 import React from "react";
 import Button from "../Button";
 import { ChevronLeft, TagIcon } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-} from "../ui/dropdown-menu";
+import { Popover } from "@base-ui/react/popover";
 import LabelForm from "./LabelForm";
 import LabelDropdownContent from "./LabelDropdownContent";
 import { cn } from "@/lib/utils";
@@ -55,8 +51,8 @@ function LabelDropdown({ boardId }: LabelDropdownProps) {
     );
 
   return (
-    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
-      <DropdownMenuTrigger
+    <Popover.Root open={isOpen} onOpenChange={setIsOpen}>
+      <Popover.Trigger
         render={
           <Button
             leadingIcon={<TagIcon className="size-4" />}
@@ -67,28 +63,32 @@ function LabelDropdown({ boardId }: LabelDropdownProps) {
           </Button>
         }
       />
-      <DropdownMenuContent className="min-w-[300px] px-2 py-3 bg-dropdown-bg! shadow-2xl shadow-dropdown-shadow">
-        <div className="border-b border-gray-500 mb-1 pb-2 flex items-center justify-between">
-          <Button
-            className={cn("size-8 p-0 opacity-0 pointer-events-none", {
-              "pointer-events-auto! opacity-100!":
-                labelEditionData.mode === "create" ||
-                labelEditionData.mode === "edit",
-            })}
-            onClick={onGoBack}
-          >
-            <ChevronLeft />
-          </Button>
-          <p className="text-sm text-center font-semibold -ml-8">
-            {labelDropdownTitles[labelEditionData.mode]}
-          </p>
+      <Popover.Portal>
+        <Popover.Positioner side="bottom" align="start" sideOffset={4} className="z-50">
+          <Popover.Popup className="min-w-[300px] px-2 py-3 bg-dropdown-bg shadow-2xl shadow-dropdown-shadow rounded-md">
+            <div className="border-b border-gray-500 mb-1 pb-2 flex items-center justify-between">
+              <Button
+                className={cn("size-8 p-0 opacity-0 pointer-events-none", {
+                  "pointer-events-auto! opacity-100!":
+                    labelEditionData.mode === "create" ||
+                    labelEditionData.mode === "edit",
+                })}
+                onClick={onGoBack}
+              >
+                <ChevronLeft />
+              </Button>
+              <p className="text-sm text-center font-semibold -ml-8">
+                {labelDropdownTitles[labelEditionData.mode]}
+              </p>
 
-          <span />
-        </div>
+              <span />
+            </div>
 
-        {labelDropdownContent[labelEditionData.mode]}
-      </DropdownMenuContent>
-    </DropdownMenu>
+            {labelDropdownContent[labelEditionData.mode]}
+          </Popover.Popup>
+        </Popover.Positioner>
+      </Popover.Portal>
+    </Popover.Root>
   );
 }
 
