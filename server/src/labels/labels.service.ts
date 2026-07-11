@@ -42,6 +42,8 @@ export class LabelsService {
 
     Object.assign(labelToUpdate, dto);
 
-    return this.labelsRepository.save(labelToUpdate);
+    await this.labelsRepository.save(labelToUpdate);
+
+    return this.labelsRepository.find({ where: { boardId } });
   }
 }
