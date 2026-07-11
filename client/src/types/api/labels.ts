@@ -14,3 +14,14 @@ export interface UpdateLabelOptions {
   labelId: string;
   updateLabelDto: UpdateLabelDto;
 }
+
+export interface CreateLabelDto {
+  title: string;
+  color: string;
+}
+
+export interface CreateLabelOptions {
+  boardId: string;
+  taskId: string;
+  createLabelDto: CreateLabelDto;
+}
