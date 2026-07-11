@@ -2,12 +2,18 @@ import { Edit } from "lucide-react";
 import Button from "../Button";
 import { Checkbox } from "../ui/checkbox";
 import type { ILabel } from "../../types/api/labels";
+import type { LabelEditionData } from ".";
 
 interface LabelsListItemProps {
   label: ILabel;
+  setLabelEditionData: React.Dispatch<React.SetStateAction<LabelEditionData>>;
 }
 
-function LabelsListItem({ label }: LabelsListItemProps) {
+function LabelsListItem({ label, setLabelEditionData }: LabelsListItemProps) {
+  const onClickEdit = (labelToEdit: ILabel) => {
+    setLabelEditionData({ initialData: labelToEdit, mode: "edit" });
+  };
+
   return (
     <div className="flex gap-2 items-center">
       <div className="flex grow items-center gap-2 group">
@@ -23,7 +29,7 @@ function LabelsListItem({ label }: LabelsListItemProps) {
           <span className="text-sm">{label.title}</span>
         </label>
       </div>
-      <Button className="p-2 size-8">
+      <Button onClick={() => onClickEdit(label)} className="p-2 size-8">
         <Edit className="size-4!" />
       </Button>
     </div>

@@ -9,16 +9,13 @@ import type { LabelEditionData } from ".";
 interface LabelFormProps extends LabelEditionData {}
 
 function LabelForm({ initialData, mode }: LabelFormProps) {
-  const [selectedBgColor, setSelectedBgColor] = React.useState<
-    string | undefined
-  >(initialData?.color);
+  const [selectedBgColor, setSelectedBgColor] = React.useState(
+    initialData?.color
+  );
+  const [updatedTitle, setUpdatedTitle] = React.useState(initialData?.title);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  };
-
-  const onSelectBgColor = (color: string) => {
-    setSelectedBgColor(color);
   };
 
   return (
@@ -28,6 +25,8 @@ function LabelForm({ initialData, mode }: LabelFormProps) {
           Title
         </label>
         <Input
+          value={updatedTitle}
+          onChange={(e) => setUpdatedTitle(e.target.value)}
           type="text"
           defaultValue={initialData?.title}
           className="border border-gray-400 w-full"
@@ -37,10 +36,11 @@ function LabelForm({ initialData, mode }: LabelFormProps) {
         <div className="mt-3 space-y-2">
           <p className="mb-2 inline-block">Select a color</p>
           <div className="grid grid-cols-5 gap-2">
-            {labelColors.map((labelColor, index) => (
+            {labelColors.map((labelColor) => (
               <button
-                onClick={() => onSelectBgColor(labelColor.bg)}
-                key={index}
+                type="button"
+                onClick={() => setSelectedBgColor(labelColor.bg)}
+                key={labelColor.bg}
                 className="cursor-pointer flex justify-center items-center h-8 rounded-sm border transition-transform hover:scale-105 active:scale-95"
                 style={{
                   backgroundColor: labelColor.bg,

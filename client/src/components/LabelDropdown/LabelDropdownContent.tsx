@@ -18,7 +18,11 @@ function LabelDropdownContent({
     <div>
       <div className="flex flex-col gap-1">
         {labels.map((label) => (
-          <LabelsListItem key={label.id} label={label} />
+          <LabelsListItem
+            setLabelEditionData={setLabelEditionData}
+            key={label.id}
+            label={label}
+          />
         ))}
       </div>
 
