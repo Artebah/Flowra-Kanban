@@ -27,6 +27,12 @@ function LabelForm({
   );
   const updateLabelMutation = useUpdateLabel();
 
+  React.useEffect(() => {
+    if (mode === "create") {
+      setSelectedBgColor(labelColors[0].bg);
+    }
+  }, [mode]);
+
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
