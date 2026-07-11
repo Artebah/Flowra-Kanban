@@ -3,9 +3,9 @@ import { IsOptional, IsString } from "class-validator";
 export class UpdateLabelDto {
   @IsOptional()
   @IsString()
-  title: string;
+  title?: string;
 
   @IsOptional()
   @IsString()
-  color: string;
+  color?: string;
 }

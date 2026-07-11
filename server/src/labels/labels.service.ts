@@ -25,12 +25,20 @@ export class LabelsService {
     });
   }
 
-  async update({ boardId, dto }: { boardId: string; dto: UpdateLabelDto }) {
-    const labelToUpdate = await this.labelsRepository.find({
-      where: { boardId },
+  async update({
+    boardId,
+    labelId,
+    dto,
+  }: {
+    boardId: string;
+    labelId: string;
+    dto: UpdateLabelDto;
+  }) {
+    const labelToUpdate = await this.labelsRepository.findOne({
+      where: { boardId, id: labelId },
     });
 
-    if (!labelToUpdate) throw new NotFoundException();
+    if (!labelToUpdate) throw new NotFoundException("Label not found");
 
     Object.assign(labelToUpdate, dto);
 
