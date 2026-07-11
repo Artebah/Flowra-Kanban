@@ -64,9 +64,14 @@ function LabelDropdown({ boardId }: LabelDropdownProps) {
         }
       />
       <Popover.Portal>
-        <Popover.Positioner side="bottom" align="start" sideOffset={4} className="z-50">
+        <Popover.Positioner
+          side="bottom"
+          align="start"
+          sideOffset={4}
+          className="z-50"
+        >
           <Popover.Popup className="min-w-[300px] px-2 py-3 bg-dropdown-bg shadow-2xl shadow-dropdown-shadow rounded-md">
-            <div className="border-b border-gray-500 mb-1 pb-2 flex items-center justify-between">
+            <div className="border-b border-gray-500 mb-3 pb-2 flex items-center justify-between">
               <Button
                 className={cn("size-8 p-0 opacity-0 pointer-events-none", {
                   "pointer-events-auto! opacity-100!":
