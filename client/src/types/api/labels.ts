@@ -20,7 +20,7 @@ export interface CreateLabelDto {
   color: string;
 }
 
-export interface CreateLabelOptions {
+export interface CreateLabelAndAssignToTaskOptions {
   boardId: string;
   taskId: string;
   createLabelDto: CreateLabelDto;

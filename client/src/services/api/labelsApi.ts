@@ -1,5 +1,5 @@
 import type {
-  CreateLabelOptions,
+  CreateLabelAndAssignToTaskOptions,
   ILabel,
   UpdateLabelOptions,
 } from "@/types/api/labels";
@@ -26,7 +26,7 @@ export const createLabelAndAssignToTask = async ({
   boardId,
   taskId,
   createLabelDto,
-}: CreateLabelOptions): Promise<ILabel[]> => {
+}: CreateLabelAndAssignToTaskOptions): Promise<ILabel[]> => {
   const res = await axiosInstance.patch(
     `/boards/${boardId}/tasks/${taskId}/labels`,
     createLabelDto
