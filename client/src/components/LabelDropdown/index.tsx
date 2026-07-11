@@ -68,7 +68,7 @@ function LabelDropdown({ boardId }: LabelDropdownProps) {
         }
       />
       <DropdownMenuContent className="min-w-[300px] px-2 py-3 bg-dropdown-bg! shadow-2xl shadow-dropdown-shadow">
-        <div className="mb-1 pb-2 flex items-center justify-between">
+        <div className="border-b border-gray-500 mb-1 pb-2 flex items-center justify-between">
           <Button
             className={cn("size-8 p-0 opacity-0 pointer-events-none", {
               "pointer-events-auto! opacity-100!":
