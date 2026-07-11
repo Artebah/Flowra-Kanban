@@ -167,7 +167,7 @@ export class TasksService {
 
       await manager.save(task);
 
-      return createdLabel;
+      return manager.find(Label, { where: { boardId } });
     });
   }
 }
