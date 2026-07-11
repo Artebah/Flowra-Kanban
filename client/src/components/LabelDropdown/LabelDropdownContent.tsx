@@ -12,7 +12,8 @@ function LabelDropdownContent({
   boardId,
   setLabelEditionData,
 }: LabelDropdownContentProps) {
-  const { data: labels = [] } = useLabelsList(boardId);
+  const { data: labels = [], isLoading: isLoadingLabelsList } =
+    useLabelsList(boardId);
 
   return (
     <div>
@@ -24,6 +25,16 @@ function LabelDropdownContent({
             label={label}
           />
         ))}
+        {labels.length === 0 && (
+          <div className="py-5 text-center">
+            <p>No labels for this task</p>
+          </div>
+        )}
+        {isLoadingLabelsList && (
+          <div className="py-5 flex justify-center">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-blue-500"></div>
+          </div>
+        )}
       </div>
 
       <Button
