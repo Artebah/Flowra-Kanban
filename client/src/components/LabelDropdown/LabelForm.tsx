@@ -12,7 +12,9 @@ function LabelForm({ initialData, mode }: LabelFormProps) {
   const [selectedBgColor, setSelectedBgColor] = React.useState(
     initialData?.color
   );
-  const [updatedTitle, setUpdatedTitle] = React.useState(initialData?.title);
+  const [updatedTitle, setUpdatedTitle] = React.useState(
+    initialData?.title ?? ""
+  );
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,7 +30,6 @@ function LabelForm({ initialData, mode }: LabelFormProps) {
           value={updatedTitle}
           onChange={(e) => setUpdatedTitle(e.target.value)}
           type="text"
-          defaultValue={initialData?.title}
           className="border border-gray-400 w-full"
           id="create-label-form-title"
         />
