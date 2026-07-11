@@ -18,6 +18,15 @@ function LabelForm({ initialData, mode }: LabelFormProps) {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    switch (mode) {
+      case "create":
+        // TODO: add functionality
+        return;
+      case "edit":
+        // TODO: add functionality
+        return;
+    }
   };
 
   return (
@@ -30,7 +39,7 @@ function LabelForm({ initialData, mode }: LabelFormProps) {
           value={updatedTitle}
           onChange={(e) => setUpdatedTitle(e.target.value)}
           type="text"
-          className="border border-gray-400 w-full"
+          className="w-full"
           id="create-label-form-title"
         />
 
