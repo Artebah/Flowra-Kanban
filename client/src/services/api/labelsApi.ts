@@ -27,7 +27,7 @@ export const createLabelAndAssignToTask = async ({
   taskId,
   createLabelDto,
 }: CreateLabelAndAssignToTaskOptions): Promise<ILabel[]> => {
-  const res = await axiosInstance.patch(
+  const res = await axiosInstance.post(
     `/boards/${boardId}/tasks/${taskId}/labels`,
     createLabelDto
   );
