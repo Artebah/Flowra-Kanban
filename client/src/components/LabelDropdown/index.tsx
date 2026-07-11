@@ -7,10 +7,6 @@ import LabelDropdownContent from "./LabelDropdownContent";
 import { cn } from "@/lib/utils";
 import type { ILabel } from "@/types/api/labels";
 
-interface LabelDropdownProps {
-  boardId: string;
-}
-
 type LabelEditionDataMode = "create" | "edit" | "none";
 
 export interface LabelEditionData {
@@ -24,7 +20,7 @@ const labelDropdownTitles: Record<LabelEditionDataMode, string> = {
   none: "Labels",
 };
 
-function LabelDropdown({ boardId }: LabelDropdownProps) {
+function LabelDropdown() {
   const [isOpen, setIsOpen] = React.useState(false);
   const [labelEditionData, setLabelEditionData] =
     React.useState<LabelEditionData>({ mode: "none", initialData: null });
@@ -47,13 +43,10 @@ function LabelDropdown({ boardId }: LabelDropdownProps) {
           />
         ),
         none: (
-          <LabelDropdownContent
-            boardId={boardId}
-            setLabelEditionData={setLabelEditionData}
-          />
+          <LabelDropdownContent setLabelEditionData={setLabelEditionData} />
         ),
       }),
-      [boardId, labelEditionData.initialData]
+      [labelEditionData.initialData]
     );
 
   return (
