@@ -31,8 +31,8 @@ export class BoardsController {
     return this.boardsService.create(createBoardDto, user.sub);
   }
 
-  @UseGuards(BoardAccessGuard)
   @Get("/:boardId")
+  @UseGuards(BoardAccessGuard)
   getCurrentBoard(
     @Param("boardId", new ParseUUIDPipe()) boardId: string,
     @UserDecorator() user: JwtPayload,
@@ -40,14 +40,13 @@ export class BoardsController {
     return this.boardsService.getCurrentBoard(boardId, user.sub);
   }
 
-  @UseGuards(BoardAccessGuard)
   @Get()
   getAllMyBoards(@UserDecorator() user: JwtPayload) {
     return this.boardsService.getAllMyBoards(user.sub);
   }
 
-  @UseGuards(BoardAccessGuard)
   @Get("/:boardId/labels")
+  @UseGuards(BoardAccessGuard)
   getAllLabels(@Param("boardId", new ParseUUIDPipe()) boardId: string) {
     return this.labelsService.getAll(boardId);
   }
