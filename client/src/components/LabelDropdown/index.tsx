@@ -36,9 +36,20 @@ function LabelDropdown({ boardId }: LabelDropdownProps) {
   const labelDropdownContent: Record<LabelEditionDataMode, React.ReactNode> =
     React.useMemo(
       () => ({
-        create: <LabelForm mode="create" />,
+        create: (
+          <LabelForm
+            setLabelEditionData={setLabelEditionData}
+            boardId={boardId}
+            mode="create"
+          />
+        ),
         edit: (
-          <LabelForm mode="edit" initialData={labelEditionData.initialData} />
+          <LabelForm
+            setLabelEditionData={setLabelEditionData}
+            boardId={boardId}
+            mode="edit"
+            initialData={labelEditionData.initialData}
+          />
         ),
         none: (
           <LabelDropdownContent

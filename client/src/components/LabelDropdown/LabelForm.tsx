@@ -5,16 +5,27 @@ import { Check } from "lucide-react";
 import React from "react";
 import { cn } from "@/lib/utils";
 import type { LabelEditionData } from ".";
+import { useUpdateLabel } from "@/hooks/api/labels/useUpdateLabel";
+import Button from "../Button";
 
-interface LabelFormProps extends LabelEditionData {}
+interface LabelFormProps extends LabelEditionData {
+  boardId: string;
+  setLabelEditionData: React.Dispatch<React.SetStateAction<LabelEditionData>>;
+}
 
-function LabelForm({ initialData, mode }: LabelFormProps) {
+function LabelForm({
+  setLabelEditionData,
+  initialData,
+  mode,
+  boardId,
+}: LabelFormProps) {
   const [selectedBgColor, setSelectedBgColor] = React.useState(
     initialData?.color
   );
   const [updatedTitle, setUpdatedTitle] = React.useState(
     initialData?.title ?? ""
   );
+  const updateLabelMutation = useUpdateLabel();
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,7 +35,19 @@ function LabelForm({ initialData, mode }: LabelFormProps) {
         // TODO: add functionality
         return;
       case "edit":
-        // TODO: add functionality
+        if (initialData) {
+          updateLabelMutation.mutate(
+            {
+              boardId: boardId,
+              labelId: initialData.id,
+              updateLabelDto: { color: selectedBgColor, title: updatedTitle },
+            },
+            {
+              onSuccess: () =>
+                setLabelEditionData({ mode: "none", initialData: null }),
+            }
+          );
+        }
         return;
     }
   };
@@ -65,6 +88,21 @@ function LabelForm({ initialData, mode }: LabelFormProps) {
               </button>
             ))}
           </div>
+        </div>
+
+        <div className="mt-3 space-y-2 flex gap-2">
+          <Button variant="primary" className="grow" type="submit">
+            {mode === "create" ? "Create" : "Edit"}
+          </Button>
+          {mode === "edit" && (
+            <Button
+              variant="outline"
+              className="grow border-red-400 bg-red-500! hover:bg-red-600!"
+              type="button"
+            >
+              Delete
+            </Button>
+          )}
         </div>
       </div>
     </form>
