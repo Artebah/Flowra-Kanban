@@ -3,12 +3,12 @@ import type { ILabel, UpdateLabelOptions } from "@/types/api/labels";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useUpdateLabel = () => {
-  const query = useQueryClient();
+  const queryClient = useQueryClient();
 
   const mutation = useMutation<ILabel[], Error, UpdateLabelOptions>({
     mutationFn: (updateLabelOptions) => updateLabel(updateLabelOptions),
     onSuccess: (labels, { boardId }) => {
-      query.setQueryData(["labels-list", boardId], labels);
+      queryClient.setQueryData(["labels-list", boardId], labels);
     },
   });
 
