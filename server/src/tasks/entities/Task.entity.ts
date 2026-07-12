@@ -79,7 +79,7 @@ export class Task {
   @JoinColumn({ name: "authorId" })
   author: User;
 
-  @ManyToMany(() => Label, (label) => label.tasks)
+  @ManyToMany(() => Label, (label) => label.tasks, { onDelete: "CASCADE" })
   @JoinTable({ name: "task_labels" })
   labels: Label[];
 }
