@@ -1,5 +1,6 @@
 import type {
   CreateLabelAndAssignToTaskOptions,
+  DeleteLabelOptions,
   ILabel,
   UpdateLabelOptions,
 } from "@/types/api/labels";
@@ -30,6 +31,16 @@ export const createLabelAndAssignToTask = async ({
   const res = await axiosInstance.post(
     `/boards/${boardId}/tasks/${taskId}/labels`,
     createLabelDto
+  );
+  return res.data;
+};
+
+export const deleteLabel = async ({
+  boardId,
+  labelId,
+}: DeleteLabelOptions): Promise<ILabel[]> => {
+  const res = await axiosInstance.delete(
+    `/boards/${boardId}/labels/${labelId}`
   );
   return res.data;
 };

@@ -25,3 +25,8 @@ export interface CreateLabelAndAssignToTaskOptions {
   taskId: string;
   createLabelDto: CreateLabelDto;
 }
+
+export interface DeleteLabelOptions {
+  boardId: string;
+  labelId: string;
+}
