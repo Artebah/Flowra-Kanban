@@ -46,4 +46,8 @@ export class LabelsService {
 
     return this.labelsRepository.find({ where: { boardId } });
   }
+
+  remove({ boardId, labelId }: { boardId: string; labelId: string }) {
+    return this.labelsRepository.delete({ boardId, id: labelId });
+  }
 }
