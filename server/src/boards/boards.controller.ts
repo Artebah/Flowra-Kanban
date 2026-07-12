@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseUUIDPipe,
@@ -60,5 +61,13 @@ export class BoardsController {
     @Param("labelId", new ParseUUIDPipe()) labelId: string,
   ) {
     return this.labelsService.update({ boardId, labelId, dto: updateLabelDto });
+  }
+
+  @Delete("/:boardId/labels/:labelId")
+  deleteLabel(
+    @Param("boardId", new ParseUUIDPipe()) boardId: string,
+    @Param("labelId", new ParseUUIDPipe()) labelId: string,
+  ) {
+    return this.labelsService.delete({ boardId, labelId });
   }
 }

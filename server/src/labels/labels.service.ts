@@ -47,7 +47,8 @@ export class LabelsService {
     return this.labelsRepository.find({ where: { boardId } });
   }
 
-  remove({ boardId, labelId }: { boardId: string; labelId: string }) {
-    return this.labelsRepository.delete({ boardId, id: labelId });
+  async delete({ boardId, labelId }: { boardId: string; labelId: string }) {
+    await this.labelsRepository.delete({ boardId, id: labelId });
+    return this.labelsRepository.find({ where: { boardId } });
   }
 }
