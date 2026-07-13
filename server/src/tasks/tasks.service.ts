@@ -10,6 +10,7 @@ import { extractTextFromTiptap } from "src/common/utils/tiptap-parser.util";
 import { LabelsService } from "src/labels/labels.service";
 import { CreateLabelDto } from "src/labels/dtos/create-label.dto";
 import { Label } from "src/labels/entities/Label.entity";
+import { AssignLabelsDto } from "./dtos/assign-labels.dto";
 
 @Injectable()
 export class TasksService {
@@ -170,5 +171,26 @@ export class TasksService {
 
       return manager.find(Label, { where: { boardId } });
     });
+  }
+
+  async assignLabels({
+    dto,
+    taskId,
+  }: {
+    dto: AssignLabelsDto;
+    taskId: string;
+  }) {
+    const task = await this.tasksRepository.findOne({
+      where: { id: taskId },
+      relations: { labels: true },
+    });
+
+    const labelsToAssign = dto.labelsIds.map((labelId) => ({ id: labelId }));
+
+    if (!task) throw new NotFoundException(`Task with ID ${taskId} not found`);
+
+    task.labels = labelsToAssign as Label[];
+
+    return this.tasksRepository.save(task);
   }
 }

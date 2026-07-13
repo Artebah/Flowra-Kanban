@@ -1,4 +1,4 @@
-import { Expose, Type } from "class-transformer";
+import { Expose } from "class-transformer";
 import { User } from "src/users/entities/User.entity";
 
 export class AuthResponseDto {
@@ -7,7 +7,6 @@ export class AuthResponseDto {
   }
 
   @Expose()
-  @Type(() => User)
   user: User;
 
   @Expose()
