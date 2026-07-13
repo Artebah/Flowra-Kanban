@@ -7,6 +7,8 @@ import type { LabelEditionData } from ".";
 interface LabelsListItemProps {
   label: ILabel;
   setLabelEditionData: React.Dispatch<React.SetStateAction<LabelEditionData>>;
+  isAssigned: boolean;
+  onAssign: (labelId: string) => void;
 }
 
 function LabelsListItem({ label, setLabelEditionData }: LabelsListItemProps) {
