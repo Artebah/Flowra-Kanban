@@ -51,4 +51,19 @@ export class LabelsService {
     await this.labelsRepository.delete({ boardId, id: labelId });
     return this.labelsRepository.find({ where: { boardId } });
   }
+
+  async getAssignedLabelsToTask({
+    boardId,
+    taskId,
+  }: {
+    boardId: string;
+    taskId: string;
+  }) {
+    return this.labelsRepository
+      .createQueryBuilder("label")
+      .innerJoin("label.tasks", "task")
+      .where("label.boardId = :boardId", { boardId })
+      .andWhere("task.id = :taskId", { taskId })
+      .getMany();
+  }
 }
