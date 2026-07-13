@@ -9,6 +9,7 @@ import { useUpdateLabel } from "@/hooks/api/labels/useUpdateLabel";
 import Button from "../Button";
 import { useCreateLabelAndAssignToTask } from "@/hooks/api/labels/useCreateLabelAndAssignToTask";
 import { useModalDetailsData } from "@/store/kanban/selectors";
+import { useDeleteLabel } from "@/hooks/api/labels/useDeleteLabel";
 
 interface LabelFormProps extends LabelEditionData {
   setLabelEditionData: React.Dispatch<React.SetStateAction<LabelEditionData>>;
@@ -16,6 +17,7 @@ interface LabelFormProps extends LabelEditionData {
 
 function LabelForm({ setLabelEditionData, initialData, mode }: LabelFormProps) {
   const { boardId, taskId } = useModalDetailsData();
+  const deleteLabel = useDeleteLabel();
 
   const [selectedBgColor, setSelectedBgColor] = React.useState(
     initialData?.color
@@ -69,6 +71,19 @@ function LabelForm({ setLabelEditionData, initialData, mode }: LabelFormProps) {
     }
   };
 
+  const onDeleteLabel = (labelId?: string) => {
+    if (boardId && labelId) {
+      deleteLabel.mutate(
+        { boardId, labelId },
+        {
+          onSuccess: () => {
+            setLabelEditionData({ mode: "none", initialData: null });
+          },
+        }
+      );
+    }
+  };
+
   return (
     <form onSubmit={onSubmit}>
       <div className="space-y-2">
@@ -98,7 +113,7 @@ function LabelForm({ setLabelEditionData, initialData, mode }: LabelFormProps) {
                 }}
               >
                 <Check
-                  className={cn("text-black hidden", {
+                  className={cn("text-white hidden", {
                     block: selectedBgColor === labelColor.bg,
                   })}
                 />
@@ -118,6 +133,7 @@ function LabelForm({ setLabelEditionData, initialData, mode }: LabelFormProps) {
           </Button>
           {mode === "edit" && (
             <Button
+              onClick={() => onDeleteLabel(initialData?.id)}
               variant="outline"
               className="grow border-red-400 bg-red-500! hover:bg-red-600!"
               type="button"
