@@ -24,6 +24,7 @@ import { ConfigService } from "@nestjs/config";
 import { UpdateTaskDto } from "./dtos/update-task.dto";
 import { CreateLabelDto } from "src/labels/dtos/create-label.dto";
 import { LabelsService } from "src/labels/labels.service";
+import { AssignLabelsDto } from "./dtos/assign-labels.dto";
 
 @Controller()
 @UseGuards(JwtAuthGuard, BoardAccessGuard)
@@ -131,5 +132,13 @@ export class TasksController {
     @Param("taskId", new ParseUUIDPipe()) taskId: string,
   ) {
     return this.labelsService.getAssignedLabelsToTask({ boardId, taskId });
+  }
+
+  @Post("boards/:boardId/tasks/:taskId/labels/assign")
+  assignLabels(
+    @Body() dto: AssignLabelsDto,
+    @Param("taskId", new ParseUUIDPipe()) taskId: string,
+  ) {
+    return this.tasksService.assignLabels({ dto, taskId });
   }
 }

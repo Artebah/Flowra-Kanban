@@ -191,6 +191,8 @@ export class TasksService {
 
     task.labels = labelsToAssign as Label[];
 
-    return this.tasksRepository.save(task);
+    const { labels } = await this.tasksRepository.save(task);
+
+    return labels;
   }
 }
