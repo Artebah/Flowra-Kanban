@@ -192,6 +192,8 @@ export class TasksService {
 
     task.labels = await this.labelsRepository.findBy({ id: In(dto.labelsIds) });
 
+    await this.tasksRepository.save(task);
+
     return task.labels;
   }
 }
