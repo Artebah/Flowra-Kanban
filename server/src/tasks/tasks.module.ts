@@ -7,12 +7,13 @@ import { Task } from "./entities/Task.entity";
 import { BoardColumn } from "src/columns/entities/Column.entity";
 import { StorageModule } from "src/storage/storage.module";
 import { LabelsModule } from "src/labels/labels.module";
+import { Label } from "src/labels/entities/Label.entity";
 
 @Module({
   controllers: [TasksController],
   providers: [TasksService],
   imports: [
-    TypeOrmModule.forFeature([BoardMember, Task, BoardColumn]),
+    TypeOrmModule.forFeature([BoardMember, Task, BoardColumn, Label]),
     StorageModule,
     LabelsModule,
   ],

@@ -1,13 +1,12 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Task } from "./entities/Task.entity";
-import { DataSource, Repository } from "typeorm";
+import { DataSource, In, Repository } from "typeorm";
 import { CreateTaskDto } from "./dtos/create-task.dto";
 import { UpdateTaskOrderDto } from "./dtos/update-task-order.dto";
 import { BoardColumn } from "src/columns/entities/Column.entity";
 import { UpdateTaskDto } from "./dtos/update-task.dto";
 import { extractTextFromTiptap } from "src/common/utils/tiptap-parser.util";
-import { LabelsService } from "src/labels/labels.service";
 import { CreateLabelDto } from "src/labels/dtos/create-label.dto";
 import { Label } from "src/labels/entities/Label.entity";
 import { AssignLabelsDto } from "./dtos/assign-labels.dto";
@@ -18,7 +17,8 @@ export class TasksService {
     @InjectRepository(Task) private readonly tasksRepository: Repository<Task>,
     @InjectRepository(BoardColumn)
     private readonly columnsRepository: Repository<BoardColumn>,
-    private readonly labelsService: LabelsService,
+    @InjectRepository(Label)
+    private readonly labelsRepository: Repository<Label>,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -185,14 +185,10 @@ export class TasksService {
       relations: { labels: true },
     });
 
-    const labelsToAssign = dto.labelsIds.map((labelId) => ({ id: labelId }));
-
     if (!task) throw new NotFoundException(`Task with ID ${taskId} not found`);
 
-    task.labels = labelsToAssign as Label[];
+    task.labels = await this.labelsRepository.findBy({ id: In(dto.labelsIds) });
 
-    const { labels } = await this.tasksRepository.save(task);
-
-    return labels;
+    return task.labels;
   }
 }
