@@ -5,6 +5,7 @@ import LabelsListItem from "./LabelsListItem";
 import { useLabelsList } from "@/hooks/api/labels/useLabelsList";
 import React from "react";
 import { useAssignLabels } from "@/hooks/api/labels/useAssignLabels";
+import { useGetAssignedLabels } from "@/hooks/api/labels/useGetAssignedLabels";
 
 interface LabelDropdownContentProps {
   setLabelEditionData: React.Dispatch<React.SetStateAction<LabelEditionData>>;
@@ -20,7 +21,7 @@ function LabelDropdownContent({
     useLabelsList(boardId);
 
   const { data: assignedLabels = [], isLoading: isLoadingAssignedLabels } =
-    useLabelsList(boardId);
+    useGetAssignedLabels(boardId, taskId);
 
   const onToggleAssignLabel = (labelId: string) => {
     const ids = assignedLabels.map((label) => label.id);
@@ -44,6 +45,7 @@ function LabelDropdownContent({
       <div className="flex flex-col gap-1">
         {labels.map((label) => (
           <LabelsListItem
+            disabled={assignLabelsMutation.isPending}
             isAssigned={assignedLabels.some((l) => l.id === label.id)}
             onAssign={onToggleAssignLabel}
             setLabelEditionData={setLabelEditionData}
