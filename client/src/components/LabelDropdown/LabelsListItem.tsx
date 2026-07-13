@@ -11,7 +11,12 @@ interface LabelsListItemProps {
   onAssign: (labelId: string) => void;
 }
 
-function LabelsListItem({ label, setLabelEditionData }: LabelsListItemProps) {
+function LabelsListItem({
+  label,
+  setLabelEditionData,
+  isAssigned,
+  onAssign,
+}: LabelsListItemProps) {
   const onClickEdit = (labelToEdit: ILabel) => {
     setLabelEditionData({ initialData: labelToEdit, mode: "edit" });
   };
@@ -20,6 +25,8 @@ function LabelsListItem({ label, setLabelEditionData }: LabelsListItemProps) {
     <div className="flex gap-2 items-center">
       <div className="flex grow items-center gap-2 group">
         <Checkbox
+          checked={isAssigned}
+          onCheckedChange={() => onAssign(label.id)}
           id={label.id}
           className="cursor-pointer group-hover:brightness-110"
         />
