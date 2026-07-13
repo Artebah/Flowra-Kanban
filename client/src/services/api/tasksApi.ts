@@ -1,4 +1,6 @@
+import type { ILabel } from "../../types/api/labels";
 import type {
+  AssignLabelsOptions,
   CreateTaskOptions,
   GetAllTasksOptions,
   GetTaskDetailsOptions,
@@ -57,5 +59,17 @@ export const updateTask = async ({
     updateTaskDto
   );
 
+  return data;
+};
+
+export const assignLabels = async ({
+  boardId,
+  taskId,
+  dto,
+}: AssignLabelsOptions): Promise<ILabel[]> => {
+  const { data } = await axiosInstance.post(
+    `boards/${boardId}/tasks/${taskId}/labels/assign`,
+    dto
+  );
   return data;
 };

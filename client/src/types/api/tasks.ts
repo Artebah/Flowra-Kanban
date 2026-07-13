@@ -59,3 +59,13 @@ export interface UpdateTaskOptions {
   taskId: string;
   updateTaskDto: UpdateTaskDto;
 }
+
+export interface AssignLabelsDto {
+  labelsIds: string[];
+}
+
+export interface AssignLabelsOptions {
+  boardId: string;
+  taskId: string;
+  dto: AssignLabelsDto;
+}
