@@ -22,6 +22,7 @@ export class LabelsService {
       where: {
         boardId: boardId,
       },
+      order: { createdAt: "ASC" },
     });
   }
 
@@ -44,12 +45,18 @@ export class LabelsService {
 
     await this.labelsRepository.save(labelToUpdate);
 
-    return this.labelsRepository.find({ where: { boardId } });
+    return this.labelsRepository.find({
+      where: { boardId },
+      order: { createdAt: "ASC" },
+    });
   }
 
   async delete({ boardId, labelId }: { boardId: string; labelId: string }) {
     await this.labelsRepository.delete({ boardId, id: labelId });
-    return this.labelsRepository.find({ where: { boardId } });
+    return this.labelsRepository.find({
+      where: { boardId },
+      order: { createdAt: "ASC" },
+    });
   }
 
   async getAssignedLabelsToTask({

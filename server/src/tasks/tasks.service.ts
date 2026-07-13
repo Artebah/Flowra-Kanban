@@ -169,7 +169,10 @@ export class TasksService {
 
       await manager.save(task);
 
-      return manager.find(Label, { where: { boardId } });
+      return manager.find(Label, {
+        where: { boardId },
+        order: { createdAt: "ASC" },
+      });
     });
   }
 
