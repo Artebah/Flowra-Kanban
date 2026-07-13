@@ -26,7 +26,7 @@ export class Label {
   @Column()
   boardId: string;
 
-  @ManyToMany(() => Task, (task) => task.labels)
+  @ManyToMany(() => Task, (task) => task.labels, { onDelete: "CASCADE" })
   tasks: Task[];
 
   @ManyToOne(() => Board, (board) => board.labels)
