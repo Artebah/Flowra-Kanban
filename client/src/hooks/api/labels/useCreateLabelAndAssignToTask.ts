@@ -14,8 +14,9 @@ export const useCreateLabelAndAssignToTask = () => {
     CreateLabelAndAssignToTaskOptions
   >({
     mutationFn: (options) => createLabelAndAssignToTask(options),
-    onSuccess: (labels, { boardId }) => {
+    onSuccess: (labels, { boardId, taskId }) => {
       queryClient.setQueryData(["labels-list", boardId], labels);
+      queryClient.invalidateQueries({ queryKey: ["assigned-labels", boardId, taskId] });
     },
   });
 
