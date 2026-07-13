@@ -24,7 +24,11 @@ function LabelDropdownContent({
     const ids = assignedLabels.map((label) => label.id);
     const exists = ids.includes(labelId);
 
-    return exists ? ids.filter((id) => id !== labelId) : [...ids, labelId];
+    const idsToAssign = exists
+      ? ids.filter((id) => id !== labelId)
+      : [...ids, labelId];
+
+    // call api
   };
 
   return (
