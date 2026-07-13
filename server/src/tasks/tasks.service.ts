@@ -42,6 +42,7 @@ export class TasksService {
       authorId,
       columnId,
       order: columnsCount + 1,
+      isCompleted: false,
       ...createTaskDto,
     });
 
