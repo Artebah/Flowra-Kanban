@@ -4,6 +4,7 @@ import Button from "../Button";
 import LabelsListItem from "./LabelsListItem";
 import { useLabelsList } from "@/hooks/api/labels/useLabelsList";
 import React from "react";
+import { useAssignLabels } from "@/hooks/api/labels/useAssignLabels";
 
 interface LabelDropdownContentProps {
   setLabelEditionData: React.Dispatch<React.SetStateAction<LabelEditionData>>;
@@ -12,7 +13,8 @@ interface LabelDropdownContentProps {
 function LabelDropdownContent({
   setLabelEditionData,
 }: LabelDropdownContentProps) {
-  const { boardId } = useModalDetailsData();
+  const { boardId, taskId } = useModalDetailsData();
+  const assignLabelsMutation = useAssignLabels();
 
   const { data: labels = [], isLoading: isLoadingLabelsList } =
     useLabelsList(boardId);
@@ -28,7 +30,13 @@ function LabelDropdownContent({
       ? ids.filter((id) => id !== labelId)
       : [...ids, labelId];
 
-    // call api
+    if (boardId && taskId) {
+      assignLabelsMutation.mutate({
+        boardId,
+        taskId,
+        dto: { labelsIds: idsToAssign },
+      });
+    }
   };
 
   return (
