@@ -30,3 +30,8 @@ export interface DeleteLabelOptions {
   boardId: string;
   labelId: string;
 }
+
+export interface GetAssignedLabelsOptions {
+  boardId: string;
+  taskId: string;
+}
