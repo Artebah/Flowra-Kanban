@@ -41,7 +41,7 @@ export const getAssignedLabels = async ({
   taskId,
 }: GetAssignedLabelsOptions): Promise<ILabel[]> => {
   const res = await axiosInstance.get(
-    `/boards/${boardId}/tasks/${taskId}/labels`
+    `/boards/${boardId}/tasks/${taskId}/labels/assigned`
   );
   return res.data;
 };

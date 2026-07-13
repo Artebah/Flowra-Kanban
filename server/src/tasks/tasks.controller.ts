@@ -126,7 +126,7 @@ export class TasksController {
     });
   }
 
-  @Get("boards/:boardId/tasks/:taskId/labels")
+  @Get("boards/:boardId/tasks/:taskId/labels/assigned")
   getAssignedLabels(
     @Param("boardId", new ParseUUIDPipe()) boardId: string,
     @Param("taskId", new ParseUUIDPipe()) taskId: string,
