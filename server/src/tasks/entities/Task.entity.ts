@@ -1,22 +1,21 @@
 import { Expose, Type } from "class-transformer";
+import { BaseEntity } from "src/common/entities/base.entity";
 import { BoardColumn } from "src/columns/entities/Column.entity";
 import { JSONContent } from "src/common/types/json-content.interface";
 import { User } from "src/users/entities/User.entity";
 import {
   Column,
-  CreateDateColumn,
   Entity,
   JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from "typeorm";
 import { Label } from "src/labels/entities/Label.entity";
 
 @Entity("tasks")
-export class Task {
+export class Task extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   @Expose()
   id: string;
@@ -58,14 +57,6 @@ export class Task {
   @Column({ nullable: false })
   @Expose()
   authorId: string;
-
-  @CreateDateColumn()
-  @Expose()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  @Expose()
-  updatedAt: Date;
 
   @Expose()
   @Type(() => BoardColumn)

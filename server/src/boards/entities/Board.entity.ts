@@ -1,7 +1,7 @@
 import { Expose } from "class-transformer";
+import { BaseEntity } from "src/common/entities/base.entity";
 import {
   Column,
-  CreateDateColumn,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -11,7 +11,7 @@ import { BoardColumn } from "src/columns/entities/Column.entity";
 import { Label } from "src/labels/entities/Label.entity";
 
 @Entity("boards")
-export class Board {
+export class Board extends BaseEntity {
   @Expose()
   @PrimaryGeneratedColumn("uuid")
   id: string;
@@ -19,10 +19,6 @@ export class Board {
   @Expose()
   @Column()
   title: string;
-
-  @Expose()
-  @CreateDateColumn()
-  createdAt: string;
 
   @OneToMany(() => BoardMember, (boardMember) => boardMember.board)
   boardMembers: BoardMember[];

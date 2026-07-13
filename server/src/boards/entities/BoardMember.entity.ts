@@ -1,3 +1,4 @@
+import { BaseEntity } from "src/common/entities/base.entity";
 import { User } from "src/users/entities/User.entity";
 import {
   Column,
@@ -10,7 +11,7 @@ import { Board } from "./Board.entity";
 import { BoardRole } from "../enums/BoardRole.enum";
 
 @Entity("board-members")
-export class BoardMember {
+export class BoardMember extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 

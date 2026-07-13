@@ -1,4 +1,5 @@
 import { Expose } from "class-transformer";
+import { BaseEntity } from "src/common/entities/base.entity";
 import { Board } from "src/boards/entities/Board.entity";
 import { Task } from "src/tasks/entities/Task.entity";
 import {
@@ -11,7 +12,7 @@ import {
 } from "typeorm";
 
 @Entity("columns")
-export class BoardColumn {
+export class BoardColumn extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   @Expose()
   id: string;

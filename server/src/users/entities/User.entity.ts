@@ -1,17 +1,16 @@
 import { Expose } from "class-transformer";
+import { BaseEntity } from "src/common/entities/base.entity";
 import { BoardMember } from "src/boards/entities/BoardMember.entity";
 import { Task } from "src/tasks/entities/Task.entity";
 import {
   Column,
-  CreateDateColumn,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from "typeorm";
 
 @Entity("users")
-export class User {
+export class User extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   @Expose()
   id: string;
@@ -26,14 +25,6 @@ export class User {
   @Column()
   @Expose()
   email: string;
-
-  @CreateDateColumn()
-  @Expose()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  @Expose()
-  updatedAt: Date;
 
   @OneToMany(() => BoardMember, (boardMember) => boardMember.user)
   boardMembers: BoardMember[];

@@ -1,4 +1,5 @@
 import { Expose } from "class-transformer";
+import { BaseEntity } from "src/common/entities/base.entity";
 import {
   Column,
   Entity,
@@ -10,7 +11,7 @@ import { Task } from "src/tasks/entities/Task.entity";
 import { Board } from "src/boards/entities/Board.entity";
 
 @Entity("labels")
-export class Label {
+export class Label extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   @Expose()
   id: string;
