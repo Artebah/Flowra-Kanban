@@ -115,6 +115,7 @@ export class TasksController {
   }
 
   @Delete("boards/:boardId/tasks/:taskId")
+  @HttpCode(204)
   deleteTask(@Param("taskId", new ParseUUIDPipe()) taskId: string) {
     return this.tasksService.deleteTask(taskId);
   }

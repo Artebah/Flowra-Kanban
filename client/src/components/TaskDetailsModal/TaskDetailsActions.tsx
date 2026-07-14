@@ -54,6 +54,7 @@ function TaskDetailsActions({ taskDetails }: TaskDetailsActionsProps) {
         </DropdownMenuTrigger>
         <DropdownMenuContent className="min-w-[180px]">
           <DropdownMenuItem
+            disabled={deleteTask.isPending}
             onClick={onDeleteTask}
             className="text-red-500 hover:text-red-500! flex gap-3 items-center!"
           >
