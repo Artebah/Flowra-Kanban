@@ -15,6 +15,7 @@ import { useGetTaskDetails } from "../../hooks/api/tasks/useGetTaskDetails";
 import TaskDescriptionEditor from "../TaskDescriptionEditor";
 import TaskDetailsHeader from "./TaskDetailsHeader";
 import LabelDropdown from "../LabelDropdown";
+import TaskDetailsActions from "./TaskDetailsActions";
 
 function TaskDetailsModal() {
   const modalDetailsData = useModalDetailsData();
@@ -45,8 +46,14 @@ function TaskDetailsModal() {
           <span className="py-1 px-3 bg-gray-600 rounded-md">
             {taskDetails.column.title}
           </span>
-          <div>
-            <Button onClick={onCloseModal} className="size-10" isIconOnly>
+          <div className="flex items-center gap-3">
+            <TaskDetailsActions taskDetails={taskDetails} />
+
+            <Button
+              onClick={onCloseModal}
+              className="rounded-full size-10"
+              isIconOnly
+            >
               <XIcon />
             </Button>
           </div>
