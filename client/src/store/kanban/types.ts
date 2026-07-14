@@ -25,6 +25,7 @@ export interface ITaskSlice {
   updateTaskOrder: (activeId: string, overId: string) => void;
   moveTask: (activeId: string, overId: string) => void;
   addTask: (task: ITask) => void;
+  deleteLocalTask: (task: ITask) => void;
 }
 
 export interface IUISlice {

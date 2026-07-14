@@ -16,3 +16,5 @@ export const useModalDetailsData = () =>
   useKanbanStore((s) => s.modalDetailsData);
 export const useUpdateModalDetailsData = () =>
   useKanbanStore((s) => s.updateModalDetailsData);
+export const useDeleteLocalTask = () =>
+  useKanbanStore((s) => s.deleteLocalTask);

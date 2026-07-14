@@ -53,4 +53,16 @@ export const createTaskSlice: StateCreator<IKanbanStore, [], [], ITaskSlice> = (
       },
     });
   },
+  deleteLocalTask: (task) => {
+    const { tasksByColumn } = get();
+    const columnId = task.columnId;
+    const colTasks = tasksByColumn[columnId] || [];
+
+    set({
+      tasksByColumn: {
+        ...tasksByColumn,
+        [columnId]: colTasks.filter((colTask) => colTask.id !== task.id),
+      },
+    });
+  },
 });
