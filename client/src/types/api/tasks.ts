@@ -69,3 +69,8 @@ export interface AssignLabelsOptions {
   taskId: string;
   dto: AssignLabelsDto;
 }
+
+export interface DeleteTaskOptions {
+  boardId: string;
+  taskId: string;
+}
