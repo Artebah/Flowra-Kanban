@@ -21,7 +21,9 @@ import { RefreshJwtStrategy } from "./strategy/refresh-jwt.strategy";
       inject: [ConfigService],
       useFactory: (config: GlobalTypedConfig) => ({
         secret: config.get<AuthConfig>("auth")?.secret,
-        expiresIn: config.get<AuthConfig>("auth")?.expiresIn as `${number}`,
+        signOptions: {
+          expiresIn: config.get<AuthConfig>("auth")?.expiresIn as `${number}`,
+        },
       }),
     }),
   ],
