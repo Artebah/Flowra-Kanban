@@ -1,11 +1,6 @@
 import { Expose } from "class-transformer";
 import { BaseEntity } from "src/common/entities/base.entity";
-import {
-  Column,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { BoardMember } from "./BoardMember.entity";
 import { BoardColumn } from "src/columns/entities/Column.entity";
 import { Label } from "src/labels/entities/Label.entity";
@@ -20,12 +15,16 @@ export class Board extends BaseEntity {
   @Column()
   title: string;
 
-  @OneToMany(() => BoardMember, (boardMember) => boardMember.board)
+  @OneToMany(() => BoardMember, (boardMember) => boardMember.board, {
+    onDelete: "CASCADE",
+  })
   boardMembers: BoardMember[];
 
-  @OneToMany(() => BoardColumn, (boardColumn) => boardColumn.board)
+  @OneToMany(() => BoardColumn, (boardColumn) => boardColumn.board, {
+    onDelete: "CASCADE",
+  })
   columns: BoardColumn[];
 
-  @OneToMany(() => Label, (label) => label.board)
+  @OneToMany(() => Label, (label) => label.board, { onDelete: "CASCADE" })
   labels: Label[];
 }

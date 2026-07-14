@@ -143,6 +143,10 @@ export class TasksService {
     return foundTask;
   }
 
+  deleteTask(taskId: string) {
+    return this.tasksRepository.delete({ id: taskId });
+  }
+
   createLabelAndAssignToTask({
     boardId,
     taskId,

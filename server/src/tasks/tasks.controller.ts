@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   Param,
@@ -111,6 +112,11 @@ export class TasksController {
       taskId,
       updateTaskOrderDto,
     });
+  }
+
+  @Delete("boards/:boardId/tasks/:taskId")
+  deleteTask(@Param("taskId", new ParseUUIDPipe()) taskId: string) {
+    return this.tasksService.deleteTask(taskId);
   }
 
   @Post("boards/:boardId/tasks/:taskId/labels")
