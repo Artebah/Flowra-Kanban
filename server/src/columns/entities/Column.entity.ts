@@ -37,6 +37,6 @@ export class BoardColumn extends BaseEntity {
   @JoinColumn({ name: "boardId" })
   board: Board;
 
-  @OneToMany(() => Task, (task) => task.column)
+  @OneToMany(() => Task, (task) => task.column, { onDelete: "CASCADE" })
   tasks: Task[];
 }
