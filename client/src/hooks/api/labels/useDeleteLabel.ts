@@ -7,8 +7,9 @@ export const useDeleteLabel = () => {
 
   const mutation = useMutation<ILabel[], Error, DeleteLabelOptions>({
     mutationFn: (deleteLabelOptions) => deleteLabel(deleteLabelOptions),
-    onSuccess: (labels, { boardId }) => {
+    onSuccess: (labels, { boardId, taskId }) => {
       queryClient.setQueryData(["labels-list", boardId], labels);
+      queryClient.setQueryData(["assigned-labels", boardId, taskId], labels);
     },
   });
 

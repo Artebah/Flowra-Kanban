@@ -54,11 +54,12 @@ function LabelForm({ setLabelEditionData, initialData, mode }: LabelFormProps) {
         }
         return;
       case "edit":
-        if (initialData && boardId) {
+        if (initialData && boardId && taskId) {
           updateLabelMutation.mutate(
             {
               boardId: boardId,
               labelId: initialData.id,
+              taskId: taskId,
               updateLabelDto: { color: selectedBgColor, title: updatedTitle },
             },
             {
@@ -72,9 +73,9 @@ function LabelForm({ setLabelEditionData, initialData, mode }: LabelFormProps) {
   };
 
   const onDeleteLabel = (labelId?: string) => {
-    if (boardId && labelId) {
+    if (boardId && labelId && taskId) {
       deleteLabel.mutate(
-        { boardId, labelId },
+        { boardId, labelId, taskId },
         {
           onSuccess: () => {
             setLabelEditionData({ mode: "none", initialData: null });

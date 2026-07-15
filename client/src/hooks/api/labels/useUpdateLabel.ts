@@ -7,8 +7,9 @@ export const useUpdateLabel = () => {
 
   const mutation = useMutation<ILabel[], Error, UpdateLabelOptions>({
     mutationFn: (updateLabelOptions) => updateLabel(updateLabelOptions),
-    onSuccess: (labels, { boardId }) => {
+    onSuccess: (labels, { boardId, taskId }) => {
       queryClient.setQueryData(["labels-list", boardId], labels);
+      queryClient.setQueryData(["assigned-labels", boardId, taskId], labels);
     },
   });
 
