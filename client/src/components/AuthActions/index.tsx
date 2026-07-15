@@ -1,9 +1,11 @@
-//import { UserIcon } from "lucide-react";
 import Button from "../Button";
 import { useUser } from "../../store/auth/selectors";
+import { routes } from "@/constants/routes";
+import { useNavigate } from "react-router";
 
 function AuthActions() {
   const user = useUser();
+  const navigate = useNavigate();
 
   if (user) {
     return (
@@ -21,8 +23,10 @@ function AuthActions() {
   } else {
     return (
       <div className="flex gap-3">
-        <Button>Sign up</Button>
-        <Button variant="outline">Login</Button>
+        <Button onClick={() => navigate(routes.signup)}>Sign up</Button>
+        <Button onClick={() => navigate(routes.login)} variant="outline">
+          Login
+        </Button>
       </div>
     );
   }
