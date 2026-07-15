@@ -90,7 +90,9 @@ function BoardLayout({ boardId }: BoardLayoutProps) {
                 isDragOverlay
               />
             )}
-            {draggingTask && <Task isDragOverlayTask task={draggingTask} />}
+            {draggingTask && (
+              <Task boardId={boardId} isDragOverlayTask task={draggingTask} />
+            )}
           </DragOverlay>
         </div>
         <TaskDetailsModal />

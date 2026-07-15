@@ -7,6 +7,8 @@ import ColumnSkeleton from "../components/Column/ColumnSkeleton";
 import { useSetColumns, useSetTasksByColumn } from "../store/kanban/selectors";
 import React from "react";
 import { useGetAllTasks } from "../hooks/api/tasks/useGetAllTasks";
+import EditableText from "@/components/EditableText";
+import { useUpdateBoard } from "@/hooks/api/boards/useUpdateBoard";
 
 function BoardPage() {
   const params = useParams();
@@ -16,11 +18,15 @@ function BoardPage() {
 
   const boardId = params.id!;
 
+  const [isEditableTitle, setIsEditableTitle] = React.useState(false);
+
   const {
     data: boardData,
     error: boardByIdError,
     isLoading: isLoadingBoard,
   } = useBoardById(params.id!);
+
+  const updateBoard = useUpdateBoard();
 
   const { data: tasks, isLoading: isLoadingTasks } = useGetAllTasks(boardId);
 
@@ -38,6 +44,10 @@ function BoardPage() {
       setColumns(columns);
     }
   }, [columns, setColumns]);
+
+  const onUpdateBoard = ({ title }: { title: string }) => {
+    updateBoard.mutate({ boardId, dto: { title: title } });
+  };
 
   if (isLoadingBoard || isLoadingColumns || isLoadingTasks) {
     return (
@@ -58,7 +68,15 @@ function BoardPage() {
   } else if (boardData) {
     return (
       <div className="pt-4 min-h-[calc(100vh-80px)] flex flex-col gap-3">
-        <h1 className="px-7 mb-3 text-lg font-bold">{boardData.board.title}</h1>
+        <div className="ml-7">
+          <EditableText
+            isEditable={isEditableTitle}
+            setIsEditable={setIsEditableTitle}
+            onSave={(title) => onUpdateBoard({ title })}
+            text={boardData.board.title}
+            disabled={updateBoard.isPending}
+          />
+        </div>
         <BoardLayout boardId={boardId} />
       </div>
     );
