@@ -1,6 +1,7 @@
 import {
   ClockIcon,
   PaperclipIcon,
+  TagIcon,
   TextIcon,
   UserRoundPlusIcon,
   XIcon,
@@ -16,6 +17,8 @@ import TaskDescriptionEditor from "../TaskDescriptionEditor";
 import TaskDetailsHeader from "./TaskDetailsHeader";
 import LabelDropdown from "../LabelDropdown";
 import TaskDetailsActions from "./TaskDetailsActions";
+import { useGetAssignedLabels } from "@/hooks/api/labels/useGetAssignedLabels";
+import AssignedLabelsList from "../LabelDropdown/AssignedLabelsList";
 
 function TaskDetailsModal() {
   const modalDetailsData = useModalDetailsData();
@@ -24,6 +27,9 @@ function TaskDetailsModal() {
     boardId: modalDetailsData.boardId || "",
     taskId: modalDetailsData.taskId || "",
   });
+
+  const { data: assignedLabels = [], isLoading: isLoadingAssignedLabels } =
+    useGetAssignedLabels(modalDetailsData.boardId, modalDetailsData.taskId);
 
   const onCloseModal = () => {
     updateModalDetailsData({ boardId: null, taskId: null, isOpen: false });
@@ -43,7 +49,7 @@ function TaskDetailsModal() {
         className="flex flex-col px-0 py-0 max-h-[calc(100vh-5rem)] md:min-w-[620px] min-w-[96vw] overflow-y-hidden top-16! translate-y-0!"
       >
         <div className="flex justify-between basis-16 shrink-0 items-center border-b border-gray-400 px-6">
-          <span className="py-1 px-3 bg-gray-600 rounded-md">
+          <span className="py-1 px-3 bg-dropdown-bg rounded-md">
             {taskDetails.column.title}
           </span>
           <div className="flex items-center gap-3">
@@ -77,7 +83,17 @@ function TaskDetailsModal() {
               Attachment
             </Button>
 
-            <LabelDropdown />
+            <LabelDropdown
+              TriggerComponent={
+                <Button
+                  leadingIcon={<TagIcon className="size-4" />}
+                  variant="outline"
+                  className="h-8 px-2"
+                >
+                  Labels
+                </Button>
+              }
+            />
 
             <Button
               leadingIcon={<ClockIcon className="size-4" />}
@@ -95,6 +111,9 @@ function TaskDetailsModal() {
             </Button>
           </div>
 
+          {!isLoadingAssignedLabels && assignedLabels.length > 0 && (
+            <AssignedLabelsList labels={assignedLabels} />
+          )}
           <div className="px-6 mt-8 pb-8">
             <div className="flex gap-3">
               <TextIcon /> <p className="font-bold">Description</p>

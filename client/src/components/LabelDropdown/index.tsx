@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "../Button";
-import { ChevronLeft, TagIcon } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { Popover } from "@base-ui/react/popover";
 import LabelForm from "./LabelForm";
 import LabelDropdownContent from "./LabelDropdownContent";
@@ -20,7 +20,11 @@ const labelDropdownTitles: Record<LabelEditionDataMode, string> = {
   none: "Labels",
 };
 
-function LabelDropdown() {
+interface LabelDropdownProps {
+  TriggerComponent: React.ReactElement;
+}
+
+function LabelDropdown({ TriggerComponent }: LabelDropdownProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [labelEditionData, setLabelEditionData] =
     React.useState<LabelEditionData>({ mode: "none", initialData: null });
@@ -51,17 +55,7 @@ function LabelDropdown() {
 
   return (
     <Popover.Root open={isOpen} onOpenChange={setIsOpen}>
-      <Popover.Trigger
-        render={
-          <Button
-            leadingIcon={<TagIcon className="size-4" />}
-            variant="outline"
-            className="h-8 px-2"
-          >
-            Labels
-          </Button>
-        }
-      />
+      <Popover.Trigger render={TriggerComponent} />
       <Popover.Portal>
         <Popover.Positioner
           side="bottom"
