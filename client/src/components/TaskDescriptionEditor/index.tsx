@@ -7,7 +7,7 @@ import React from "react";
 import { useUpdateTask } from "../../hooks/api/tasks/useUpdateTask";
 
 interface TaskDescriptionEditorProps {
-  initialContent: JSONContent;
+  initialContent: JSONContent | null;
   boardId: string;
   taskId: string;
 }
@@ -36,6 +36,8 @@ function TaskDescriptionEditor({
       setIsDescriptionActive(true);
     },
   });
+
+  console.log("init", initialContent);
 
   const handleCancel = () => {
     editor.commands.setContent(initialContent);

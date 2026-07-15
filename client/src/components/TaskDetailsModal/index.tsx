@@ -104,7 +104,7 @@ function TaskDetailsModal() {
                 <TaskDescriptionEditor
                   boardId={modalDetailsData.boardId}
                   taskId={modalDetailsData.taskId}
-                  initialContent={taskDetails.descriptionContent || {}}
+                  initialContent={taskDetails.descriptionContent || null}
                 />
               </div>
             )}
