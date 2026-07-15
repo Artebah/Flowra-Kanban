@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   Param,
   ParseUUIDPipe,
   Patch,
@@ -17,6 +18,7 @@ import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
 import { LabelsService } from "src/labels/labels.service";
 import { BoardAccessGuard } from "src/common/guards/board-access.guard";
 import { UpdateLabelDto } from "src/labels/dtos/update-label.dto";
+import { UpdateBoardDto } from "./dtos/update-board.dto";
 
 @Controller("boards")
 @UseGuards(JwtAuthGuard)
@@ -41,6 +43,22 @@ export class BoardsController {
     @UserDecorator() user: JwtPayload,
   ) {
     return this.boardsService.getCurrentBoard(boardId, user.sub);
+  }
+
+  @Delete("/:boardId")
+  @HttpCode(204)
+  @UseGuards(BoardAccessGuard)
+  delete(@Param("boardId", new ParseUUIDPipe()) boardId: string) {
+    return this.boardsService.delete(boardId);
+  }
+
+  @Patch("/:boardId")
+  @UseGuards(BoardAccessGuard)
+  update(
+    @Param("boardId", new ParseUUIDPipe()) boardId: string,
+    @Body() updateBoardDto: UpdateBoardDto,
+  ) {
+    return this.boardsService.update({ boardId, dto: updateBoardDto });
   }
 
   @Get()
