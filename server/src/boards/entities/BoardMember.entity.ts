@@ -28,11 +28,15 @@ export class BoardMember extends BaseEntity {
   @Column()
   boardId: string;
 
-  @ManyToOne(() => User, (user) => user.boardMembers)
+  @ManyToOne(() => User, (user) => user.boardMembers, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({ name: "userId" })
   user: User;
 
-  @ManyToOne(() => Board, (board) => board.boardMembers)
+  @ManyToOne(() => Board, (board) => board.boardMembers, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({ name: "boardId" })
   board: Board;
 }

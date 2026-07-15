@@ -15,16 +15,12 @@ export class Board extends BaseEntity {
   @Column()
   title: string;
 
-  @OneToMany(() => BoardMember, (boardMember) => boardMember.board, {
-    onDelete: "CASCADE",
-  })
+  @OneToMany(() => BoardMember, (boardMember) => boardMember.board)
   boardMembers: BoardMember[];
 
-  @OneToMany(() => BoardColumn, (boardColumn) => boardColumn.board, {
-    onDelete: "CASCADE",
-  })
+  @OneToMany(() => BoardColumn, (boardColumn) => boardColumn.board)
   columns: BoardColumn[];
 
-  @OneToMany(() => Label, (label) => label.board, { onDelete: "CASCADE" })
+  @OneToMany(() => Label, (label) => label.board)
   labels: Label[];
 }
