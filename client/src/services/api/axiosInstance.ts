@@ -1,5 +1,7 @@
 import toast from "react-hot-toast";
 import axios, { AxiosError } from "axios";
+import { refresh } from "./authApi";
+import { clearAuthAndRedirect } from "@/utils/clearAuthAndRedirect";
 
 declare module "axios" {
   export interface AxiosRequestConfig {
@@ -38,6 +40,7 @@ axiosInstance.interceptors.response.use(
   (value) => value,
   (error) => {
     const disableToast = error.config?.disableErrorToast;
+    const originalRequest = error.config;
 
     if (!disableToast) {
       if (error instanceof AxiosError && error.response) {
@@ -45,6 +48,26 @@ axiosInstance.interceptors.response.use(
       } else {
         toast.error(error.message || "Something went wrong");
       }
+    }
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      refresh()
+        .then((data) => {
+          if (!data) {
+            clearAuthAndRedirect();
+            return;
+          }
+
+          localStorage.setItem("accessToken", data.accessToken);
+          originalRequest.headers["Authorization"] =
+            `Bearer ${data.accessToken}`;
+          return axiosInstance(originalRequest);
+        })
+        .catch(() => {
+          clearAuthAndRedirect();
+        });
     }
 
     return Promise.reject(error);

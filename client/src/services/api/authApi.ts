@@ -28,7 +28,9 @@ export const refresh = async (): Promise<RefreshResponse | void> => {
   const refreshToken = localStorage.getItem("refreshToken");
 
   if (refreshToken) {
-    const res = await axiosInstance.post("/auth/refresh", null, {
+    const res = await axiosInstance({
+      url: "/auth/refresh",
+      method: "POST",
       headers: { Authorization: `Bearer ${refreshToken}` },
     });
     return res.data;
