@@ -1,4 +1,8 @@
-import { ForbiddenException, Injectable } from "@nestjs/common";
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { Repository } from "typeorm";
 import { Board } from "./entities/Board.entity";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -7,6 +11,7 @@ import { BoardMember } from "./entities/BoardMember.entity";
 import { BoardRole } from "./enums/BoardRole.enum";
 import { GetCurrentBoardResponseDto } from "./dtos/get-current-board-response.dto";
 import { plainToInstance } from "class-transformer";
+import { UpdateBoardDto } from "./dtos/update-board.dto";
 
 @Injectable()
 export class BoardsService {
@@ -67,5 +72,21 @@ export class BoardsService {
     const allMyBoards = memberships.map((membership) => membership.board);
 
     return allMyBoards;
+  }
+
+  delete(boardId: string) {
+    return this.boardsRepository.delete(boardId);
+  }
+
+  async update({ boardId, dto }: { boardId: string; dto: UpdateBoardDto }) {
+    const board = await this.boardsRepository.findOne({
+      where: { id: boardId },
+    });
+
+    if (!board) throw new NotFoundException("The board not found");
+
+    Object.assign(board, dto);
+
+    return this.boardsRepository.save(board);
   }
 }
