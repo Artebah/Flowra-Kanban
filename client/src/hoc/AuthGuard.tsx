@@ -1,28 +1,28 @@
 import React from "react";
 import { useFetchMe } from "../hooks/api/auth/useFetchMe";
-import { isPrivate, routes } from "../constants/routes";
+import { routes } from "../constants/routes";
 import { useNavigate } from "react-router";
-import { useSetUser } from "../store/auth/selectors";
 import { useIsAuthPage } from "../hooks/useIsAuthPage";
+import { useUser } from "../store/auth/selectors";
+import { setNavigate } from "../utils/navigationRef";
 
 function AuthGuard({ children }: React.PropsWithChildren) {
-  const { data, isLoading } = useFetchMe();
+  const { isLoading } = useFetchMe();
+  const user = useUser();
   const navigate = useNavigate();
-
   const isAuthPage = useIsAuthPage();
-  const setUser = useSetUser();
 
   React.useEffect(() => {
-    if (data) {
-      if (isAuthPage) {
-        navigate(routes.home);
-      }
+    setNavigate(navigate);
+  }, [navigate]);
 
-      setUser(data);
+  React.useEffect(() => {
+    if (user && isAuthPage) {
+      navigate(routes.home);
     }
-  }, [data, setUser, navigate, isAuthPage]);
+  }, [user, navigate, isAuthPage]);
 
-  if (isLoading && isPrivate) {
+  if (isLoading) {
     return (
       <div className="fixed size-full flex justify-center items-center">
         <span className="loading loading-spinner loading-xl text-secondary" />
