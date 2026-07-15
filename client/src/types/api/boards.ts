@@ -19,3 +19,7 @@ export interface BoardByIdResponse {
   board: IBoard;
   role: BoardRole;
 }
+
+export interface UpdateBoardDto {
+  title: string;
+}

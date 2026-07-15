@@ -3,6 +3,7 @@ import type {
   CreateBoardDto,
   IBoard,
   TBoardsList,
+  UpdateBoardDto,
 } from "../../types/api/boards";
 import axiosInstance from "./axiosInstance";
 
@@ -22,5 +23,17 @@ export const getBoardById = async (
   boardId: string
 ): Promise<BoardByIdResponse> => {
   const res = await axiosInstance.get(`/boards/${boardId}`);
+  return res.data;
+};
+
+export const deleteBoard = async (boardId: string): Promise<void> => {
+  await axiosInstance.delete(`/boards/${boardId}`);
+};
+
+export const updateBoard = async (
+  boardId: string,
+  dto: UpdateBoardDto
+): Promise<IBoard> => {
+  const res = await axiosInstance.patch(`/boards/${boardId}`, dto);
   return res.data;
 };
