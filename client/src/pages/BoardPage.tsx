@@ -121,11 +121,13 @@ function BoardPage() {
 
           <div className="grow flex gap-3 justify-end">
             <DropdownMenu>
-              <DropdownMenuTrigger>
-                <Button className="rounded-full" isIconOnly>
-                  <MoreHorizontal />
-                </Button>
-              </DropdownMenuTrigger>
+              <DropdownMenuTrigger
+                render={
+                  <Button className="rounded-full" isIconOnly>
+                    <MoreHorizontal />
+                  </Button>
+                }
+              />
               <DropdownMenuContent className="min-w-[180px]">
                 <DropdownMenuItem
                   onClick={() => setOpenDeleteBoardModal(true)}

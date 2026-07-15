@@ -47,11 +47,13 @@ function TaskDetailsActions({ taskDetails }: TaskDetailsActionsProps) {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger>
-          <Button isIconOnly className="rounded-full size-10">
-            <MoreVertical />
-          </Button>
-        </DropdownMenuTrigger>
+        <DropdownMenuTrigger
+          render={
+            <Button isIconOnly className="rounded-full size-10">
+              <MoreVertical />
+            </Button>
+          }
+        />
         <DropdownMenuContent className="min-w-[180px]">
           <DropdownMenuItem
             disabled={deleteTask.isPending}
