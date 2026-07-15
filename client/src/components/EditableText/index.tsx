@@ -8,6 +8,8 @@ interface EditableTextProps {
   isEditable: boolean;
   setIsEditable: React.Dispatch<React.SetStateAction<boolean>>;
   disabled?: boolean;
+  containerClassName?: string;
+  inputClassName?: string;
 }
 
 function EditableText({
@@ -16,6 +18,8 @@ function EditableText({
   isEditable,
   setIsEditable,
   disabled = false,
+  containerClassName,
+  inputClassName,
 }: EditableTextProps) {
   const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -52,13 +56,14 @@ function EditableText({
         "font-semibold h-10 pl-0 flex items-center grow text-white w-full transition-all",
         disabled
           ? "cursor-not-allowed animate-pulse pointer-events-none"
-          : "cursor-pointer"
+          : "cursor-pointer",
+        containerClassName
       )}
       onClick={!isEditable ? openTextInput : undefined}
     >
       {isEditable ? (
         <Input
-          className="grow"
+          className={classNames("grow", inputClassName)}
           ref={inputRef}
           defaultValue={text}
           onBlur={onSaveText}

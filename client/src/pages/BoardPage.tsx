@@ -9,6 +9,7 @@ import React from "react";
 import { useGetAllTasks } from "../hooks/api/tasks/useGetAllTasks";
 import EditableText from "@/components/EditableText";
 import { useUpdateBoard } from "@/hooks/api/boards/useUpdateBoard";
+import { cn } from "@/lib/utils";
 
 function BoardPage() {
   const params = useParams();
@@ -18,7 +19,7 @@ function BoardPage() {
 
   const boardId = params.id!;
 
-  const [isEditableTitle, setIsEditableTitle] = React.useState(false);
+  const [isEditableTitle, setIsEditableTitle] = React.useState(true);
 
   const {
     data: boardData,
@@ -46,7 +47,9 @@ function BoardPage() {
   }, [columns, setColumns]);
 
   const onUpdateBoard = ({ title }: { title: string }) => {
-    updateBoard.mutate({ boardId, dto: { title: title } });
+    if (title.trim() !== "") {
+      updateBoard.mutate({ boardId, dto: { title: title } });
+    }
   };
 
   if (isLoadingBoard || isLoadingColumns || isLoadingTasks) {
@@ -67,9 +70,14 @@ function BoardPage() {
     navigate(routes.home);
   } else if (boardData) {
     return (
-      <div className="pt-4 min-h-[calc(100vh-80px)] flex flex-col gap-3">
-        <div className="ml-7">
+      <div className="min-h-[calc(100vh-80px)] flex flex-col gap-3">
+        <div className="h-14 flex items-center pl-7 bg-black/25">
           <EditableText
+            containerClassName={cn(" flex-0! min-w-60", {
+              "hover:bg-white/10 rounded-md px-3! whitespace-nowrap truncate":
+                !isEditableTitle,
+            })}
+            inputClassName="flex-0! min-w-60"
             isEditable={isEditableTitle}
             setIsEditable={setIsEditableTitle}
             onSave={(title) => onUpdateBoard({ title })}
