@@ -30,6 +30,6 @@ export class Label extends BaseEntity {
   @ManyToMany(() => Task, (task) => task.labels, { onDelete: "CASCADE" })
   tasks: Task[];
 
-  @ManyToOne(() => Board, (board) => board.labels)
+  @ManyToOne(() => Board, (board) => board.labels, { onDelete: "CASCADE" })
   board: Board;
 }
