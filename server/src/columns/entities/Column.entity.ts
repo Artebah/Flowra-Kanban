@@ -33,7 +33,10 @@ export class BoardColumn extends BaseEntity {
   @Expose()
   color?: string;
 
-  @ManyToOne(() => Board, (board) => board.columns, { nullable: false })
+  @ManyToOne(() => Board, (board) => board.columns, {
+    nullable: false,
+    onDelete: "CASCADE",
+  })
   @JoinColumn({ name: "boardId" })
   board: Board;
 
