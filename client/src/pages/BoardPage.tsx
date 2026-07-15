@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useDeleteBoard } from "@/hooks/api/boards/useDeleteBoard";
+import toast from "react-hot-toast";
 
 function BoardPage() {
   const params = useParams();
@@ -30,7 +31,7 @@ function BoardPage() {
 
   const boardId = params.id!;
 
-  const [isEditableTitle, setIsEditableTitle] = React.useState(true);
+  const [isEditableTitle, setIsEditableTitle] = React.useState(false);
 
   const {
     data: boardData,
@@ -50,12 +51,20 @@ function BoardPage() {
     if (tasks) {
       setTasksByColumn(tasks);
     }
+
+    return () => {
+      setTasksByColumn([]);
+    };
   }, [tasks, setTasksByColumn]);
 
   React.useEffect(() => {
     if (columns.length > 0) {
       setColumns(columns);
     }
+
+    return () => {
+      setColumns([]);
+    };
   }, [columns, setColumns]);
 
   const onUpdateBoard = ({ title }: { title: string }) => {
@@ -65,7 +74,14 @@ function BoardPage() {
   };
 
   const onDeleteBoard = () => {
-    deleteBoard.mutate(boardId, { onSuccess: () => {} });
+    deleteBoard.mutate(boardId, {
+      onSuccess: () => {
+        navigate(routes.home);
+        if (boardData?.board.title) {
+          toast.success(`Board "${boardData?.board.title}" removed.`);
+        }
+      },
+    });
   };
 
   if (isLoadingBoard || isLoadingColumns || isLoadingTasks) {
