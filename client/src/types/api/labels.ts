@@ -17,7 +17,7 @@ export interface UpdateLabelOptions {
 }
 
 export interface CreateLabelDto {
-  title: string;
+  title?: string;
   color: string;
 }
 

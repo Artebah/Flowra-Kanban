@@ -44,7 +44,10 @@ function LabelForm({ setLabelEditionData, initialData, mode }: LabelFormProps) {
             {
               boardId: boardId,
               taskId: taskId,
-              createLabelDto: { color: selectedBgColor, title: updatedTitle },
+              createLabelDto: {
+                color: selectedBgColor,
+                title: updatedTitle.trim() || undefined,
+              },
             },
             {
               onSuccess: () =>
@@ -60,7 +63,10 @@ function LabelForm({ setLabelEditionData, initialData, mode }: LabelFormProps) {
               boardId: boardId,
               labelId: initialData.id,
               taskId: taskId,
-              updateLabelDto: { color: selectedBgColor, title: updatedTitle },
+              updateLabelDto: {
+                color: selectedBgColor,
+                title: updatedTitle.trim() || undefined,
+              },
             },
             {
               onSuccess: () =>
@@ -128,7 +134,7 @@ function LabelForm({ setLabelEditionData, initialData, mode }: LabelFormProps) {
             variant="primary"
             className="grow"
             type="submit"
-            disabled={updateLabelMutation.isPending}
+            disabled={updateLabelMutation.isPending || !selectedBgColor}
           >
             {mode === "create" ? "Create" : "Edit"}
           </Button>
