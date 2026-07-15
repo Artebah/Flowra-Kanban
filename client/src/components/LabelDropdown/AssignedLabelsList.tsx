@@ -12,7 +12,7 @@ function AssignedLabelsList({ labels }: AssignedLabelsListProps) {
     <div className="px-6 my-8">
       <p className="font-bold mb-2 text-gray-300">Labels</p>
 
-      <div className="flex gap-1">
+      <div className="flex gap-1 flex-wrap">
         {labels.map((label) => (
           <div
             key={label.id}
