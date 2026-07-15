@@ -4,6 +4,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { useSortable } from "@dnd-kit/sortable";
 import React from "react";
 import { useUpdateModalDetailsData } from "../../store/kanban/selectors";
+import { useGetAssignedLabels } from "@/hooks/api/labels/useGetAssignedLabels";
 
 interface TaskProps {
   task: ITask;
@@ -30,19 +31,33 @@ function Task({ task, boardId, isDragOverlayTask }: TaskProps) {
     background: isDragOverlayTask ? "#252525" : undefined,
   };
 
+  const { data: assignedLabels = [], isLoading: isLoadingAssignedLabels } =
+    useGetAssignedLabels(boardId, task.id);
+
   return (
     <Button
       {...listeners}
       {...attributes}
       ref={setNodeRef}
       fullWidth
-      className="justify-start bg-gray-rich hover:bg-white/5 font-medium"
+      className="items-start h-auto py-2 flex-col bg-gray-rich hover:bg-white/5 font-medium"
       onClick={() =>
         updateModalDetailsData({ boardId, taskId: task.id, isOpen: true })
       }
       style={style}
     >
-      {task.title}
+      {!isLoadingAssignedLabels && assignedLabels.length > 0 && (
+        <div className="w-full grid grid-cols-5 gap-1">
+          {assignedLabels.map((label) => (
+            <span
+              className="h-2 rounded-md"
+              key={label.id}
+              style={{ backgroundColor: label.color }}
+            />
+          ))}
+        </div>
+      )}
+      <span>{task.title}</span>
     </Button>
   );
 }
