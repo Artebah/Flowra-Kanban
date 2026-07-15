@@ -16,9 +16,9 @@ export class Label extends BaseEntity {
   @Expose()
   id: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   @Expose()
-  title: string;
+  title?: string;
 
   @Column({ nullable: false })
   @Expose()
