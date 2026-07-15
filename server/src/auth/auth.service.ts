@@ -56,7 +56,7 @@ export class AuthService {
     });
 
     const accessToken = await this.generateAccessToken(user);
-    console.log(accessToken);
+
     return new RefreshJwtResponseDto({ accessToken });
   }
 

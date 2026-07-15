@@ -1,6 +1,7 @@
 import type {
   AuthResponse,
   LoginDto,
+  RefreshResponse,
   SignupDto,
   User,
 } from "../../types/api/auth";
@@ -21,4 +22,15 @@ export const fetchMe = async (): Promise<User> => {
     disableErrorToast: true,
   });
   return res.data;
+};
+
+export const refresh = async (): Promise<RefreshResponse | void> => {
+  const refreshToken = localStorage.getItem("refreshToken");
+
+  if (refreshToken) {
+    const res = await axiosInstance.post("/auth/refresh", null, {
+      headers: { Authorization: `Bearer ${refreshToken}` },
+    });
+    return res.data;
+  }
 };

@@ -12,6 +12,10 @@ export interface AuthResponse {
   refreshToken: string;
 }
 
+export interface RefreshResponse {
+  accessToken: string;
+}
+
 export interface LoginDto {
   emailOrUsername: string;
   password: string;
