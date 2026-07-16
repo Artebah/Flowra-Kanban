@@ -5,7 +5,7 @@ export interface ILabel {
 }
 
 export interface UpdateLabelDto {
-  title?: string;
+  title?: string | null;
   color?: string;
 }
 
@@ -17,7 +17,7 @@ export interface UpdateLabelOptions {
 }
 
 export interface CreateLabelDto {
-  title?: string;
+  title: string | null;
   color: string;
 }
 
