@@ -22,7 +22,6 @@ interface LabelDropdownProps {
 }
 
 function LabelDropdown({ TriggerComponent }: LabelDropdownProps) {
-  const [isOpen, setIsOpen] = React.useState(false);
   const [labelEditionData, setLabelEditionData] =
     React.useState<LabelEditionData>({ mode: "none", initialData: null });
 
@@ -56,8 +55,6 @@ function LabelDropdown({ TriggerComponent }: LabelDropdownProps) {
   return (
     <Popover
       showCloseButton
-      isOpen={isOpen}
-      setIsOpen={setIsOpen}
       onGoBack={allowGoBack ? onGoBack : undefined}
       title={labelDropdownTitles[labelEditionData.mode]}
       triggerRender={TriggerComponent}
