@@ -4,14 +4,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Button } from "../ui/button";
 import { ChevronLeft, XIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Button from "../Button";
 
 interface PopoverProps {
   isOpen?: boolean;
   setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-  triggerRender?: React.ReactElement;
+  triggerRender: React.ReactElement;
   children: React.ReactNode;
 
   title?: string;
@@ -30,21 +30,19 @@ function Popover({
 }: PopoverProps) {
   const [isLocalOpen, setIsLocalOpen] = React.useState(false);
 
-  const defaultRender = <></>;
   const open = isOpen !== undefined ? isOpen : isLocalOpen;
   const setOpen = setIsOpen !== undefined ? setIsOpen : setIsLocalOpen;
-  const render = triggerRender !== undefined ? triggerRender : defaultRender;
   const showHeader = onGoBack || title || showCloseButton;
 
   return (
     <ShadCnPopover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger render={render} />
+      <PopoverTrigger render={triggerRender} />
       <PopoverContent
         side="bottom"
         align="start"
         sideOffset={4}
         className={cn(
-          "z-50 min-w-[300px] px-2 bg-dropdown-bg shadow-2xl shadow-dropdown-shadow rounded-md",
+          "z-50 min-w-[300px] px-2 bg-dropdown-bg text-white shadow-2xl shadow-dropdown-shadow rounded-md",
           showHeader ? "pb-3 pt-0" : "py-3"
         )}
       >
@@ -63,10 +61,10 @@ function Popover({
 
             {showCloseButton && (
               <Button
-                className="absolute right-0 top-1/2 -translate-y-1/2 size-7 rounded-full"
+                className="absolute right-0 top-1/2 p-0 -translate-y-1/2 active:-translate-y-1/2! size-7 rounded-full"
                 onClick={() => setOpen(false)}
               >
-                <XIcon />
+                <XIcon className="size-4" />
               </Button>
             )}
             <span />

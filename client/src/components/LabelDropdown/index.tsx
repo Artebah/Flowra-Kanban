@@ -1,11 +1,8 @@
 import React from "react";
-import Button from "../Button";
-import { ChevronLeft } from "lucide-react";
-import { Popover } from "@base-ui/react/popover";
 import LabelForm from "./LabelForm";
 import LabelDropdownContent from "./LabelDropdownContent";
-import { cn } from "@/lib/utils";
 import type { ILabel } from "@/types/api/labels";
+import Popover from "../Popover";
 
 type LabelEditionDataMode = "create" | "edit" | "none";
 
@@ -33,6 +30,9 @@ function LabelDropdown({ TriggerComponent }: LabelDropdownProps) {
     setLabelEditionData({ mode: "none", initialData: null });
   };
 
+  const allowGoBack =
+    labelEditionData.mode === "create" || labelEditionData.mode === "edit";
+
   const labelDropdownContent: Record<LabelEditionDataMode, React.ReactNode> =
     React.useMemo(
       () => ({
@@ -54,39 +54,16 @@ function LabelDropdown({ TriggerComponent }: LabelDropdownProps) {
     );
 
   return (
-    <Popover.Root open={isOpen} onOpenChange={setIsOpen}>
-      <Popover.Trigger render={TriggerComponent} />
-      <Popover.Portal>
-        <Popover.Positioner
-          side="bottom"
-          align="start"
-          sideOffset={4}
-          className="z-50"
-        >
-          <Popover.Popup className="min-w-[300px] px-2 py-3 bg-dropdown-bg shadow-2xl shadow-dropdown-shadow rounded-md">
-            <div className="border-b border-gray-500 mb-3 pb-2 flex items-center justify-between">
-              <Button
-                className={cn("size-8 p-0 opacity-0 pointer-events-none", {
-                  "pointer-events-auto! opacity-100!":
-                    labelEditionData.mode === "create" ||
-                    labelEditionData.mode === "edit",
-                })}
-                onClick={onGoBack}
-              >
-                <ChevronLeft />
-              </Button>
-              <p className="text-sm text-center font-semibold -ml-8">
-                {labelDropdownTitles[labelEditionData.mode]}
-              </p>
-
-              <span />
-            </div>
-
-            {labelDropdownContent[labelEditionData.mode]}
-          </Popover.Popup>
-        </Popover.Positioner>
-      </Popover.Portal>
-    </Popover.Root>
+    <Popover
+      showCloseButton
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+      onGoBack={allowGoBack ? onGoBack : undefined}
+      title={labelDropdownTitles[labelEditionData.mode]}
+      triggerRender={TriggerComponent}
+    >
+      {labelDropdownContent[labelEditionData.mode]}
+    </Popover>
   );
 }
 
