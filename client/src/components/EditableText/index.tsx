@@ -1,6 +1,6 @@
 import React from "react";
 import Input from "../Input";
-import classNames from "classnames";
+import { cn } from "@/lib/utils";
 
 interface EditableTextProps {
   text: string;
@@ -52,7 +52,7 @@ function EditableText({
 
   return (
     <div
-      className={classNames(
+      className={cn(
         "font-semibold h-10 pl-0 flex items-center grow text-white w-full transition-all",
         disabled
           ? "cursor-not-allowed animate-pulse pointer-events-none"
@@ -63,7 +63,7 @@ function EditableText({
     >
       {isEditable ? (
         <Input
-          className={classNames("grow", inputClassName)}
+          className={cn("grow", inputClassName)}
           ref={inputRef}
           defaultValue={text}
           onBlur={onSaveText}

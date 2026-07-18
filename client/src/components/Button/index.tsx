@@ -1,5 +1,5 @@
-import classNames from "classnames";
 import React from "react";
+import { cn } from "@/lib/utils";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isIconOnly?: boolean;
@@ -35,7 +35,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         ref={ref}
-        className={classNames(
+        className={cn(
           "btn flex items-center gap-2",
           {
             "btn-ghost border-0 text-white hover:shadow-none active:translate-y-0 hover:bg-white/5 hover:border-0 active:tracking-0":

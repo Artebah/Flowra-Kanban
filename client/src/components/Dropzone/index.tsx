@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useDropzone, type DropzoneOptions } from "react-dropzone";
-import classNames from "classnames";
+import { cn } from "@/lib/utils";
 import { UploadIcon } from "lucide-react";
 
 interface DropzoneProps extends Omit<DropzoneOptions, "onDrop"> {
@@ -53,7 +53,7 @@ const Dropzone = ({
 
       <div
         {...getRootProps()}
-        className={classNames(
+        className={cn(
           "relative border-2 border-dashed rounded-lg p-8 text-center cursor-pointer",
           "transition-all duration-300 ease-in-out",
           "hover:border-blue-400 hover:bg-white/5",
