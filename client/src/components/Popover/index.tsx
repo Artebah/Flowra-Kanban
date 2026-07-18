@@ -49,8 +49,8 @@ function Popover({
         {showHeader && (
           <div className="relative min-h-10 border-b border-gray-600 mb-3 flex items-center">
             {onGoBack && (
-              <Button className={"size-8 p-0"} onClick={onGoBack}>
-                <ChevronLeft />
+              <Button className={"size-7 p-0"} onClick={onGoBack}>
+                <ChevronLeft className="size-5" />
               </Button>
             )}
             <div className="absolute top-1/2 left-1/2 -translate-1/2">
@@ -61,10 +61,10 @@ function Popover({
 
             {showCloseButton && (
               <Button
-                className="absolute right-0 top-1/2 p-0 -translate-y-1/2 active:-translate-y-1/2! size-7 rounded-full"
+                className="absolute right-0 top-1/2 p-0 -translate-y-1/2 active:-translate-y-1/2! size-7"
                 onClick={() => setOpen(false)}
               >
-                <XIcon className="size-4" />
+                <XIcon className="size-5" />
               </Button>
             )}
             <span />
