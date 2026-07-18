@@ -37,8 +37,6 @@ function TaskDescriptionEditor({
     },
   });
 
-  console.log("init", initialContent);
-
   const handleCancel = () => {
     editor.commands.setContent(initialContent);
     setIsDescriptionActive(false);
