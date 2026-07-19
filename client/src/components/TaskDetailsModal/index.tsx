@@ -1,12 +1,11 @@
 import {
-  ClockIcon,
   PaperclipIcon,
   TagIcon,
   TextIcon,
   UserRoundPlusIcon,
   XIcon,
 } from "lucide-react";
-import Button from "../Button";
+import Button from "../Button"; 
 import { Dialog, DialogContent } from "../ui/dialog";
 import {
   useModalDetailsData,
@@ -47,10 +46,10 @@ function TaskDetailsModal() {
     >
       <DialogContent
         showCloseButton={false}
-        className="flex flex-col px-0 py-0 max-h-[calc(100vh-5rem)] md:min-w-[620px] min-w-[96vw] overflow-y-hidden top-16! translate-y-0!"
+        className="top-16! flex max-h-[calc(100vh-5rem)] min-w-[96vw] translate-y-0! flex-col overflow-y-hidden px-0 py-0 md:min-w-[620px]"
       >
-        <div className="flex justify-between basis-16 shrink-0 items-center border-b border-gray-400 px-6">
-          <span className="py-1 px-3 bg-dropdown-bg rounded-md">
+        <div className="flex shrink-0 basis-16 items-center justify-between border-b border-gray-400 px-6">
+          <span className="bg-dropdown-bg rounded-md px-3 py-1">
             {taskDetails.column.title}
           </span>
           <div className="flex items-center gap-3">
@@ -58,7 +57,7 @@ function TaskDetailsModal() {
 
             <Button
               onClick={onCloseModal}
-              className="rounded-full size-10"
+              className="size-10 rounded-full"
               isIconOnly
             >
               <XIcon />
@@ -75,7 +74,7 @@ function TaskDetailsModal() {
             />
           )}
 
-          <div className="px-6 ml-9 flex gap-3 mt-5">
+          <div className="mt-5 ml-9 flex gap-3 px-6">
             <Button
               leadingIcon={<PaperclipIcon className="size-4" />}
               variant="outline"
@@ -96,17 +95,7 @@ function TaskDetailsModal() {
               }
             />
 
-            <DatesDropdown
-              TriggerComponent={
-                <Button
-                  leadingIcon={<ClockIcon className="size-4" />}
-                  variant="outline"
-                  className="h-8 px-2"
-                >
-                  Dates
-                </Button>
-              }
-            />
+            <DatesDropdown />
 
             <Button
               leadingIcon={<UserRoundPlusIcon className="size-4" />}
@@ -120,12 +109,12 @@ function TaskDetailsModal() {
           {!isLoadingAssignedLabels && assignedLabels.length > 0 && (
             <AssignedLabelsList labels={assignedLabels} />
           )}
-          <div className="px-6 mt-8 pb-8">
+          <div className="mt-8 px-6 pb-8">
             <div className="flex gap-3">
               <TextIcon /> <p className="font-bold">Description</p>
             </div>
             {modalDetailsData.boardId && modalDetailsData.taskId && (
-              <div className="ml-8 mt-3">
+              <div className="mt-3 ml-8">
                 <TaskDescriptionEditor
                   boardId={modalDetailsData.boardId}
                   taskId={modalDetailsData.taskId}

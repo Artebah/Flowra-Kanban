@@ -24,7 +24,6 @@
     "@tiptap/starter-kit": "^3.22.4",
     "axios": "^1.13.2",
     "class-variance-authority": "^0.7.1",
-    "classnames": "^2.5.1",
     "clsx": "^2.1.1",
     "daisyui": "^5.0.50",
     "lucide-react": "^0.538.0",
