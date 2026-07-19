@@ -18,6 +18,7 @@ function DatesDropdown({ triggerRender }: DatesDropdownProps) {
   const dateInputRef = React.useRef<HTMLInputElement>(null);
   const [inputDate, setInputDate] = React.useState<string>();
   const [inputTime, setInputTime] = React.useState<string>();
+  const [month, setMonth] = React.useState<Date>(new Date());
 
   React.useEffect(() => {
     const today = new Date();
@@ -34,12 +35,17 @@ function DatesDropdown({ triggerRender }: DatesDropdownProps) {
     }
   };
 
+  const onMonthChange = (newMonthDate: Date) => {
+    setMonth(newMonthDate);
+  };
+
   const onBlurDateInput = (e: React.FocusEvent<HTMLInputElement, Element>) => {
     const value = e.target.value;
 
     const parsedDate = parse(value, DATE_FORMAT, new Date());
 
     if (isValid(parsedDate)) {
+      setMonth(parsedDate);
       setDate(parsedDate);
     } else {
       if (date) {
@@ -57,7 +63,13 @@ function DatesDropdown({ triggerRender }: DatesDropdownProps) {
       title="Dates"
     >
       <div className="flex justify-center">
-        <Calendar mode="single" selected={date} onSelect={onCalendarSelect} />
+        <Calendar
+          month={month}
+          selected={date}
+          onMonthChange={onMonthChange}
+          onSelect={onCalendarSelect}
+          mode="single"
+        />
       </div>
       <div>
         <p className="text-sm mb-1.5">Due date</p>
