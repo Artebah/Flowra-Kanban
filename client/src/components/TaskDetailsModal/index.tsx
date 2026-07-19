@@ -1,4 +1,5 @@
 import {
+  ClockIcon,
   PaperclipIcon,
   TagIcon,
   TextIcon,
@@ -95,7 +96,17 @@ function TaskDetailsModal() {
               }
             />
 
-            <DatesDropdown />
+            <DatesDropdown
+              triggerRender={
+                <Button
+                  leadingIcon={<ClockIcon className="size-4" />}
+                  variant="outline"
+                  className="h-8 px-2"
+                >
+                  Dates
+                </Button>
+              }
+            />
 
             <Button
               leadingIcon={<UserRoundPlusIcon className="size-4" />}
