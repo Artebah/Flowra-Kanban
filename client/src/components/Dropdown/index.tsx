@@ -23,7 +23,7 @@ function Dropdown({
   setIsOpen,
   triggerRender,
   children,
-  showCloseButton = true,
+  showCloseButton,
   title,
 }: DropdownProps) {
   const [isLocalOpen, setIsLocalOpen] = React.useState(false);
@@ -40,8 +40,8 @@ function Dropdown({
         align="start"
         sideOffset={4}
         className={cn(
-          "z-50 min-w-[300px] px-2 bg-dropdown-bg text-white shadow-2xl shadow-dropdown-shadow rounded-md",
-          showHeader ? "pb-3 pt-0" : "py-3"
+          "z-50 min-w-[180px] bg-dropdown-bg text-white shadow-2xl shadow-dropdown-shadow rounded-md",
+          showHeader ? "pb-1 pt-0" : "py-1"
         )}
       >
         {showHeader && (

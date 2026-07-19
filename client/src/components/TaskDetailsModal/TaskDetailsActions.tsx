@@ -1,11 +1,6 @@
 import { MoreVertical, TrashIcon } from "lucide-react";
 import Button from "../Button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+import { DropdownMenuItem } from "../ui/dropdown-menu";
 import {
   useDeleteLocalTask,
   useModalDetailsData,
@@ -13,6 +8,7 @@ import {
 } from "@/store/kanban/selectors";
 import { useDeleteTask } from "@/hooks/api/tasks/useDeleteTask";
 import type { ITaskDetails } from "@/types/api/tasks";
+import Dropdown from "../Dropdown";
 
 interface TaskDetailsActionsProps {
   taskDetails: ITaskDetails;
@@ -45,26 +41,21 @@ function TaskDetailsActions({ taskDetails }: TaskDetailsActionsProps) {
   };
 
   return (
-    <>
-      <DropdownMenu>
-        <DropdownMenuTrigger
-          render={
-            <Button isIconOnly className="rounded-full size-10">
-              <MoreVertical />
-            </Button>
-          }
-        />
-        <DropdownMenuContent className="min-w-[180px]">
-          <DropdownMenuItem
-            disabled={deleteTask.isPending}
-            onClick={onDeleteTask}
-            className="text-red-500 hover:text-red-500! flex gap-3 items-center!"
-          >
-            <TrashIcon className="size-4" /> <p className="leading-0">Delete</p>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </>
+    <Dropdown
+      triggerRender={
+        <Button isIconOnly className="rounded-full size-10">
+          <MoreVertical />
+        </Button>
+      }
+    >
+      <DropdownMenuItem
+        disabled={deleteTask.isPending}
+        onClick={onDeleteTask}
+        className="text-red-500 hover:text-red-500! flex gap-3 items-center!"
+      >
+        <TrashIcon className="size-4" /> <p className="leading-0">Delete</p>
+      </DropdownMenuItem>
+    </Dropdown>
   );
 }
 

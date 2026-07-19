@@ -12,15 +12,11 @@ import { useUpdateBoard } from "@/hooks/api/boards/useUpdateBoard";
 import { cn } from "@/lib/utils";
 import Button from "@/components/Button";
 import { MoreHorizontal, TrashIcon } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useDeleteBoard } from "@/hooks/api/boards/useDeleteBoard";
 import toast from "react-hot-toast";
+import Dropdown from "@/components/Dropdown";
 
 function BoardPage() {
   const params = useParams();
@@ -120,24 +116,21 @@ function BoardPage() {
           </div>
 
           <div className="grow flex gap-3 justify-end">
-            <DropdownMenu>
-              <DropdownMenuTrigger
-                render={
-                  <Button className="rounded-full" isIconOnly>
-                    <MoreHorizontal />
-                  </Button>
-                }
-              />
-              <DropdownMenuContent className="min-w-[180px]">
-                <DropdownMenuItem
-                  onClick={() => setOpenDeleteBoardModal(true)}
-                  className="text-red-500 hover:text-red-500! flex gap-3 items-center!"
-                >
-                  <TrashIcon className="size-4" />
-                  <p className="leading-0">Delete board</p>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <Dropdown
+              triggerRender={
+                <Button className="rounded-full" isIconOnly>
+                  <MoreHorizontal />
+                </Button>
+              }
+            >
+              <DropdownMenuItem
+                onClick={() => setOpenDeleteBoardModal(true)}
+                className="text-red-500 hover:text-red-500! flex gap-3 items-center!"
+              >
+                <TrashIcon className="size-4" />
+                <p className="leading-0">Delete board</p>
+              </DropdownMenuItem>
+            </Dropdown>
           </div>
         </div>
         <BoardLayout boardId={boardId} />
