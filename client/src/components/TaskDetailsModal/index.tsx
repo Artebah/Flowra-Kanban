@@ -5,7 +5,7 @@ import {
   UserRoundPlusIcon,
   XIcon,
 } from "lucide-react";
-import Button from "../Button"; 
+import Button from "../Button";
 import { Dialog, DialogContent } from "../ui/dialog";
 import {
   useModalDetailsData,
@@ -84,7 +84,7 @@ function TaskDetailsModal() {
             </Button>
 
             <LabelDropdown
-              TriggerComponent={
+              triggerRender={
                 <Button
                   leadingIcon={<TagIcon className="size-4" />}
                   variant="outline"

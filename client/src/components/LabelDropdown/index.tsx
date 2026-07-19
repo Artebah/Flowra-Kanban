@@ -18,10 +18,10 @@ const labelDropdownTitles: Record<LabelEditionDataMode, string> = {
 };
 
 interface LabelDropdownProps {
-  TriggerComponent: React.ReactElement;
+  triggerRender: React.ReactElement;
 }
 
-function LabelDropdown({ TriggerComponent }: LabelDropdownProps) {
+function LabelDropdown({ triggerRender }: LabelDropdownProps) {
   const [labelEditionData, setLabelEditionData] =
     React.useState<LabelEditionData>({ mode: "none", initialData: null });
 
@@ -57,7 +57,7 @@ function LabelDropdown({ TriggerComponent }: LabelDropdownProps) {
       showCloseButton
       onGoBack={allowGoBack ? onGoBack : undefined}
       title={labelDropdownTitles[labelEditionData.mode]}
-      triggerRender={TriggerComponent}
+      triggerRender={triggerRender}
     >
       {labelDropdownContent[labelEditionData.mode]}
     </Popover>
