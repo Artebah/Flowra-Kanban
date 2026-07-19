@@ -17,6 +17,8 @@ interface PopoverProps {
   title?: string;
   showCloseButton?: boolean;
   onGoBack?: () => void;
+
+  contentClassName?: string;
 }
 
 function Popover({
@@ -27,6 +29,7 @@ function Popover({
   onGoBack,
   showCloseButton = true,
   title,
+  contentClassName,
 }: PopoverProps) {
   const [isLocalOpen, setIsLocalOpen] = React.useState(false);
 
@@ -43,11 +46,12 @@ function Popover({
         sideOffset={4}
         className={cn(
           "z-50 min-w-[300px] px-2 bg-dropdown-bg text-white shadow-2xl shadow-dropdown-shadow rounded-md",
-          showHeader ? "pb-3 pt-0" : "py-3"
+          showHeader ? "pb-3 pt-0" : "py-3",
+          contentClassName
         )}
       >
         {showHeader && (
-          <div className="relative min-h-10 border-b border-gray-600 mb-3 flex items-center">
+          <div className="relative min-h-10 border-b border-gray-600 flex items-center">
             {onGoBack && (
               <Button className={"size-7 p-0"} onClick={onGoBack}>
                 <ChevronLeft className="size-5" />
