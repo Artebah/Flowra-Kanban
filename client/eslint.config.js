@@ -27,6 +27,7 @@ export default tseslint.config([
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-empty-object-type": "off",
       "no-useless-escape": "off",
+      "react-refresh/only-export-components": "off",
     },
   },
 ]);
