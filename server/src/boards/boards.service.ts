@@ -89,4 +89,14 @@ export class BoardsService {
 
     return this.boardsRepository.save(board);
   }
+
+  async getAllBoardMembers({ boardId }: { boardId: string }) {
+    const board = await this.boardsRepository.findOne({
+      where: { id: boardId },
+    });
+
+    if (!board) throw new NotFoundException("The board not found");
+
+    return board.boardMembers;
+  }
 }

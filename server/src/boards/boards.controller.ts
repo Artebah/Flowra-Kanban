@@ -94,4 +94,9 @@ export class BoardsController {
   ) {
     return this.labelsService.delete({ boardId, labelId });
   }
+
+  @Get("/:boardId/members")
+  getAllBoardMembers(@Param("boardId", new ParseUUIDPipe()) boardId: string) {
+    return this.boardsService.getAllBoardMembers({ boardId });
+  }
 }

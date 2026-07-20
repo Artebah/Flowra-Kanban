@@ -26,6 +26,7 @@ import { UpdateTaskDto } from "./dtos/update-task.dto";
 import { CreateLabelDto } from "src/labels/dtos/create-label.dto";
 import { LabelsService } from "src/labels/labels.service";
 import { AssignLabelsDto } from "./dtos/assign-labels.dto";
+import { AssignMembersDto } from "./dtos/assign-members.dto";
 
 @Controller()
 @UseGuards(JwtAuthGuard, BoardAccessGuard)
@@ -145,20 +146,22 @@ export class TasksController {
   assignLabels(
     @Body() dto: AssignLabelsDto,
     @Param("taskId", new ParseUUIDPipe()) taskId: string,
+    @Param("boardId", new ParseUUIDPipe()) boardId: string,
   ) {
-    return this.tasksService.assignLabels({ dto, taskId });
+    return this.tasksService.assignLabels({ dto, taskId, boardId });
   }
 
-  @Get("boards/:boardId/tasks/:taskId/assigned-members")
+  @Get("boards/:boardId/tasks/:taskId/members/assigned")
   getAssignedMembers(@Param("taskId", new ParseUUIDPipe()) taskId: string) {
     return this.tasksService.getAssignedMembers({ taskId });
   }
 
-  //@Post("boards/:boardId/tasks/:taskId/assign-member")
-  //assignMember(
-  //  @Body() dto: AssignMembersDto,
-  //  @Param("taskId", new ParseUUIDPipe()) taskId: string,
-  //) {
-  //  return this.tasksService.assignMembers({ dto, taskId });
-  //}
+  @Post("boards/:boardId/tasks/:taskId/members/assign")
+  assignMembers(
+    @Body() dto: AssignMembersDto,
+    @Param("taskId", new ParseUUIDPipe()) taskId: string,
+    @Param("boardId", new ParseUUIDPipe()) boardId: string,
+  ) {
+    return this.tasksService.assignMembers({ dto, taskId, boardId });
+  }
 }

@@ -10,6 +10,7 @@ import { extractTextFromTiptap } from "src/common/utils/tiptap-parser.util";
 import { CreateLabelDto } from "src/labels/dtos/create-label.dto";
 import { Label } from "src/labels/entities/Label.entity";
 import { AssignLabelsDto } from "./dtos/assign-labels.dto";
+import { User } from "src/users/entities/User.entity";
 
 @Injectable()
 export class TasksService {
@@ -19,6 +20,8 @@ export class TasksService {
     private readonly columnsRepository: Repository<BoardColumn>,
     @InjectRepository(Label)
     private readonly labelsRepository: Repository<Label>,
+    @InjectRepository(User)
+    private readonly usersRepository: Repository<User>,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -191,16 +194,13 @@ export class TasksService {
   async assignLabels({
     dto,
     taskId,
+    boardId,
   }: {
     dto: AssignLabelsDto;
+    boardId: string;
     taskId: string;
   }) {
-    const task = await this.tasksRepository.findOne({
-      where: { id: taskId },
-      relations: { assignedLabels: true },
-    });
-
-    if (!task) throw new NotFoundException(`Task with ID ${taskId} not found`);
+    const task = await this.findTaskInBoardOrThrow(taskId, boardId);
 
     task.assignedLabels = await this.labelsRepository.findBy({
       id: In(dto.labelsIds),
@@ -223,5 +223,23 @@ export class TasksService {
     return task.assignedMembers;
   }
 
-  async assignMember() {}
+  async assignMembers({
+    dto,
+    taskId,
+    boardId,
+  }: {
+    dto: { membersIds: string[] };
+    taskId: string;
+    boardId: string;
+  }) {
+    const task = await this.findTaskInBoardOrThrow(taskId, boardId);
+
+    task.assignedMembers = await this.usersRepository.findBy({
+      id: In(dto.membersIds),
+    });
+
+    await this.tasksRepository.save(task);
+
+    return task.assignedMembers;
+  }
 }
