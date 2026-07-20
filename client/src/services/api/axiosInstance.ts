@@ -38,9 +38,29 @@ export default axiosInstance;
 
 axiosInstance.interceptors.response.use(
   (value) => value,
-  (error) => {
+  async (error) => {
     const disableToast = error.config?.disableErrorToast;
     const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      try {
+        const data = await refresh();
+
+        if (!data) {
+          clearAuthAndRedirect();
+          return Promise.reject(error);
+        }
+
+        localStorage.setItem("accessToken", data.accessToken);
+        originalRequest.headers["Authorization"] = `Bearer ${data.accessToken}`;
+        return axiosInstance(originalRequest);
+      } catch {
+        clearAuthAndRedirect();
+        return Promise.reject(error);
+      }
+    }
 
     if (!disableToast) {
       if (error instanceof AxiosError && error.response) {
@@ -48,26 +68,6 @@ axiosInstance.interceptors.response.use(
       } else {
         toast.error(error.message || "Something went wrong");
       }
-    }
-
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-
-      refresh()
-        .then((data) => {
-          if (!data) {
-            clearAuthAndRedirect();
-            return;
-          }
-
-          localStorage.setItem("accessToken", data.accessToken);
-          originalRequest.headers["Authorization"] =
-            `Bearer ${data.accessToken}`;
-          return axiosInstance(originalRequest);
-        })
-        .catch(() => {
-          clearAuthAndRedirect();
-        });
     }
 
     return Promise.reject(error);
