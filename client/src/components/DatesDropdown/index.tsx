@@ -4,6 +4,7 @@ import React from "react";
 import { Checkbox } from "../ui/checkbox";
 import Input from "../Input";
 import { format, isValid, parse } from "date-fns";
+import Button from "../Button";
 
 interface DatesDropdownProps {
   triggerRender: React.ReactElement;
@@ -24,24 +25,32 @@ function DatesDropdown({ triggerRender }: DatesDropdownProps) {
 
   const dateInputRef = React.useRef<HTMLInputElement>(null);
 
-  React.useEffect(() => {
-    const today = new Date();
-
-    setInputDueDate(format(today, DATE_FORMAT));
-    setInputDueTime(format(today, TIME_FORMAT));
+  const setSpecificDateAndTime = React.useCallback((date: Date) => {
+    setMonth(date);
+    setDate(date);
+    setInputDueDate(format(date, DATE_FORMAT));
+    setInputDueTime(format(date, TIME_FORMAT));
   }, []);
 
   React.useEffect(() => {
-    if (!isDueDate) {
+    setSpecificDateAndTime(new Date());
+  }, [setSpecificDateAndTime]);
+
+  const handleCheckboxChange = (checked: boolean) => {
+    setIsDueDate(checked);
+
+    if (!checked) {
       setInputDueDate("");
       setInputDueTime("");
+    } else {
+      setSpecificDateAndTime(date || new Date());
     }
-  }, [isDueDate]);
+  };
 
   const onCalendarSelect = (newDate: Date | undefined) => {
     setDate(newDate);
 
-    if (newDate) {
+    if (newDate && isDueDate) {
       setInputDueDate(format(newDate, DATE_FORMAT));
     }
   };
@@ -65,6 +74,28 @@ function DatesDropdown({ triggerRender }: DatesDropdownProps) {
     }
   };
 
+  const onClickRemove = () => {
+    setIsOpen(false);
+
+    // call api to clean up data
+  };
+
+  const onClickSubmit = () => {
+    if (date) {
+      const combinedStr = `${inputDueDate} ${inputDueTime}`;
+
+      const finalDate = parse(
+        combinedStr,
+        `${DATE_FORMAT} ${TIME_FORMAT}`,
+        new Date()
+      );
+      const dateTimeStringToSend = finalDate.toISOString();
+
+      console.log(dateTimeStringToSend);
+      // call api to save data
+    }
+  };
+
   return (
     <Popover
       isOpen={isOpen}
@@ -85,7 +116,10 @@ function DatesDropdown({ triggerRender }: DatesDropdownProps) {
       <div>
         <p className="text-sm mb-1.5">Due date</p>
         <div className="flex gap-3 items-center">
-          <Checkbox checked={isDueDate} onCheckedChange={setIsDueDate} />
+          <Checkbox
+            checked={isDueDate}
+            onCheckedChange={handleCheckboxChange}
+          />
           <div className="flex gap-3">
             <Input
               disabled={!isDueDate}
@@ -105,6 +139,25 @@ function DatesDropdown({ triggerRender }: DatesDropdownProps) {
             />
           </div>
         </div>
+      </div>
+
+      <div className="mt-3">
+        <Button
+          onClick={onClickSubmit}
+          type="button"
+          className="w-full mb-2"
+          variant="primary"
+        >
+          Save
+        </Button>
+        <Button
+          onClick={onClickRemove}
+          type="button"
+          className="w-full"
+          variant="outline"
+        >
+          Remove
+        </Button>
       </div>
     </Popover>
   );
