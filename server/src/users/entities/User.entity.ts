@@ -2,12 +2,7 @@ import { Expose } from "class-transformer";
 import { BaseEntity } from "src/common/entities/base.entity";
 import { BoardMember } from "src/boards/entities/BoardMember.entity";
 import { Task } from "src/tasks/entities/Task.entity";
-import {
-  Column,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("users")
 export class User extends BaseEntity {
@@ -31,4 +26,7 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Task, (task) => task.author)
   tasks: Task[];
+
+  @ManyToMany(() => Task, (task) => task.assignedMembers)
+  assignedTasks: Task[];
 }
