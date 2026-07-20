@@ -14,24 +14,35 @@ const TIME_FORMAT = "HH:mm";
 
 function DatesDropdown({ triggerRender }: DatesDropdownProps) {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
-  const [isOpen, setIsOpen] = React.useState(false);
-  const dateInputRef = React.useRef<HTMLInputElement>(null);
-  const [inputDate, setInputDate] = React.useState<string>();
-  const [inputTime, setInputTime] = React.useState<string>();
   const [month, setMonth] = React.useState<Date>(new Date());
+
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const [inputDueDate, setInputDueDate] = React.useState<string>("");
+  const [inputDueTime, setInputDueTime] = React.useState<string>("");
+  const [isDueDate, setIsDueDate] = React.useState(true);
+
+  const dateInputRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
     const today = new Date();
 
-    setInputDate(format(today, DATE_FORMAT));
-    setInputTime(format(today, TIME_FORMAT));
+    setInputDueDate(format(today, DATE_FORMAT));
+    setInputDueTime(format(today, TIME_FORMAT));
   }, []);
+
+  React.useEffect(() => {
+    if (!isDueDate) {
+      setInputDueDate("");
+      setInputDueTime("");
+    }
+  }, [isDueDate]);
 
   const onCalendarSelect = (newDate: Date | undefined) => {
     setDate(newDate);
 
     if (newDate) {
-      setInputDate(format(newDate, DATE_FORMAT));
+      setInputDueDate(format(newDate, DATE_FORMAT));
     }
   };
 
@@ -49,7 +60,7 @@ function DatesDropdown({ triggerRender }: DatesDropdownProps) {
       setDate(parsedDate);
     } else {
       if (date) {
-        setInputDate(format(date, DATE_FORMAT));
+        setInputDueDate(format(date, DATE_FORMAT));
       }
     }
   };
@@ -74,20 +85,23 @@ function DatesDropdown({ triggerRender }: DatesDropdownProps) {
       <div>
         <p className="text-sm mb-1.5">Due date</p>
         <div className="flex gap-3 items-center">
-          <Checkbox checked={true} />
+          <Checkbox checked={isDueDate} onCheckedChange={setIsDueDate} />
           <div className="flex gap-3">
             <Input
+              disabled={!isDueDate}
               onBlur={onBlurDateInput}
               ref={dateInputRef}
               className="h-9"
-              onChange={(e) => setInputDate(e.target.value)}
-              value={inputDate}
+              placeholder="M/D/YYYY"
+              onChange={(e) => setInputDueDate(e.target.value)}
+              value={inputDueDate}
             />
             <Input
+              disabled={!isDueDate}
               className="h-9"
               type="time"
-              onChange={(e) => setInputTime(e.target.value)}
-              value={inputTime}
+              onChange={(e) => setInputDueTime(e.target.value)}
+              value={inputDueTime}
             />
           </div>
         </div>
