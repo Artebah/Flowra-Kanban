@@ -72,13 +72,19 @@ export class BoardsController {
     return this.labelsService.getAll(boardId);
   }
 
-  @Patch("/:boardId/labels/:labelId")
+  @Patch("/:boardId/tasks/:taskId/labels/:labelId")
   updateLabel(
     @Body() updateLabelDto: UpdateLabelDto,
     @Param("boardId", new ParseUUIDPipe()) boardId: string,
     @Param("labelId", new ParseUUIDPipe()) labelId: string,
+    @Param("taskId", new ParseUUIDPipe()) taskId: string,
   ) {
-    return this.labelsService.update({ boardId, labelId, dto: updateLabelDto });
+    return this.labelsService.update({
+      boardId,
+      labelId,
+      taskId,
+      dto: updateLabelDto,
+    });
   }
 
   @Delete("/:boardId/labels/:labelId")

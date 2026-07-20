@@ -37,3 +37,8 @@ export interface GetAssignedLabelsOptions {
   boardId: string;
   taskId: string;
 }
+
+export interface UpdateLabelResponse {
+  labels: ILabel[];
+  assignedLabels: ILabel[];
+}

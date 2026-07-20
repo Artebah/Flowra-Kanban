@@ -4,6 +4,7 @@ import type {
   GetAssignedLabelsOptions,
   ILabel,
   UpdateLabelOptions,
+  UpdateLabelResponse,
 } from "@/types/api/labels";
 import axiosInstance from "./axiosInstance";
 
@@ -15,10 +16,11 @@ export const getLabelsList = async (boardId: string): Promise<ILabel[]> => {
 export const updateLabel = async ({
   boardId,
   labelId,
+  taskId,
   updateLabelDto,
-}: UpdateLabelOptions): Promise<ILabel[]> => {
+}: UpdateLabelOptions): Promise<UpdateLabelResponse> => {
   const res = await axiosInstance.patch(
-    `/boards/${boardId}/labels/${labelId}`,
+    `/boards/${boardId}/tasks/${taskId}/labels/${labelId}`,
     updateLabelDto
   );
   return res.data;

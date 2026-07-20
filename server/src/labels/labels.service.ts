@@ -4,6 +4,8 @@ import { Label } from "./entities/Label.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CreateLabelDto } from "./dtos/create-label.dto";
 import { UpdateLabelDto } from "./dtos/update-label.dto";
+import { LabelsWithAssignedDto } from "./dtos/labels-with-assigned.dto";
+import { plainToInstance } from "class-transformer";
 
 @Injectable()
 export class LabelsService {
@@ -29,12 +31,14 @@ export class LabelsService {
   async update({
     boardId,
     labelId,
+    taskId,
     dto,
   }: {
     boardId: string;
     labelId: string;
+    taskId: string;
     dto: UpdateLabelDto;
-  }) {
+  }): Promise<LabelsWithAssignedDto> {
     const labelToUpdate = await this.labelsRepository.findOne({
       where: { boardId, id: labelId },
     });
@@ -45,9 +49,18 @@ export class LabelsService {
 
     await this.labelsRepository.save(labelToUpdate);
 
-    return this.labelsRepository.find({
+    const labels = await this.labelsRepository.find({
       where: { boardId },
       order: { createdAt: "ASC" },
+    });
+
+    const assignedLabels = await this.getAssignedLabelsToTask({
+      boardId,
+      taskId,
+    });
+
+    return plainToInstance(LabelsWithAssignedDto, { labels, assignedLabels }, {
+      excludeExtraneousValues: true,
     });
   }
 
