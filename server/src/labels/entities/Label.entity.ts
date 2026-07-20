@@ -27,7 +27,9 @@ export class Label extends BaseEntity {
   @Column()
   boardId: string;
 
-  @ManyToMany(() => Task, (task) => task.labels, { onDelete: "CASCADE" })
+  @ManyToMany(() => Task, (task) => task.assignedLabels, {
+    onDelete: "CASCADE",
+  })
   tasks: Task[];
 
   @ManyToOne(() => Board, (board) => board.labels, { onDelete: "CASCADE" })
