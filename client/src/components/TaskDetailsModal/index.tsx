@@ -20,6 +20,7 @@ import TaskDetailsActions from "./TaskDetailsActions";
 import { useGetAssignedLabels } from "@/hooks/api/labels/useGetAssignedLabels";
 import AssignedLabelsList from "../LabelDropdown/AssignedLabelsList";
 import DatesDropdown from "../DatesDropdown";
+import MembersDropdown from "../MembersDropdown";
 
 function TaskDetailsModal() {
   const modalDetailsData = useModalDetailsData();
@@ -108,13 +109,17 @@ function TaskDetailsModal() {
               }
             />
 
-            <Button
-              leadingIcon={<UserRoundPlusIcon className="size-4" />}
-              variant="outline"
-              className="h-8 px-2"
-            >
-              Members
-            </Button>
+            <MembersDropdown
+              triggerRender={
+                <Button
+                  leadingIcon={<UserRoundPlusIcon className="size-4" />}
+                  variant="outline"
+                  className="h-8 px-2"
+                >
+                  Members
+                </Button>
+              }
+            />
           </div>
 
           {!isLoadingAssignedLabels && assignedLabels.length > 0 && (
