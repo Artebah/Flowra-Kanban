@@ -70,10 +70,12 @@ export class Task extends BaseEntity {
   @JoinColumn({ name: "authorId" })
   author: User;
 
+  @Expose()
   @ManyToMany(() => Label, (label) => label.tasks, { onDelete: "CASCADE" })
   @JoinTable({ name: "task_labels" })
   labels: Label[];
 
+  @Expose()
   @ManyToMany(() => User, (user) => user.assignedTasks)
   @JoinTable({ name: "assignedMembersToTask" })
   assignedMembers: User[];

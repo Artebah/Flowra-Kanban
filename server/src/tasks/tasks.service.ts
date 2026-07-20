@@ -50,8 +50,16 @@ export class TasksService {
     return this.tasksRepository.save(task);
   }
 
-  getAll({ boardId }: { boardId: string }): Promise<Task[]> {
-    return this.tasksRepository.find({ where: { column: { boardId } } });
+  async getAll({ boardId }: { boardId: string }): Promise<Task[]> {
+    const tasks = await this.tasksRepository.find({
+      where: { column: { boardId } },
+      relations: {
+        labels: true,
+        assignedMembers: true,
+      },
+    });
+    console.log(tasks);
+    return tasks;
   }
 
   getOne({
