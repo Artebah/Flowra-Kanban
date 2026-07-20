@@ -78,3 +78,8 @@ export interface DeleteTaskOptions {
   boardId: string;
   taskId: string;
 }
+
+export interface GetAssignedMembersOptions {
+  boardId: string;
+  taskId: string;
+}

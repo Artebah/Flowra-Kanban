@@ -148,4 +148,17 @@ export class TasksController {
   ) {
     return this.tasksService.assignLabels({ dto, taskId });
   }
+
+  @Get("boards/:boardId/tasks/:taskId/assigned-members")
+  getAssignedMembers(@Param("taskId", new ParseUUIDPipe()) taskId: string) {
+    return this.tasksService.getAssignedMembers({ taskId });
+  }
+
+  //@Post("boards/:boardId/tasks/:taskId/assign-member")
+  //assignMember(
+  //  @Body() dto: AssignMembersDto,
+  //  @Param("taskId", new ParseUUIDPipe()) taskId: string,
+  //) {
+  //  return this.tasksService.assignMembers({ dto, taskId });
+  //}
 }

@@ -4,7 +4,6 @@ import { CSS } from "@dnd-kit/utilities";
 import { useSortable } from "@dnd-kit/sortable";
 import React from "react";
 import { useUpdateModalDetailsData } from "../../store/kanban/selectors";
-import { useGetAssignedLabels } from "@/hooks/api/labels/useGetAssignedLabels";
 
 interface TaskProps {
   task: ITask;
@@ -23,6 +22,7 @@ function Task({ task, boardId, isDragOverlayTask }: TaskProps) {
   } = useSortable({ id: task.id, data: { columnId: task.columnId } });
   const updateModalDetailsData = useUpdateModalDetailsData();
 
+  //TODO: finish implementation
   const { assignedLabels, assignedMembers } = task;
 
   const style: React.CSSProperties = {

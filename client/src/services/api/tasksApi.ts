@@ -4,12 +4,14 @@ import type {
   CreateTaskOptions,
   DeleteTaskOptions,
   GetAllTasksOptions,
+  GetAssignedMembersOptions,
   GetTaskDetailsOptions,
   ITask,
   ITaskDetails,
   ReorderTaskOptions,
   UpdateTaskOptions,
 } from "../../types/api/tasks";
+import type { User } from "../../types/api/auth";
 import axiosInstance from "./axiosInstance";
 
 export const createTask = async ({
@@ -68,6 +70,16 @@ export const deleteTask = async ({
   taskId,
 }: DeleteTaskOptions): Promise<void> => {
   await axiosInstance.delete(`boards/${boardId}/tasks/${taskId}`);
+};
+
+export const getAssignedMembers = async ({
+  boardId,
+  taskId,
+}: GetAssignedMembersOptions): Promise<User[]> => {
+  const { data } = await axiosInstance.get(
+    `boards/${boardId}/tasks/${taskId}/assigned-members`
+  );
+  return data;
 };
 
 export const assignLabels = async ({

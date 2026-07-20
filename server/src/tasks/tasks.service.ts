@@ -212,6 +212,16 @@ export class TasksService {
   }
 
   //TODO: finish implementation
-  async getAssignedMembers() {}
+  async getAssignedMembers({ taskId }: { taskId: string }) {
+    const task = await this.tasksRepository.findOne({
+      where: { id: taskId },
+      relations: { assignedMembers: true },
+    });
+
+    if (!task) throw new NotFoundException(`Task with ID ${taskId} not found`);
+
+    return task.assignedMembers;
+  }
+
   async assignMember() {}
 }
