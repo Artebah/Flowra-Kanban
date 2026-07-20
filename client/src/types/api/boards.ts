@@ -23,3 +23,7 @@ export interface BoardByIdResponse {
 export interface UpdateBoardDto {
   title: string;
 }
+
+export interface GetBoardMembersOptions {
+  boardId: string;
+}

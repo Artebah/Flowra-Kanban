@@ -1,10 +1,12 @@
 import type {
   BoardByIdResponse,
   CreateBoardDto,
+  GetBoardMembersOptions,
   IBoard,
   TBoardsList,
   UpdateBoardDto,
 } from "../../types/api/boards";
+import type { User } from "../../types/api/auth";
 import axiosInstance from "./axiosInstance";
 
 export const getBoardsListByUser = async (): Promise<TBoardsList> => {
@@ -36,4 +38,11 @@ export const updateBoard = async (
 ): Promise<IBoard> => {
   const res = await axiosInstance.patch(`/boards/${boardId}`, dto);
   return res.data;
+};
+
+export const getBoardMembers = async ({
+  boardId,
+}: GetBoardMembersOptions): Promise<User[]> => {
+  const { data } = await axiosInstance.get(`/boards/${boardId}/members`);
+  return data;
 };

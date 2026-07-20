@@ -1,6 +1,7 @@
 import type { ILabel } from "../../types/api/labels";
 import type {
   AssignLabelsOptions,
+  AssignMembersOptions,
   CreateTaskOptions,
   DeleteTaskOptions,
   GetAllTasksOptions,
@@ -77,7 +78,19 @@ export const getAssignedMembers = async ({
   taskId,
 }: GetAssignedMembersOptions): Promise<User[]> => {
   const { data } = await axiosInstance.get(
-    `boards/${boardId}/tasks/${taskId}/assigned-members`
+    `boards/${boardId}/tasks/${taskId}/members/assigned`
+  );
+  return data;
+};
+
+export const assignMembers = async ({
+  boardId,
+  taskId,
+  dto,
+}: AssignMembersOptions): Promise<User[]> => {
+  const { data } = await axiosInstance.post(
+    `boards/${boardId}/tasks/${taskId}/members/assign`,
+    dto
   );
   return data;
 };

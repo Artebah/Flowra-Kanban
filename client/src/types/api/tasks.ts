@@ -83,3 +83,13 @@ export interface GetAssignedMembersOptions {
   boardId: string;
   taskId: string;
 }
+
+export interface AssignMembersDto {
+  membersIds: string[];
+}
+
+export interface AssignMembersOptions {
+  boardId: string;
+  taskId: string;
+  dto: AssignMembersDto;
+}
