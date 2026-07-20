@@ -61,7 +61,7 @@ export class TasksService {
         assignedMembers: true,
       },
     });
-    console.log(tasks);
+
     return tasks;
   }
 
