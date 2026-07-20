@@ -9,12 +9,15 @@ import {
 } from "typeorm";
 import { Board } from "./Board.entity";
 import { BoardRole } from "../enums/BoardRole.enum";
+import { Expose } from "class-transformer";
 
 @Entity("board-members")
 export class BoardMember extends BaseEntity {
+  @Expose()
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
+  @Expose()
   @Column({
     type: "enum",
     enum: BoardRole,
@@ -22,12 +25,15 @@ export class BoardMember extends BaseEntity {
   })
   role: BoardRole;
 
+  @Expose()
   @Column()
   userId: string;
 
+  @Expose()
   @Column()
   boardId: string;
 
+  @Expose()
   @ManyToOne(() => User, (user) => user.boardMembers, {
     onDelete: "CASCADE",
   })

@@ -93,6 +93,11 @@ export class BoardsService {
   async getAllBoardMembers({ boardId }: { boardId: string }) {
     const board = await this.boardsRepository.findOne({
       where: { id: boardId },
+      relations: {
+        boardMembers: {
+          user: true,
+        },
+      },
     });
 
     if (!board) throw new NotFoundException("The board not found");
