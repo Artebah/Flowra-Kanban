@@ -1,5 +1,7 @@
+import type { User } from "./auth";
 import type { BoardColumn } from "./columns";
 import { type JSONContent } from "@tiptap/react";
+import type { ILabel } from "./labels";
 
 export interface ITask {
   id: string;
@@ -12,6 +14,8 @@ export interface ITask {
   authorId: string;
   createdAt: string;
   updatedAt: string;
+  assignedMembers: User[];
+  assignedLabels: ILabel[];
 }
 
 export interface ITaskDetails extends ITask {

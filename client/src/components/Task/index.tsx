@@ -23,6 +23,8 @@ function Task({ task, boardId, isDragOverlayTask }: TaskProps) {
   } = useSortable({ id: task.id, data: { columnId: task.columnId } });
   const updateModalDetailsData = useUpdateModalDetailsData();
 
+  const { assignedLabels, assignedMembers } = task;
+
   const style: React.CSSProperties = {
     transform: CSS.Transform.toString(transform),
     transition,
@@ -30,9 +32,6 @@ function Task({ task, boardId, isDragOverlayTask }: TaskProps) {
     zIndex: isDragOverlayTask ? 10 : 1,
     background: isDragOverlayTask ? "#252525" : undefined,
   };
-
-  const { data: assignedLabels = [], isLoading: isLoadingAssignedLabels } =
-    useGetAssignedLabels(boardId, task.id);
 
   return (
     <Button
@@ -46,7 +45,7 @@ function Task({ task, boardId, isDragOverlayTask }: TaskProps) {
       }
       style={style}
     >
-      {!isLoadingAssignedLabels && assignedLabels.length > 0 && (
+      {assignedLabels.length > 0 && (
         <div className="w-full grid grid-cols-5 gap-1">
           {assignedLabels.map((label) => (
             <span
