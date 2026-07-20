@@ -54,7 +54,7 @@ export class TasksService {
     const tasks = await this.tasksRepository.find({
       where: { column: { boardId } },
       relations: {
-        labels: true,
+        assignedLabels: true,
         assignedMembers: true,
       },
     });
@@ -177,7 +177,7 @@ export class TasksService {
         manager.create(Label, { boardId, ...dto }),
       );
 
-      task.labels = [...task.labels, createdLabel];
+      task.assignedLabels = [...task.assignedLabels, createdLabel];
 
       await manager.save(task);
 
@@ -197,15 +197,21 @@ export class TasksService {
   }) {
     const task = await this.tasksRepository.findOne({
       where: { id: taskId },
-      relations: { labels: true },
+      relations: { assignedLabels: true },
     });
 
     if (!task) throw new NotFoundException(`Task with ID ${taskId} not found`);
 
-    task.labels = await this.labelsRepository.findBy({ id: In(dto.labelsIds) });
+    task.assignedLabels = await this.labelsRepository.findBy({
+      id: In(dto.labelsIds),
+    });
 
     await this.tasksRepository.save(task);
 
-    return task.labels;
+    return task.assignedLabels;
   }
+
+  //TODO: finish implementation
+  async getAssignedMembers() {}
+  async assignMember() {}
 }
