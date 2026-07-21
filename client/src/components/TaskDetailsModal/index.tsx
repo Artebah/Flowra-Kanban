@@ -21,6 +21,8 @@ import { useGetAssignedLabels } from "@/hooks/api/labels/useGetAssignedLabels";
 import AssignedLabelsList from "../LabelDropdown/AssignedLabelsList";
 import DatesDropdown from "../DatesDropdown";
 import MembersDropdown from "../MembersDropdown";
+import { useGetAssignedMembers } from "@/hooks/api/tasks/useGetAssignedMembers";
+import AssignedMembersList from "../AssignedMembersList";
 
 function TaskDetailsModal() {
   const modalDetailsData = useModalDetailsData();
@@ -32,6 +34,8 @@ function TaskDetailsModal() {
 
   const { data: assignedLabels = [], isLoading: isLoadingAssignedLabels } =
     useGetAssignedLabels(modalDetailsData.boardId, modalDetailsData.taskId);
+  const { data: assignedMembers = [], isLoading: isLoadingAssignedMembers } =
+    useGetAssignedMembers(modalDetailsData.boardId, modalDetailsData.taskId);
 
   const onCloseModal = () => {
     updateModalDetailsData({ boardId: null, taskId: null, isOpen: false });
@@ -125,6 +129,11 @@ function TaskDetailsModal() {
           {!isLoadingAssignedLabels && assignedLabels.length > 0 && (
             <AssignedLabelsList labels={assignedLabels} />
           )}
+
+          {!isLoadingAssignedMembers && assignedMembers.length > 0 && (
+            <AssignedMembersList members={assignedMembers} />
+          )}
+
           <div className="mt-8 px-6 pb-8">
             <div className="flex gap-3">
               <TextIcon /> <p className="font-bold">Description</p>

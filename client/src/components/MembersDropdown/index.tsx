@@ -39,7 +39,10 @@ function MembersDropdown({ triggerRender }: MembersDropdownProps) {
   return (
     <Popover title="Members" triggerRender={triggerRender}>
       {boardMembers.map((boardMember) => (
-        <Button onClick={() => onClickMember(boardMember.id)}>
+        <Button
+          disabled={assignMembers.isPending}
+          onClick={() => onClickMember(boardMember.id)}
+        >
           <div className="grow flex items-center gap-3">
             <div className="size-8 rounded-full overflow-hidden">
               <img
