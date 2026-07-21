@@ -12,7 +12,7 @@ function AssignedMembersList({ members }: AssignedMembersListProps) {
     <div>
       <p className="font-medium text-xs mb-2 text-gray-300">Members</p>
 
-      <div className="flex gap-1.5">
+      <div className="flex flex-wrap gap-1.5">
         {members.map((member) => (
           <div className="size-8" key={member.id}>
             <img

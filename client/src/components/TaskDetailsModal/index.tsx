@@ -136,7 +136,7 @@ function TaskDetailsModal() {
           </div>
 
           {(showAssignedLabels || showAssignedMembers || showDueDate) && (
-            <div className="px-8 my-10 flex flex-wrap gap-x-5 gap-y-3">
+            <div className="pl-14 pr-10 my-10 flex flex-wrap gap-x-5 gap-y-3">
               {showAssignedMembers && (
                 <AssignedMembersList members={assignedMembers} />
               )}
