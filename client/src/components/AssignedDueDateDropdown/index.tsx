@@ -1,4 +1,4 @@
-import { format, isPast, isTomorrow, parseISO } from "date-fns";
+import { format, isPast, isToday, isTomorrow, parseISO } from "date-fns";
 import DatesDropdown from "../DatesDropdown";
 import Button from "../Button";
 import type { ITaskDetails } from "@/types/api/tasks";
@@ -17,8 +17,8 @@ function AssignedDueDateDropdown({
 
   const formattedDate = format(date, "MMM d, HH:mm");
 
-  const isDueSoon = isTomorrow(date);
   const isOverdue = isPast(date);
+  const isDueSoon = !isOverdue ? isToday(date) || isTomorrow(date) : false;
 
   return (
     <div>

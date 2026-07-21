@@ -4,6 +4,9 @@ import { CSS } from "@dnd-kit/utilities";
 import { useSortable } from "@dnd-kit/sortable";
 import React from "react";
 import { useUpdateModalDetailsData } from "../../store/kanban/selectors";
+import { format, isPast, isToday, isTomorrow, parseISO } from "date-fns";
+import { ClockIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface TaskProps {
   task: ITask;
@@ -32,6 +35,15 @@ function Task({ task, boardId, isDragOverlayTask }: TaskProps) {
     zIndex: isDragOverlayTask ? 10 : 1,
     background: isDragOverlayTask ? "#252525" : undefined,
   };
+  console.log(task.dueDate);
+
+  const parsedDueDate = task.dueDate ? parseISO(task.dueDate) : null;
+  const dueDateString = parsedDueDate ? format(parsedDueDate, "MMM d") : null;
+  const isOverdue = parsedDueDate ? isPast(parsedDueDate) : false;
+  const isDueSoon =
+    parsedDueDate && !isOverdue
+      ? isToday(parsedDueDate) || isTomorrow(parsedDueDate)
+      : false;
 
   return (
     <Button
@@ -59,20 +71,37 @@ function Task({ task, boardId, isDragOverlayTask }: TaskProps) {
 
       <span>{task.title}</span>
 
-      {assignedMembers.length > 0 && (
-        <div>
-          {assignedMembers.map((member) => (
-            <div className="size-7" key={member.id}>
-              <img
-                title={`${member.email} (${member.username})`}
-                className="size-full rounded-full object-cover"
-                src="/avatar_1.jpg"
-                alt={member.username}
-              />
-            </div>
-          ))}
-        </div>
-      )}
+      <div className="flex justify-between w-full items-center gap-3 flex-wrap">
+        {dueDateString && (
+          <span
+            className={cn(
+              "flex items-center rounded-sm gap-1 px-1 h-5 text-xs text-gray-300",
+              {
+                "text-gray-dim! bg-amber-300": isDueSoon,
+                "text-gray-dim! bg-red-400": isOverdue,
+              }
+            )}
+          >
+            <ClockIcon className="size-4" />
+            {dueDateString}
+          </span>
+        )}
+
+        {assignedMembers.length > 0 && (
+          <div>
+            {assignedMembers.map((member) => (
+              <div className="size-5" key={member.id}>
+                <img
+                  title={`${member.email} (${member.username})`}
+                  className="size-full rounded-full object-cover"
+                  src="/avatar_1.jpg"
+                  alt={member.username}
+                />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </Button>
   );
 }

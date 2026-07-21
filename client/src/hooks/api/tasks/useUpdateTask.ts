@@ -18,7 +18,7 @@ export const useUpdateTask = () => {
       );
 
       queryClient.setQueryData<ITask[]>(
-        [`board-tasks-${variables.boardId}`],
+        ["board-tasks", variables.boardId],
         (prev) =>
           prev?.map((task) =>
             task.id === variables.taskId ? { ...task, ...data } : task
