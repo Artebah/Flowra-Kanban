@@ -56,7 +56,23 @@ function Task({ task, boardId, isDragOverlayTask }: TaskProps) {
           ))}
         </div>
       )}
+
       <span>{task.title}</span>
+
+      {assignedMembers.length > 0 && (
+        <div>
+          {assignedMembers.map((member) => (
+            <div className="size-10" key={member.id}>
+              <img
+                title={`${member.email} (${member.username})`}
+                className="size-full rounded-full object-cover"
+                src="/avatar_1.jpg"
+                alt={member.username}
+              />
+            </div>
+          ))}
+        </div>
+      )}
     </Button>
   );
 }
