@@ -211,7 +211,6 @@ export class TasksService {
     return task.assignedLabels;
   }
 
-  //TODO: finish implementation
   async getAssignedMembers({ taskId }: { taskId: string }) {
     const task = await this.tasksRepository.findOne({
       where: { id: taskId },
