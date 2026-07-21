@@ -27,6 +27,8 @@ import { CreateLabelDto } from "src/labels/dtos/create-label.dto";
 import { LabelsService } from "src/labels/labels.service";
 import { AssignLabelsDto } from "./dtos/assign-labels.dto";
 import { AssignMembersDto } from "./dtos/assign-members.dto";
+import { plainToInstance } from "class-transformer";
+import { GetTaskUploadUrlResponseDto } from "./dtos/get-task-upload-url-response.dto";
 
 @Controller()
 @UseGuards(JwtAuthGuard, BoardAccessGuard)
@@ -57,7 +59,11 @@ export class TasksController {
     const r2PublicUrl = this.configService.getOrThrow<string>("R2_PUBLIC_URL");
     const publicUrl = `${r2PublicUrl}/${fileKey}`;
 
-    return { uploadUrl, publicUrl, fileKey };
+    return plainToInstance(GetTaskUploadUrlResponseDto, {
+      uploadUrl,
+      publicUrl,
+      fileKey,
+    });
   }
 
   @Post("boards/:boardId/columns/:columnId/tasks")
