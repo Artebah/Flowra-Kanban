@@ -73,6 +73,7 @@ export class BoardsController {
   }
 
   @Patch("/:boardId/tasks/:taskId/labels/:labelId")
+  @UseGuards(BoardAccessGuard)
   updateLabel(
     @Body() updateLabelDto: UpdateLabelDto,
     @Param("boardId", new ParseUUIDPipe()) boardId: string,
@@ -88,6 +89,7 @@ export class BoardsController {
   }
 
   @Delete("/:boardId/labels/:labelId")
+  @UseGuards(BoardAccessGuard)
   deleteLabel(
     @Param("boardId", new ParseUUIDPipe()) boardId: string,
     @Param("labelId", new ParseUUIDPipe()) labelId: string,
@@ -96,6 +98,7 @@ export class BoardsController {
   }
 
   @Get("/:boardId/members")
+  @UseGuards(BoardAccessGuard)
   getAllBoardMembers(@Param("boardId", new ParseUUIDPipe()) boardId: string) {
     return this.boardsService.getAllBoardMembers({ boardId });
   }

@@ -170,7 +170,7 @@ export class TasksService {
     return this.dataSource.transaction(async (manager) => {
       const task = await manager.findOne(Task, {
         where: { id: taskId },
-        relations: ["labels"],
+        relations: ["assignedLabels"],
       });
 
       if (!task)
