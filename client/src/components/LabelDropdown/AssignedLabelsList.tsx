@@ -25,7 +25,7 @@ function AssignedLabelsList({ labels }: AssignedLabelsListProps) {
 
         <LabelDropdown
           triggerRender={
-            <Button variant="outline" className="bg-dropdown-bg" isIconOnly>
+            <Button variant="outline" isIconOnly>
               <Plus />
             </Button>
           }
