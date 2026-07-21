@@ -1,4 +1,4 @@
-import { format, parseISO } from "date-fns";
+import { format, isPast, isTomorrow, parseISO } from "date-fns";
 import DatesDropdown from "../DatesDropdown";
 import Button from "../Button";
 import type { ITaskDetails } from "@/types/api/tasks";
@@ -17,14 +17,28 @@ function AssignedDueDateDropdown({
 
   const formattedDate = format(date, "MMM d, HH:mm");
 
+  const isDueSoon = isTomorrow(date);
+  const isOverdue = isPast(date);
+
   return (
     <div>
-      <p className="font-bold mb-2 text-gray-300">Due date</p>
+      <p className="font-medium text-xs mb-2 text-gray-300">Due date</p>
 
       <DatesDropdown
         triggerRender={
-          <Button variant="outline">
-            {formattedDate} <ChevronDown className="size-5" />
+          <Button variant="outline" className="h-8 px-2 text-sm">
+            <span className="leading-0">{formattedDate}</span>
+            {isDueSoon && (
+              <span className="flex items-center h-4 text-xs bg-amber-300 text-gray-dim px-1 rounded-xs font-normal">
+                Due soon
+              </span>
+            )}
+            {isOverdue && (
+              <span className="flex items-center h-4 text-xs bg-red-400 text-gray-dim px-1 rounded-xs font-normal">
+                Overdue
+              </span>
+            )}
+            <ChevronDown className="size-5" />
           </Button>
         }
         taskDetails={taskDetails}

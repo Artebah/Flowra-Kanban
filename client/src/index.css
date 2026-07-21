@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @plugin "daisyui";
 @import "./tiptap-editor.css";
-@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@0,100..900&display=swap");
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
@@ -9,7 +9,7 @@
 @custom-variant dark (&:is(.dark *));
 
 body {
-  font-family: "Lato", sans-serif;
+  font-family: "Roboto", sans-serif;
   min-height: 100vh;
   @apply text-white;
 }

@@ -10,11 +10,11 @@ interface AssignedMembersListProps {
 function AssignedMembersList({ members }: AssignedMembersListProps) {
   return (
     <div>
-      <p className="font-bold mb-2 text-gray-300">Members</p>
+      <p className="font-medium text-xs mb-2 text-gray-300">Members</p>
 
       <div className="flex gap-1.5">
         {members.map((member) => (
-          <div className="size-10" key={member.id}>
+          <div className="size-8" key={member.id}>
             <img
               title={`${member.email} (${member.username})`}
               className="size-full rounded-full object-cover"
@@ -25,8 +25,12 @@ function AssignedMembersList({ members }: AssignedMembersListProps) {
         ))}
         <MembersDropdown
           triggerRender={
-            <Button variant="outline" isIconOnly>
-              <Plus />
+            <Button
+              variant="outline"
+              className="rounded-full size-8"
+              isIconOnly
+            >
+              <Plus className="size-5" />
             </Button>
           }
         />
