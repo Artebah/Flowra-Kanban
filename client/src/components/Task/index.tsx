@@ -71,37 +71,39 @@ function Task({ task, boardId, isDragOverlayTask }: TaskProps) {
 
       <span>{task.title}</span>
 
-      <div className="flex justify-between w-full items-center gap-3 flex-wrap">
-        {dueDateString && (
-          <span
-            className={cn(
-              "flex items-center rounded-sm gap-1 px-1 h-5 text-xs text-gray-300",
-              {
-                "text-gray-dim! bg-amber-300": isDueSoon,
-                "text-gray-dim! bg-red-400": isOverdue,
-              }
-            )}
-          >
-            <ClockIcon className="size-4" />
-            {dueDateString}
-          </span>
-        )}
+      {(dueDateString || assignedMembers.length > 0) && (
+        <div className="flex justify-between w-full items-center gap-3 flex-wrap">
+          {dueDateString && (
+            <span
+              className={cn(
+                "flex items-center rounded-sm gap-1 px-1 h-5 text-xs text-gray-300",
+                {
+                  "text-gray-dim! bg-amber-300": isDueSoon,
+                  "text-gray-dim! bg-red-400": isOverdue,
+                }
+              )}
+            >
+              <ClockIcon className="size-4" />
+              {dueDateString}
+            </span>
+          )}
 
-        {assignedMembers.length > 0 && (
-          <div>
-            {assignedMembers.map((member) => (
-              <div className="size-5" key={member.id}>
-                <img
-                  title={`${member.email} (${member.username})`}
-                  className="size-full rounded-full object-cover"
-                  src="/avatar_1.jpg"
-                  alt={member.username}
-                />
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+          {assignedMembers.length > 0 && (
+            <div>
+              {assignedMembers.map((member) => (
+                <div className="size-5" key={member.id}>
+                  <img
+                    title={`${member.email} (${member.username})`}
+                    className="size-full rounded-full object-cover"
+                    src="/avatar_1.jpg"
+                    alt={member.username}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </Button>
   );
 }
