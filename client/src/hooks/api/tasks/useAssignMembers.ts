@@ -1,5 +1,5 @@
 import { assignMembers } from "@/services/api/tasksApi";
-import type { AssignMembersOptions } from "@/types/api/tasks";
+import type { AssignMembersOptions, ITask } from "@/types/api/tasks";
 import type { User } from "@/types/api/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -10,6 +10,19 @@ export const useAssignMembers = () => {
     mutationFn: (options) => assignMembers(options),
     onSuccess: (members, { boardId, taskId }) => {
       queryClient.setQueryData(["assigned-members", boardId, taskId], members);
+
+      queryClient.setQueryData(
+        ["board-tasks", boardId],
+        (oldTasks: ITask[]) => {
+          if (!oldTasks) return [];
+
+          return oldTasks.map((oldTask) =>
+            oldTask.id === taskId
+              ? { ...oldTask, assignedMembers: members }
+              : oldTask
+          );
+        }
+      );
     },
   });
 };

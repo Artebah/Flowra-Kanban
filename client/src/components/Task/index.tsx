@@ -62,7 +62,7 @@ function Task({ task, boardId, isDragOverlayTask }: TaskProps) {
       {assignedMembers.length > 0 && (
         <div>
           {assignedMembers.map((member) => (
-            <div className="size-10" key={member.id}>
+            <div className="size-7" key={member.id}>
               <img
                 title={`${member.email} (${member.username})`}
                 className="size-full rounded-full object-cover"
