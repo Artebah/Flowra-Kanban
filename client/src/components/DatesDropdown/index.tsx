@@ -3,17 +3,21 @@ import { Calendar } from "../ui/calendar";
 import React from "react";
 import { Checkbox } from "../ui/checkbox";
 import Input from "../Input";
-import { format, isValid, parse } from "date-fns";
+import { format, isValid, parse, parseISO } from "date-fns";
 import Button from "../Button";
+import { useUpdateTask } from "@/hooks/api/tasks/useUpdateTask";
+import { useModalDetailsData } from "@/store/kanban/selectors";
+import type { ITaskDetails } from "@/types/api/tasks";
 
 interface DatesDropdownProps {
   triggerRender: React.ReactElement;
+  taskDetails: ITaskDetails;
 }
 
 const DATE_FORMAT = "MM/dd/yyyy";
 const TIME_FORMAT = "HH:mm";
 
-function DatesDropdown({ triggerRender }: DatesDropdownProps) {
+function DatesDropdown({ triggerRender, taskDetails }: DatesDropdownProps) {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
   const [month, setMonth] = React.useState<Date>(new Date());
 
@@ -25,6 +29,12 @@ function DatesDropdown({ triggerRender }: DatesDropdownProps) {
 
   const dateInputRef = React.useRef<HTMLInputElement>(null);
 
+  const updateTask = useUpdateTask();
+
+  const { boardId, taskId } = useModalDetailsData();
+
+  const isFirstRender = React.useRef<boolean>(false);
+
   const setSpecificDateAndTime = React.useCallback((date: Date) => {
     setMonth(date);
     setDate(date);
@@ -33,8 +43,16 @@ function DatesDropdown({ triggerRender }: DatesDropdownProps) {
   }, []);
 
   React.useEffect(() => {
-    setSpecificDateAndTime(new Date());
-  }, [setSpecificDateAndTime]);
+    if (!isFirstRender) return;
+    isFirstRender.current = true;
+
+    if (!taskDetails.dueDate) {
+      setSpecificDateAndTime(new Date());
+    } else {
+      const parsedData = parseISO(taskDetails.dueDate);
+      setSpecificDateAndTime(parsedData);
+    }
+  }, [setSpecificDateAndTime, taskDetails]);
 
   const handleCheckboxChange = (checked: boolean) => {
     setIsDueDate(checked);
@@ -75,13 +93,21 @@ function DatesDropdown({ triggerRender }: DatesDropdownProps) {
   };
 
   const onClickRemove = () => {
-    setIsOpen(false);
+    if (boardId && taskId) {
+      setIsOpen(false);
 
-    // call api to clean up data
+      updateTask.mutate({
+        boardId,
+        taskId,
+        updateTaskDto: {
+          dueDate: null,
+        },
+      });
+    }
   };
 
   const onClickSubmit = () => {
-    if (date) {
+    if (date && boardId && taskId) {
       const combinedStr = `${inputDueDate} ${inputDueTime}`;
 
       const finalDate = parse(
@@ -91,8 +117,20 @@ function DatesDropdown({ triggerRender }: DatesDropdownProps) {
       );
       const dateTimeStringToSend = finalDate.toISOString();
 
-      console.log(dateTimeStringToSend);
-      // call api to save data
+      updateTask.mutate(
+        {
+          boardId,
+          taskId,
+          updateTaskDto: {
+            dueDate: dateTimeStringToSend,
+          },
+        },
+        {
+          onSuccess: () => {
+            setIsOpen(false);
+          },
+        }
+      );
     }
   };
 

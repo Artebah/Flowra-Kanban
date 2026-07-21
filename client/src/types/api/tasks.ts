@@ -7,6 +7,7 @@ export interface ITask {
   id: string;
   title: string;
   isCompleted: boolean;
+  dueDate: string | null;
   descriptionContent: JSONContent | null;
   descriptionSearch: string;
   order: number;
@@ -56,6 +57,7 @@ export interface UpdateTaskDto {
   title?: string;
   isCompleted?: boolean;
   descriptionContent?: JSONContent;
+  dueDate?: string | null;
 }
 
 export interface UpdateTaskOptions {

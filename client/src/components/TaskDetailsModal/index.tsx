@@ -102,6 +102,7 @@ function TaskDetailsModal() {
             />
 
             <DatesDropdown
+              taskDetails={taskDetails}
               triggerRender={
                 <Button
                   leadingIcon={<ClockIcon className="size-4" />}

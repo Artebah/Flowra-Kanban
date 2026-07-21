@@ -48,7 +48,7 @@ export class Task extends BaseEntity {
 
   @Column({ type: "text", nullable: true })
   @Expose()
-  descriptionSearch: string;
+  descriptionSearch: string | null;
 
   @Column({ nullable: false })
   @Expose()
@@ -58,8 +58,9 @@ export class Task extends BaseEntity {
   @Expose()
   authorId: string;
 
-  @Column({ nullable: true })
-  dueDate: string;
+  @Column({ type: "timestamptz", nullable: true })
+  @Expose()
+  dueDate: string | null;
 
   @Expose()
   @Type(() => BoardColumn)

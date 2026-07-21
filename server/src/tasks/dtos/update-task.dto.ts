@@ -1,4 +1,10 @@
-import { IsBoolean, IsObject, IsOptional, IsString } from "class-validator";
+import {
+  IsBoolean,
+  IsObject,
+  IsOptional,
+  IsString,
+  ValidateIf,
+} from "class-validator";
 import { JSONContent } from "src/common/types/json-content.interface";
 
 export class UpdateTaskDto {
@@ -14,7 +20,8 @@ export class UpdateTaskDto {
   @IsObject()
   descriptionContent?: JSONContent;
 
+  @ValidateIf((object, value) => value !== null) // Validate as string only if value IS NOT null
   @IsOptional()
   @IsString()
-  dueDate?: string;
+  dueDate?: string | null;
 }
