@@ -13,4 +13,8 @@ export class UpdateTaskDto {
   @IsOptional()
   @IsObject()
   descriptionContent?: JSONContent;
+
+  @IsOptional()
+  @IsString()
+  dueDate?: string;
 }

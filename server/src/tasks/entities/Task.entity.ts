@@ -58,6 +58,9 @@ export class Task extends BaseEntity {
   @Expose()
   authorId: string;
 
+  @Column({ nullable: true })
+  dueDate: string;
+
   @Expose()
   @Type(() => BoardColumn)
   @ManyToOne(() => BoardColumn, (column) => column.tasks, {
