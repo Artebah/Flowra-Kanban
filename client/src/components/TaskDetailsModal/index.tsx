@@ -22,6 +22,7 @@ import DatesDropdown from "../DatesDropdown";
 import MembersDropdown from "../MembersDropdown";
 import { useGetAssignedMembers } from "@/hooks/api/tasks/useGetAssignedMembers";
 import AssignedMembersList from "../AssignedMembersList";
+import AssignedDueDateDropdown from "../AssignedDueDateDropdown";
 
 function TaskDetailsModal() {
   const modalDetailsData = useModalDetailsData();
@@ -45,6 +46,8 @@ function TaskDetailsModal() {
 
   const showAssignedMembers =
     !isLoadingAssignedMembers && assignedMembers.length > 0;
+
+  const showDueDate = taskDetails?.dueDate;
 
   if (!taskDetails) {
     return null;
@@ -132,14 +135,21 @@ function TaskDetailsModal() {
             />
           </div>
 
-          {showAssignedLabels && showAssignedMembers && (
-            <div className="px-8 my-10 flex flex-wrap gap-x-5">
+          {(showAssignedLabels || showAssignedMembers || showDueDate) && (
+            <div className="px-8 my-10 flex flex-wrap gap-x-5 gap-y-3">
               {showAssignedLabels && (
                 <AssignedLabelsList labels={assignedLabels} />
               )}
 
               {showAssignedMembers && (
                 <AssignedMembersList members={assignedMembers} />
+              )}
+
+              {taskDetails.dueDate && (
+                <AssignedDueDateDropdown
+                  taskDetails={taskDetails}
+                  dueDateString={taskDetails.dueDate}
+                />
               )}
             </div>
           )}
