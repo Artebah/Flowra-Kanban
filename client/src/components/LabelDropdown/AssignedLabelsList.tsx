@@ -9,7 +9,7 @@ interface AssignedLabelsListProps {
 
 function AssignedLabelsList({ labels }: AssignedLabelsListProps) {
   return (
-    <div className="px-6 my-8">
+    <div>
       <p className="font-bold mb-2 text-gray-300">Labels</p>
 
       <div className="flex gap-1 flex-wrap">

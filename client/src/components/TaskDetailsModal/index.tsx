@@ -2,7 +2,6 @@ import {
   ClockIcon,
   PaperclipIcon,
   TagIcon,
-  TextIcon,
   UserRoundPlusIcon,
   XIcon,
 } from "lucide-react";
@@ -40,6 +39,12 @@ function TaskDetailsModal() {
   const onCloseModal = () => {
     updateModalDetailsData({ boardId: null, taskId: null, isOpen: false });
   };
+
+  const showAssignedLabels =
+    !isLoadingAssignedLabels && assignedLabels.length > 0;
+
+  const showAssignedMembers =
+    !isLoadingAssignedMembers && assignedMembers.length > 0;
 
   if (!taskDetails) {
     return null;
@@ -127,28 +132,25 @@ function TaskDetailsModal() {
             />
           </div>
 
-          {!isLoadingAssignedLabels && assignedLabels.length > 0 && (
-            <AssignedLabelsList labels={assignedLabels} />
-          )}
+          {showAssignedLabels && showAssignedMembers && (
+            <div className="px-8 my-10 flex flex-wrap gap-x-5">
+              {showAssignedLabels && (
+                <AssignedLabelsList labels={assignedLabels} />
+              )}
 
-          {!isLoadingAssignedMembers && assignedMembers.length > 0 && (
-            <AssignedMembersList members={assignedMembers} />
-          )}
-
-          <div className="mt-8 px-6 pb-8">
-            <div className="flex gap-3">
-              <TextIcon /> <p className="font-bold">Description</p>
+              {showAssignedMembers && (
+                <AssignedMembersList members={assignedMembers} />
+              )}
             </div>
-            {modalDetailsData.boardId && modalDetailsData.taskId && (
-              <div className="mt-3 ml-8">
-                <TaskDescriptionEditor
-                  boardId={modalDetailsData.boardId}
-                  taskId={modalDetailsData.taskId}
-                  initialContent={taskDetails.descriptionContent || null}
-                />
-              </div>
-            )}
-          </div>
+          )}
+
+          {modalDetailsData.boardId && modalDetailsData.taskId && (
+            <TaskDescriptionEditor
+              boardId={modalDetailsData.boardId}
+              taskId={modalDetailsData.taskId}
+              initialContent={taskDetails.descriptionContent || null}
+            />
+          )}
         </div>
       </DialogContent>
     </Dialog>

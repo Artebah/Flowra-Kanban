@@ -9,8 +9,8 @@ interface AssignedMembersListProps {
 
 function AssignedMembersList({ members }: AssignedMembersListProps) {
   return (
-    <div className="px-6 my-8">
-      <p className="font-bold mb-2 text-gray-300">Labels</p>
+    <div>
+      <p className="font-bold mb-2 text-gray-300">Members</p>
 
       <div className="flex gap-1.5">
         {members.map((member) => (

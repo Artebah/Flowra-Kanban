@@ -5,6 +5,7 @@ import MenuBar from "./MenuBar";
 import Button from "../Button";
 import React from "react";
 import { useUpdateTask } from "../../hooks/api/tasks/useUpdateTask";
+import { TextIcon } from "lucide-react";
 
 interface TaskDescriptionEditorProps {
   initialContent: JSONContent | null;
@@ -75,23 +76,28 @@ function TaskDescriptionEditor({
   if (!editor) return null;
 
   return (
-    <div>
-      <div className="editor-container border border-gray-500 rounded-sm">
-        {isDescriptionActive && (
-          <MenuBar editor={editor} onAddImage={addImage} />
-        )}
-        <EditorContent editor={editor} />
+    <div className="mt-8 px-6 pb-8">
+      <div className="flex gap-3">
+        <TextIcon /> <p className="font-bold">Description</p>
       </div>
-      {isDescriptionActive && (
-        <div className="flex gap-3 mt-3">
-          <Button onClick={handleSubmit} variant="success">
-            Submit
-          </Button>
-          <Button onClick={handleCancel} variant="outline">
-            Cancel
-          </Button>
+      <div className="mt-3 ml-8">
+        <div className="editor-container border border-gray-500 rounded-sm">
+          {isDescriptionActive && (
+            <MenuBar editor={editor} onAddImage={addImage} />
+          )}
+          <EditorContent editor={editor} />
         </div>
-      )}
+        {isDescriptionActive && (
+          <div className="flex gap-3 mt-3">
+            <Button onClick={handleSubmit} variant="success">
+              Submit
+            </Button>
+            <Button onClick={handleCancel} variant="outline">
+              Cancel
+            </Button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
