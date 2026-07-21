@@ -25,7 +25,6 @@ function Task({ task, boardId, isDragOverlayTask }: TaskProps) {
   } = useSortable({ id: task.id, data: { columnId: task.columnId } });
   const updateModalDetailsData = useUpdateModalDetailsData();
 
-  //TODO: finish implementation
   const { assignedLabels, assignedMembers } = task;
 
   const style: React.CSSProperties = {
@@ -35,7 +34,6 @@ function Task({ task, boardId, isDragOverlayTask }: TaskProps) {
     zIndex: isDragOverlayTask ? 10 : 1,
     background: isDragOverlayTask ? "#252525" : undefined,
   };
-  console.log(task.dueDate);
 
   const parsedDueDate = task.dueDate ? parseISO(task.dueDate) : null;
   const dueDateString = parsedDueDate ? format(parsedDueDate, "MMM d") : null;
