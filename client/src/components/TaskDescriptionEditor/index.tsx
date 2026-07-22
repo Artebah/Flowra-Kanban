@@ -59,20 +59,6 @@ function TaskDescriptionEditor({
     );
   };
 
-  const addImage = async () => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "image/*";
-
-    input.onchange = async () => {
-      const file = input.files?.[0];
-      if (file) {
-        // logic
-      }
-    };
-    input.click();
-  };
-
   if (!editor) return null;
 
   return (
@@ -82,9 +68,7 @@ function TaskDescriptionEditor({
       </div>
       <div className="mt-3 ml-8">
         <div className="editor-container border border-gray-500 rounded-sm">
-          {isDescriptionActive && (
-            <MenuBar editor={editor} onAddImage={addImage} />
-          )}
+          {isDescriptionActive && <MenuBar editor={editor} />}
           <EditorContent editor={editor} />
         </div>
         {isDescriptionActive && (

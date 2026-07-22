@@ -6,16 +6,14 @@ import {
   Heading2,
   List,
   ListOrdered,
-  Image as ImageIcon,
 } from "lucide-react";
 import { Editor, useEditorState } from "@tiptap/react";
 
 interface MenuBarProps {
   editor: Editor;
-  onAddImage: () => void;
 }
 
-function MenuBar({ editor, onAddImage }: MenuBarProps) {
+function MenuBar({ editor }: MenuBarProps) {
   const editorState = useEditorState({
     editor,
     selector: ({ editor: currentEditor }) => ({
@@ -108,17 +106,6 @@ function MenuBar({ editor, onAddImage }: MenuBarProps) {
         type="button"
       >
         <ListOrdered className="w-4 h-4" />
-      </button>
-
-      <div className="w-[1px] bg-gray-dim mx-1 self-stretch my-1" />
-
-      <button
-        onClick={onAddImage}
-        className="p-2 rounded text-gray-400 hover:bg-gray-dim hover:text-creamy-latte transition-colors"
-        title="Insert image"
-        type="button"
-      >
-        <ImageIcon className="w-4 h-4" />
       </button>
     </div>
   );
