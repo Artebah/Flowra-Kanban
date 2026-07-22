@@ -13,6 +13,8 @@ import { AssignLabelsDto } from "./dtos/assign-labels.dto";
 import { User } from "src/users/entities/User.entity";
 import { SaveAttachmentsDto } from "./dtos/save-attachments.dto";
 import { TaskAttachment } from "./entities/TaskAttachment.entity";
+import { StorageService } from "src/storage/storage.service";
+import { RemoveAttachmentDto } from "./dtos/remove-attachment.dto";
 
 @Injectable()
 export class TasksService {
@@ -28,6 +30,7 @@ export class TasksService {
     private readonly attachmentsRepository: Repository<TaskAttachment>,
 
     private readonly dataSource: DataSource,
+    private readonly storageService: StorageService,
   ) {}
 
   async create({
@@ -269,5 +272,16 @@ export class TasksService {
 
   getAttachments(taskId: string) {
     return this.attachmentsRepository.find({ where: { taskId } });
+  }
+
+  async removeAttachment({
+    dto,
+    taskId,
+  }: {
+    taskId: string;
+    dto: RemoveAttachmentDto;
+  }) {
+    await this.attachmentsRepository.delete({ taskId, url: dto.path });
+    await this.storageService.deleteFile(dto.path);
   }
 }

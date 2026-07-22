@@ -30,6 +30,7 @@ import { AssignMembersDto } from "./dtos/assign-members.dto";
 import { plainToInstance } from "class-transformer";
 import { GetTaskUploadUrlResponseDto } from "./dtos/get-task-upload-url-response.dto";
 import { SaveAttachmentsDto } from "./dtos/save-attachments.dto";
+import { RemoveAttachmentDto } from "./dtos/remove-attachment.dto";
 
 @Controller()
 @UseGuards(JwtAuthGuard, BoardAccessGuard)
@@ -186,5 +187,17 @@ export class TasksController {
   @Get("boards/:boardId/tasks/:taskId/attachments")
   getAttachments(@Param("taskId", new ParseUUIDPipe()) taskId: string) {
     return this.tasksService.getAttachments(taskId);
+  }
+
+  @Delete("boards/:boardId/tasks/:taskId")
+  @HttpCode(204)
+  removeAttachment(
+    @Param("taskId", new ParseUUIDPipe()) taskId: string,
+    @Body() removeAttachmentDto: RemoveAttachmentDto,
+  ) {
+    return this.tasksService.removeAttachment({
+      taskId,
+      dto: removeAttachmentDto,
+    });
   }
 }
