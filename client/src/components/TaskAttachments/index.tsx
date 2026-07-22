@@ -53,6 +53,8 @@ function TaskAttachments({ boardId, taskId, columnId }: TaskAttachmentsProps) {
               <TaskAttachmentsItem
                 attachment={attachment}
                 extention={extention}
+                boardId={boardId}
+                taskId={taskId}
               />
             );
           })}
