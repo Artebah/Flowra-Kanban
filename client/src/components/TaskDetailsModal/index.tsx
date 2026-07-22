@@ -18,6 +18,7 @@ import { useGetAssignedMembers } from "@/hooks/api/tasks/useGetAssignedMembers";
 import AssignedMembersList from "../AssignedMembersList";
 import AssignedDueDateDropdown from "../AssignedDueDateDropdown";
 import AttachmentsUpload from "../AttachmentsUpload";
+import TaskAttachments from "../TaskAttachments";
 
 function TaskDetailsModal() {
   const modalDetailsData = useModalDetailsData();
@@ -75,14 +76,11 @@ function TaskDetailsModal() {
         </div>
 
         <div className="overflow-y-auto">
-          {modalDetailsData.boardId && modalDetailsData.taskId && (
-            <TaskDetailsHeader
-              boardId={modalDetailsData.boardId}
-              taskId={modalDetailsData.taskId}
-              taskDetails={taskDetails}
-            />
-          )}
-
+          <TaskDetailsHeader
+            boardId={taskDetails.column.boardId}
+            taskId={taskDetails.id}
+            taskDetails={taskDetails}
+          />
           <div className="mt-5 ml-9 flex gap-3 px-6">
             <AttachmentsUpload
               boardId={taskDetails.column.boardId}
@@ -127,7 +125,6 @@ function TaskDetailsModal() {
               }
             />
           </div>
-
           {(showAssignedLabels || showAssignedMembers || showDueDate) && (
             <div className="pl-14 pr-10 my-10 flex flex-wrap gap-x-5 gap-y-3">
               {showAssignedMembers && (
@@ -146,14 +143,15 @@ function TaskDetailsModal() {
               )}
             </div>
           )}
-
-          {modalDetailsData.boardId && modalDetailsData.taskId && (
-            <TaskDescriptionEditor
-              boardId={modalDetailsData.boardId}
-              taskId={modalDetailsData.taskId}
-              initialContent={taskDetails.descriptionContent || null}
-            />
-          )}
+          <TaskDescriptionEditor
+            boardId={taskDetails.column.boardId}
+            taskId={taskDetails.id}
+            initialContent={taskDetails.descriptionContent || null}
+          />
+          <TaskAttachments
+            boardId={taskDetails.column.boardId}
+            taskId={taskDetails.id}
+          />
         </div>
       </DialogContent>
     </Dialog>
