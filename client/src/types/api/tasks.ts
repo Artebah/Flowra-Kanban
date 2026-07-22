@@ -149,3 +149,14 @@ export interface GetAttachmentsOptions {
   boardId: string;
   taskId: string;
 }
+
+export interface RemoveAttachmentDto {
+  url: string;
+  attachmentId: string;
+}
+
+export interface RemoveAttachmentOptions {
+  boardId: string;
+  taskId: string;
+  dto: RemoveAttachmentDto;
+}

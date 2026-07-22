@@ -13,6 +13,7 @@ import type {
   ITask,
   ITaskDetails,
   ReorderTaskOptions,
+  RemoveAttachmentOptions,
   SaveAttachmentsOptions,
   TaskAttachment,
   UpdateTaskOptions,
@@ -145,4 +146,14 @@ export const getAttachments = async ({
     `boards/${boardId}/tasks/${taskId}/attachments`
   );
   return data;
+};
+
+export const removeAttachment = async ({
+  boardId,
+  taskId,
+  dto,
+}: RemoveAttachmentOptions): Promise<void> => {
+  await axiosInstance.delete(`boards/${boardId}/tasks/${taskId}/attachments`, {
+    data: dto,
+  });
 };
