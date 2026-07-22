@@ -281,7 +281,7 @@ export class TasksService {
     taskId: string;
     dto: RemoveAttachmentDto;
   }) {
-    await this.attachmentsRepository.delete({ taskId, url: dto.path });
-    await this.storageService.deleteFile(dto.path);
+    await this.attachmentsRepository.delete({ taskId, url: dto.url });
+    await this.storageService.deleteFile(dto.url);
   }
 }

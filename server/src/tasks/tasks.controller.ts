@@ -189,7 +189,7 @@ export class TasksController {
     return this.tasksService.getAttachments(taskId);
   }
 
-  @Delete("boards/:boardId/tasks/:taskId")
+  @Delete("boards/:boardId/tasks/:taskId/attachments")
   @HttpCode(204)
   removeAttachment(
     @Param("taskId", new ParseUUIDPipe()) taskId: string,
