@@ -126,6 +126,8 @@ export interface TaskAttachment {
   fileName: string;
   taskId: string;
   url: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type SaveAttachmentsDtoItem = {

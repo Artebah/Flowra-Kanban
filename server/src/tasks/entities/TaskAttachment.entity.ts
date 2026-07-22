@@ -1,6 +1,5 @@
 import { Expose } from "class-transformer";
 import {
-  BaseEntity,
   Column,
   Entity,
   JoinColumn,
@@ -8,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Task } from "./Task.entity";
+import { BaseEntity } from "src/common/entities/base.entity";
 
 @Entity("tasks_attachments")
 export class TaskAttachment extends BaseEntity {
