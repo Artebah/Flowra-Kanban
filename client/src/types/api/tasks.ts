@@ -120,3 +120,25 @@ export interface GetTaskUploadUrlResponse {
   publicUrl: string;
   fileKey: string;
 }
+
+export interface TaskAttachment {
+  id: string;
+  fileName: string;
+  taskId: string;
+  url: string;
+}
+
+export interface SaveAttachmentsDto {
+  attachments: TaskAttachment[];
+}
+
+export interface SaveAttachmentsOptions {
+  boardId: string;
+  taskId: string;
+  dto: SaveAttachmentsDto;
+}
+
+export interface GetAttachmentsOptions {
+  boardId: string;
+  taskId: string;
+}

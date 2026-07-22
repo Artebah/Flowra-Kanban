@@ -6,12 +6,15 @@ import type {
   DeleteTaskOptions,
   GetAllTasksOptions,
   GetAssignedMembersOptions,
+  GetAttachmentsOptions,
   GetTaskDetailsOptions,
   GetTaskUploadUrlOptions,
   GetTaskUploadUrlResponse,
   ITask,
   ITaskDetails,
   ReorderTaskOptions,
+  SaveAttachmentsOptions,
+  TaskAttachment,
   UpdateTaskOptions,
 } from "../../types/api/tasks";
 import type { User } from "../../types/api/auth";
@@ -118,6 +121,28 @@ export const assignLabels = async ({
   const { data } = await axiosInstance.post(
     `boards/${boardId}/tasks/${taskId}/labels/assign`,
     dto
+  );
+  return data;
+};
+
+export const saveAttachments = async ({
+  boardId,
+  taskId,
+  dto,
+}: SaveAttachmentsOptions): Promise<TaskAttachment[]> => {
+  const { data } = await axiosInstance.post(
+    `boards/${boardId}/tasks/${taskId}/attachments/save`,
+    dto
+  );
+  return data;
+};
+
+export const getAttachments = async ({
+  boardId,
+  taskId,
+}: GetAttachmentsOptions): Promise<TaskAttachment[]> => {
+  const { data } = await axiosInstance.get(
+    `boards/${boardId}/tasks/${taskId}/attachments`
   );
   return data;
 };
