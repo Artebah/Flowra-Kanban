@@ -4,6 +4,8 @@ import { PaperclipIcon } from "lucide-react";
 import { useGetTaskUploadUrl } from "@/hooks/api/tasks/useGetTaskUploadUrl";
 import { TaskAssetPurpose } from "@/types/api/tasks";
 import axios from "axios";
+import { TASK_ATTACHMENT_MAX_SIZE } from "@/constants/taskAttachmentMaxSize";
+import toast from "react-hot-toast";
 
 interface AttachmentsUploadProps {
   boardId: string;
@@ -19,12 +21,23 @@ function AttachmentsUpload({
   const inputRef = React.useRef<HTMLInputElement>(null);
   const getUploadUrl = useGetTaskUploadUrl();
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const onChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files ?? []);
 
-    if (file) {
-      getUploadUrl.mutate(
-        {
+    if (files.length === 0) return;
+
+    const validFiles = files.filter((file) => {
+      if (file.size > TASK_ATTACHMENT_MAX_SIZE) {
+        toast.error(`${file.name} has reached max size (5MB)`);
+        return false;
+      }
+      return true;
+    });
+
+    // TODO: Promise.all needed for future. Since we want save public urls in db after all files uploaded
+    await Promise.all(
+      validFiles.map(async (file) => {
+        const { uploadUrl, publicUrl } = await getUploadUrl.mutateAsync({
           boardId,
           columnId,
           taskId,
@@ -33,20 +46,18 @@ function AttachmentsUpload({
             fileType: file.type,
             purpose: TaskAssetPurpose.ATTACHMENT,
           },
-        },
-        {
-          onSuccess: ({ publicUrl, uploadUrl }) => {
-            console.log(publicUrl, uploadUrl);
-            axios({
-              url: uploadUrl,
-              data: file,
-              method: "PUT",
-              headers: { "Content-Type": file.type },
-            });
-          },
-        }
-      );
-    }
+        });
+
+        await axios({
+          url: uploadUrl,
+          data: file,
+          method: "PUT",
+          headers: { "Content-Type": file.type },
+        });
+
+        console.log(publicUrl);
+      })
+    );
   };
 
   return (
@@ -61,8 +72,10 @@ function AttachmentsUpload({
       </Button>
 
       <input
+        multiple
         onChange={onChange}
         ref={inputRef}
+        size={TASK_ATTACHMENT_MAX_SIZE}
         type="file"
         className="size-0 opacity-0"
       />

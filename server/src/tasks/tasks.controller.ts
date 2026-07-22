@@ -49,7 +49,7 @@ export class TasksController {
   ) {
     const subFolder = dto.purpose ? `${dto.purpose}/` : "";
 
-    const fileKey = `boards/${boardId}/tasks/${taskId}/${subFolder}${Date.now()}-${dto.fileName}`;
+    const fileKey = `boards/${boardId}/tasks/${taskId}/${subFolder}${crypto.randomUUID()}-${dto.fileName}`;
 
     const uploadUrl = await this.storageService.getPresignedUrl(
       fileKey,
