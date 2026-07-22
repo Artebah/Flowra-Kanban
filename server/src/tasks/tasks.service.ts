@@ -247,7 +247,7 @@ export class TasksService {
     return task.assignedMembers;
   }
 
-  saveAttachments({
+  async saveAttachments({
     taskId,
     dto,
   }: {
@@ -262,7 +262,9 @@ export class TasksService {
       }),
     );
 
-    return this.attachmentsRepository.save(attachments);
+    await this.attachmentsRepository.save(attachments);
+
+    return this.attachmentsRepository.find({ where: { taskId } });
   }
 
   getAttachments(taskId: string) {
