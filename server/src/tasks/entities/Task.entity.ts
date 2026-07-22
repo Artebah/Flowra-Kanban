@@ -10,9 +10,11 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Label } from "src/labels/entities/Label.entity";
+import { TaskAttachment } from "./TaskAttachment.entity";
 
 @Entity("tasks")
 export class Task extends BaseEntity {
@@ -61,6 +63,11 @@ export class Task extends BaseEntity {
   @Column({ type: "timestamptz", nullable: true })
   @Expose()
   dueDate: string | null;
+
+  @Expose()
+  @Type(() => TaskAttachment)
+  @OneToMany(() => TaskAttachment, (attachments) => attachments.task)
+  attachments: TaskAttachment[];
 
   @Expose()
   @Type(() => BoardColumn)
