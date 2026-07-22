@@ -21,7 +21,9 @@ export const useUpdateTask = () => {
         ["board-tasks", variables.boardId],
         (prev) =>
           prev?.map((task) =>
-            task.id === variables.taskId ? { ...task, ...data } : task
+            task.id === variables.taskId
+              ? { ...task, ...data, order: task.order, columnId: task.columnId }
+              : task
           )
       );
     },
