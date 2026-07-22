@@ -50,8 +50,14 @@ function TaskAttachmentsItem({
       </div>
 
       <div className="flex gap-2 items-center">
-        <Button isIconOnly className="size-7">
+        <Button isIconOnly className="size-7 relative">
           <ExternalLink className="size-4" />
+
+          <a
+            className="absolute size-full opacity-0"
+            href={attachment.url}
+            target="_blank"
+          />
         </Button>
         <Dropdown
           triggerRender={
