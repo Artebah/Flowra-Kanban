@@ -63,7 +63,7 @@ function TaskDescriptionEditor({
 
   return (
     <div className="mt-8 px-6 pb-8">
-      <div className="flex gap-3">
+      <div className="flex items-center gap-3">
         <TextIcon /> <p className="font-bold">Description</p>
       </div>
       <div className="mt-3 ml-8">
