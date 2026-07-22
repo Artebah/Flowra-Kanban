@@ -22,6 +22,7 @@ import { Task } from "./tasks/entities/Task.entity";
 import { StorageModule } from "./storage/storage.module";
 import { Label } from "./labels/entities/Label.entity";
 import { LabelsModule } from "./labels/labels.module";
+import { TaskAttachment } from "./tasks/entities/TaskAttachment.entity";
 
 @Module({
   imports: [
@@ -36,7 +37,15 @@ import { LabelsModule } from "./labels/labels.module";
       inject: [ConfigService],
       useFactory: async (configService: GlobalTypedConfig) => ({
         ...(await configService.get("typeorm")),
-        entities: [User, Board, BoardMember, BoardColumn, Task, Label],
+        entities: [
+          User,
+          Board,
+          BoardMember,
+          BoardColumn,
+          Task,
+          Label,
+          TaskAttachment,
+        ],
       }),
     }),
     AuthModule,

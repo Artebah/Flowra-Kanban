@@ -11,6 +11,8 @@ import { CreateLabelDto } from "src/labels/dtos/create-label.dto";
 import { Label } from "src/labels/entities/Label.entity";
 import { AssignLabelsDto } from "./dtos/assign-labels.dto";
 import { User } from "src/users/entities/User.entity";
+import { SaveAttachmentsDto } from "./dtos/save-attachments.dto";
+import { TaskAttachment } from "./entities/TaskAttachment.entity";
 
 @Injectable()
 export class TasksService {
@@ -22,6 +24,9 @@ export class TasksService {
     private readonly labelsRepository: Repository<Label>,
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
+    @InjectRepository(TaskAttachment)
+    private readonly attachmentsRepository: Repository<TaskAttachment>,
+
     private readonly dataSource: DataSource,
   ) {}
 
@@ -240,5 +245,27 @@ export class TasksService {
     await this.tasksRepository.save(task);
 
     return task.assignedMembers;
+  }
+
+  saveAttachments({
+    taskId,
+    dto,
+  }: {
+    taskId: string;
+    dto: SaveAttachmentsDto;
+  }) {
+    const attachments = dto.attachments.map((attachment) =>
+      this.attachmentsRepository.create({
+        fileName: attachment.fileName,
+        url: attachment.url,
+        taskId,
+      }),
+    );
+
+    return this.attachmentsRepository.save(attachments);
+  }
+
+  getAttachments(taskId: string) {
+    return this.attachmentsRepository.find({ where: { taskId } });
   }
 }

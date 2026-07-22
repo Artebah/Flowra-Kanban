@@ -4,6 +4,7 @@ import { TasksService } from "./tasks.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { BoardMember } from "src/boards/entities/BoardMember.entity";
 import { Task } from "./entities/Task.entity";
+import { TaskAttachment } from "./entities/TaskAttachment.entity";
 import { BoardColumn } from "src/columns/entities/Column.entity";
 import { StorageModule } from "src/storage/storage.module";
 import { LabelsModule } from "src/labels/labels.module";
@@ -14,7 +15,7 @@ import { User } from "src/users/entities/User.entity";
   controllers: [TasksController],
   providers: [TasksService],
   imports: [
-    TypeOrmModule.forFeature([BoardMember, Task, BoardColumn, Label, User]),
+    TypeOrmModule.forFeature([BoardMember, Task, BoardColumn, Label, User, TaskAttachment]),
     StorageModule,
     LabelsModule,
   ],

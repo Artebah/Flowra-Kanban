@@ -29,6 +29,7 @@ import { AssignLabelsDto } from "./dtos/assign-labels.dto";
 import { AssignMembersDto } from "./dtos/assign-members.dto";
 import { plainToInstance } from "class-transformer";
 import { GetTaskUploadUrlResponseDto } from "./dtos/get-task-upload-url-response.dto";
+import { SaveAttachmentsDto } from "./dtos/save-attachments.dto";
 
 @Controller()
 @UseGuards(JwtAuthGuard, BoardAccessGuard)
@@ -169,5 +170,21 @@ export class TasksController {
     @Param("boardId", new ParseUUIDPipe()) boardId: string,
   ) {
     return this.tasksService.assignMembers({ dto, taskId, boardId });
+  }
+
+  @Post("boards/:boardId/tasks/:taskId/attachments/save")
+  saveAttachments(
+    @Param("taskId", new ParseUUIDPipe()) taskId: string,
+    @Body() saveAttachmentsDto: SaveAttachmentsDto,
+  ) {
+    return this.tasksService.saveAttachments({
+      taskId,
+      dto: saveAttachmentsDto,
+    });
+  }
+
+  @Get("boards/:boardId/tasks/:taskId/attachments")
+  getAttachments(@Param("taskId", new ParseUUIDPipe()) taskId: string) {
+    return this.tasksService.getAttachments(taskId);
   }
 }
