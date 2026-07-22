@@ -18,20 +18,26 @@ function TaskAttachments({ boardId, taskId }: TaskAttachmentsProps) {
           <Paperclip /> <p className="font-bold">Attachments</p>
         </div>
 
-        <Button variant="outline">Add</Button>
+        <Button className="h-8 leading-0" variant="outline">
+          Add
+        </Button>
       </div>
 
-      <div className="mt-3 ml-8">
-        {attachments.map((attachment) => {
-          const extention = attachment.fileName.split(".")[1];
+      <div className="pl-9">
+        <p className="font-bold text-xs mt-4 text-gray-300">Files</p>
 
-          return (
-            <TaskAttachmentsItem
-              attachment={attachment}
-              extention={extention}
-            />
-          );
-        })}
+        <div className="mt-3 flex flex-col gap-2">
+          {attachments.map((attachment) => {
+            const extention = attachment.fileName.split(".")[1];
+
+            return (
+              <TaskAttachmentsItem
+                attachment={attachment}
+                extention={extention}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );
