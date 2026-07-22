@@ -1,10 +1,4 @@
-import {
-  ClockIcon,
-  PaperclipIcon,
-  TagIcon,
-  UserRoundPlusIcon,
-  XIcon,
-} from "lucide-react";
+import { ClockIcon, TagIcon, UserRoundPlusIcon, XIcon } from "lucide-react";
 import Button from "../Button";
 import { Dialog, DialogContent } from "../ui/dialog";
 import {
@@ -23,6 +17,7 @@ import MembersDropdown from "../MembersDropdown";
 import { useGetAssignedMembers } from "@/hooks/api/tasks/useGetAssignedMembers";
 import AssignedMembersList from "../AssignedMembersList";
 import AssignedDueDateDropdown from "../AssignedDueDateDropdown";
+import AttachmentsUpload from "../AttachmentsUpload";
 
 function TaskDetailsModal() {
   const modalDetailsData = useModalDetailsData();
@@ -89,13 +84,11 @@ function TaskDetailsModal() {
           )}
 
           <div className="mt-5 ml-9 flex gap-3 px-6">
-            <Button
-              leadingIcon={<PaperclipIcon className="size-4" />}
-              variant="outline"
-              className="h-8 px-2"
-            >
-              Attachment
-            </Button>
+            <AttachmentsUpload
+              boardId={taskDetails.column.boardId}
+              columnId={taskDetails.column.id}
+              taskId={taskDetails.id}
+            />
 
             <LabelDropdown
               triggerRender={
