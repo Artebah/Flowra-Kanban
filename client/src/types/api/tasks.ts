@@ -128,8 +128,13 @@ export interface TaskAttachment {
   url: string;
 }
 
+export type SaveAttachmentsDtoItem = {
+  fileName: string;
+  url: string;
+};
+
 export interface SaveAttachmentsDto {
-  attachments: TaskAttachment[];
+  attachments: SaveAttachmentsDtoItem[];
 }
 
 export interface SaveAttachmentsOptions {

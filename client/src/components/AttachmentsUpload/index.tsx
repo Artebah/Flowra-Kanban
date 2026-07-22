@@ -2,10 +2,14 @@ import React from "react";
 import Button from "../Button";
 import { PaperclipIcon } from "lucide-react";
 import { useGetTaskUploadUrl } from "@/hooks/api/tasks/useGetTaskUploadUrl";
-import { TaskAssetPurpose } from "@/types/api/tasks";
+import {
+  TaskAssetPurpose,
+  type SaveAttachmentsDtoItem,
+} from "@/types/api/tasks";
 import axios from "axios";
 import { TASK_ATTACHMENT_MAX_SIZE } from "@/constants/taskAttachmentMaxSize";
 import toast from "react-hot-toast";
+import { useSaveAttachments } from "@/hooks/api/tasks/useSaveAttachments";
 
 interface AttachmentsUploadProps {
   boardId: string;
@@ -21,6 +25,8 @@ function AttachmentsUpload({
   const inputRef = React.useRef<HTMLInputElement>(null);
   const getUploadUrl = useGetTaskUploadUrl();
 
+  const saveAttachments = useSaveAttachments();
+
   const onChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files ?? []);
 
@@ -34,9 +40,8 @@ function AttachmentsUpload({
       return true;
     });
 
-    // TODO: Promise.all needed for future. Since we want save public urls in db after all files uploaded
-    await Promise.all(
-      validFiles.map(async (file) => {
+    Promise.all(
+      validFiles.map(async (file): Promise<SaveAttachmentsDtoItem> => {
         const { uploadUrl, publicUrl } = await getUploadUrl.mutateAsync({
           boardId,
           columnId,
@@ -55,9 +60,16 @@ function AttachmentsUpload({
           headers: { "Content-Type": file.type },
         });
 
-        console.log(publicUrl);
+        return {
+          fileName: file.name,
+          url: publicUrl,
+        };
       })
-    );
+    )
+      .then((data) => {
+        saveAttachments.mutate({ dto: { attachments: data }, boardId, taskId });
+      })
+      .catch(() => toast.error("Couldn't upload files"));
   };
 
   return (
