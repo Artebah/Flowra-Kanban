@@ -25,7 +25,7 @@ function Task({ task, boardId, isDragOverlayTask }: TaskProps) {
   } = useSortable({ id: task.id, data: { columnId: task.columnId } });
   const updateModalDetailsData = useUpdateModalDetailsData();
 
-  const { assignedLabels, assignedMembers } = task;
+  const { assignedLabels = [], assignedMembers = [] } = task;
 
   const style: React.CSSProperties = {
     transform: CSS.Transform.toString(transform),

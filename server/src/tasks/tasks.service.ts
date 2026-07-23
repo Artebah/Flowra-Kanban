@@ -55,6 +55,8 @@ export class TasksService {
       columnId,
       order: columnsCount + 1,
       isCompleted: false,
+      assignedLabels: [],
+      assignedMembers: [],
       ...createTaskDto,
     });
 
