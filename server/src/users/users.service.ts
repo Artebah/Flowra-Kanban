@@ -10,6 +10,7 @@ import { User } from "./entities/User.entity";
 import * as bcrypt from "bcrypt";
 import { RegisterDto } from "src/common/dtos/register.dto";
 import { LoginDto } from "src/common/dtos/login.dto";
+import { CompleteProfileDto } from "./dtos/complete-profile.dto";
 
 @Injectable()
 export class UsersService {
@@ -28,13 +29,17 @@ export class UsersService {
   }
 
   async findOne(searchUserDto: SearchUserDto): Promise<User | null> {
-    if (!searchUserDto.email && !searchUserDto.username) {
+    if (!searchUserDto.email && !searchUserDto.username && !searchUserDto.id) {
       throw new BadRequestException(
         "At least one search criterion (username or email) must be provided.",
       );
     }
 
     const conditions: { [key: string]: string }[] = [];
+
+    if (searchUserDto.id) {
+      conditions.push({ id: searchUserDto.id });
+    }
 
     if (searchUserDto.email) {
       conditions.push({ email: searchUserDto.email });
@@ -84,5 +89,21 @@ export class UsersService {
   }
   verifyPassword(password: string, storedPassword: string) {
     return bcrypt.compare(password, storedPassword);
+  }
+
+  async completeProfile({
+    dto,
+    userId,
+  }: {
+    userId: string;
+    dto: CompleteProfileDto;
+  }) {
+    const user = await this.findOneOrFail({ id: userId });
+
+    return this.usersRepository.save({
+      ...user,
+      ...dto,
+      isProfileCompleted: true,
+    });
   }
 }
