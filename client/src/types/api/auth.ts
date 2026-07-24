@@ -22,7 +22,6 @@ export interface LoginDto {
 }
 export interface SignupDto {
   email: string;
-  username: string;
   password: string;
 }
 

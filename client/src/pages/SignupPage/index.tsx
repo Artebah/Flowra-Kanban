@@ -49,23 +49,6 @@ function SignupPage() {
             )}
           </div>
 
-          <div className="mb-6">
-            <label className="mb-2 inline-block" htmlFor="username">
-              Username
-            </label>
-            <Input
-              id="username"
-              {...register("username")}
-              className="w-full"
-              placeholder="Enter your username or username"
-            />
-            {errors.username && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.username.message}
-              </p>
-            )}
-          </div>
-
           <div>
             <label className="mb-2 inline-block" htmlFor="password">
               Password
