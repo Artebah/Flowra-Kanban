@@ -3,6 +3,7 @@ export const routes = {
   signup: "/signup",
   boardById: (id: string = ":id") => `/boards/${id}`,
   home: "/",
+  completeProfile: "/complete-profile",
 };
 
 export const PRIVATE_ROUTES = [routes.home, "/boards"];

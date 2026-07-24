@@ -1,6 +1,8 @@
 export interface User {
   id: string;
-  username: string;
+  username?: string;
+  avatar?: string;
+  isProfileCompleted: boolean;
   email: string;
   createdAt: string;
   updatedAt: string;

@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router";
+import { BrowserRouter, Route, Routes } from "react-router";
 import LoginPage from "./pages/LoginPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import SignupPage from "./pages/SignupPage";
@@ -25,7 +25,6 @@ function App() {
 
               <Route path={routes.login} element={<LoginPage />} />
               <Route path={routes.signup} element={<SignupPage />} />
-              <Route path="*" element={<Navigate to={routes.login} />} />
             </Routes>
             <Toaster />
           </AuthGuard>
