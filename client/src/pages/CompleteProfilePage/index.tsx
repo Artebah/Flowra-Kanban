@@ -4,8 +4,13 @@ import { completeProfileSchema, type CompleteProfileFields } from "./schema";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 import AvatarUpload from "./AvatarUpload";
+import { useCompleteProfile } from "@/hooks/api/auth/useCompleteProfile";
+import { useUser } from "@/store/auth/selectors";
 
 function CompleteProfilePage() {
+  const user = useUser();
+  const completeProfile = useCompleteProfile();
+
   const {
     register,
     handleSubmit,
@@ -17,7 +22,17 @@ function CompleteProfilePage() {
 
   const { field: avatarField } = useController({ name: "avatar", control });
 
-  const onSubmit: SubmitHandler<CompleteProfileFields> = (data) => {};
+  const onSubmit: SubmitHandler<CompleteProfileFields> = ({
+    avatar,
+    username,
+  }) => {
+    if (user) {
+      completeProfile.mutate({
+        dto: { avatar: uploadedAvatar, username },
+        userId: user.id,
+      });
+    }
+  };
 
   return (
     <div className="flex justify-center pt-24">

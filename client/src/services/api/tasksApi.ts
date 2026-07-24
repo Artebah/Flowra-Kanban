@@ -8,8 +8,6 @@ import type {
   GetAssignedMembersOptions,
   GetAttachmentsOptions,
   GetTaskDetailsOptions,
-  GetTaskUploadUrlOptions,
-  GetTaskUploadUrlResponse,
   ITask,
   ITaskDetails,
   ReorderTaskOptions,
@@ -96,19 +94,6 @@ export const assignMembers = async ({
 }: AssignMembersOptions): Promise<User[]> => {
   const { data } = await axiosInstance.post(
     `boards/${boardId}/tasks/${taskId}/members/assign`,
-    dto
-  );
-  return data;
-};
-
-export const getTaskUploadUrl = async ({
-  boardId,
-  columnId,
-  taskId,
-  dto,
-}: GetTaskUploadUrlOptions): Promise<GetTaskUploadUrlResponse> => {
-  const { data } = await axiosInstance.post(
-    `boards/${boardId}/columns/${columnId}/tasks/${taskId}/upload-url`,
     dto
   );
   return data;

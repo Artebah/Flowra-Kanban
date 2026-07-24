@@ -96,31 +96,6 @@ export interface AssignMembersOptions {
   dto: AssignMembersDto;
 }
 
-export enum TaskAssetPurpose {
-  DESCRIPTION = "description",
-  ATTACHMENT = "attachment",
-  COVER = "cover",
-}
-
-export interface GetTaskUploadUrlDto {
-  fileName: string;
-  fileType: string;
-  purpose?: TaskAssetPurpose;
-}
-
-export interface GetTaskUploadUrlOptions {
-  boardId: string;
-  columnId: string;
-  taskId: string;
-  dto: GetTaskUploadUrlDto;
-}
-
-export interface GetTaskUploadUrlResponse {
-  uploadUrl: string;
-  publicUrl: string;
-  fileKey: string;
-}
-
 export interface TaskAttachment {
   id: string;
   fileName: string;

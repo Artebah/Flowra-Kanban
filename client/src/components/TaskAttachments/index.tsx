@@ -9,14 +9,13 @@ import { TASK_ATTACHMENT_MAX_SIZE } from "@/constants/taskAttachmentMaxSize";
 interface TaskAttachmentsProps {
   boardId: string;
   taskId: string;
-  columnId: string;
 }
 
-function TaskAttachments({ boardId, taskId, columnId }: TaskAttachmentsProps) {
+function TaskAttachments({ boardId, taskId }: TaskAttachmentsProps) {
   const { data: attachments = [] } = useGetAttachments(boardId, taskId);
   const inputRef = React.useRef<HTMLInputElement>(null);
 
-  const { onChange } = useAttachImagesToTask({ boardId, taskId, columnId });
+  const { onChange } = useAttachImagesToTask({ boardId, taskId });
 
   return (
     <div className="px-6 pb-8">

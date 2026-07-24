@@ -84,7 +84,6 @@ function TaskDetailsModal() {
           <div className="mt-5 ml-9 flex gap-3 px-6">
             <AttachmentsUpload
               boardId={taskDetails.column.boardId}
-              columnId={taskDetails.column.id}
               taskId={taskDetails.id}
             />
 

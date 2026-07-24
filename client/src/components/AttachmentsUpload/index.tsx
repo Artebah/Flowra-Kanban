@@ -6,18 +6,13 @@ import { useAttachImagesToTask } from "@/hooks/useAttachImagesToTask";
 
 interface AttachmentsUploadProps {
   boardId: string;
-  columnId: string;
   taskId: string;
 }
 
-function AttachmentsUpload({
-  boardId,
-  columnId,
-  taskId,
-}: AttachmentsUploadProps) {
+function AttachmentsUpload({ boardId, taskId }: AttachmentsUploadProps) {
   const inputRef = React.useRef<HTMLInputElement>(null);
 
-  const { onChange } = useAttachImagesToTask({ boardId, columnId, taskId });
+  const { onChange } = useAttachImagesToTask({ boardId, taskId });
 
   return (
     <div>

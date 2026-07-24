@@ -1,6 +1,6 @@
 import { Expose } from "class-transformer";
 
-export class GetTaskUploadUrlResponseDto {
+export class GetUploadUrlResponseDto {
   @Expose()
   uploadUrl: string;
 

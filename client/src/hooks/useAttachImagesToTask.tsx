@@ -1,25 +1,19 @@
 import React from "react";
-import { useGetTaskUploadUrl } from "./api/tasks/useGetTaskUploadUrl";
+import { useGetUploadUrl } from "./api/storage/useGetUploadUrl";
 import { useSaveAttachments } from "./api/tasks/useSaveAttachments";
 import toast from "react-hot-toast";
 import { TASK_ATTACHMENT_MAX_SIZE } from "@/constants/taskAttachmentMaxSize";
-import {
-  TaskAssetPurpose,
-  type SaveAttachmentsDtoItem,
-} from "@/types/api/tasks";
+import type { SaveAttachmentsDtoItem } from "@/types/api/tasks";
 import axios from "axios";
 
 export const useAttachImagesToTask = ({
   boardId,
-  columnId,
   taskId,
 }: {
   taskId: string;
   boardId: string;
-  columnId: string;
 }) => {
-  const getUploadUrl = useGetTaskUploadUrl();
-
+  const getUploadUrl = useGetUploadUrl();
   const saveAttachments = useSaveAttachments();
 
   const onChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,13 +32,10 @@ export const useAttachImagesToTask = ({
     Promise.all(
       validFiles.map(async (file): Promise<SaveAttachmentsDtoItem> => {
         const { uploadUrl, publicUrl } = await getUploadUrl.mutateAsync({
-          boardId,
-          columnId,
-          taskId,
           dto: {
+            folder: `boards/${boardId}/tasks/${taskId}/attachments`,
             fileName: file.name,
             fileType: file.type,
-            purpose: TaskAssetPurpose.ATTACHMENT,
           },
         });
 
