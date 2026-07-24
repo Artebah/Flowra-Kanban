@@ -2,7 +2,7 @@ import React from "react";
 import { useGetUploadUrl } from "./api/storage/useGetUploadUrl";
 import { useSaveAttachments } from "./api/tasks/useSaveAttachments";
 import toast from "react-hot-toast";
-import { TASK_ATTACHMENT_MAX_SIZE } from "@/constants/taskAttachmentMaxSize";
+import { FILE_MAX_SIZE } from "@/constants/fileMaxSize";
 import type { SaveAttachmentsDtoItem } from "@/types/api/tasks";
 import axios from "axios";
 
@@ -22,7 +22,7 @@ export const useAttachImagesToTask = ({
     if (files.length === 0) return;
 
     const validFiles = files.filter((file) => {
-      if (file.size > TASK_ATTACHMENT_MAX_SIZE) {
+      if (file.size > FILE_MAX_SIZE) {
         toast.error(`${file.name} has reached max size (5MB)`);
         return false;
       }

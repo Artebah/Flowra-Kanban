@@ -6,6 +6,8 @@ import Button from "@/components/Button";
 import AvatarUpload from "./AvatarUpload";
 import { useCompleteProfile } from "@/hooks/api/auth/useCompleteProfile";
 import { useUser } from "@/store/auth/selectors";
+import { useGetUploadUrl } from "@/hooks/api/storage/useGetUploadUrl";
+import axios from "axios";
 
 function CompleteProfilePage() {
   const user = useUser();
@@ -21,14 +23,30 @@ function CompleteProfilePage() {
   });
 
   const { field: avatarField } = useController({ name: "avatar", control });
+  const getAvatarUploadUrl = useGetUploadUrl();
 
-  const onSubmit: SubmitHandler<CompleteProfileFields> = ({
+  const onSubmit: SubmitHandler<CompleteProfileFields> = async ({
     avatar,
     username,
   }) => {
     if (user) {
+      const { publicUrl, uploadUrl } = await getAvatarUploadUrl.mutateAsync({
+        dto: {
+          fileName: avatar.name,
+          fileType: avatar.type,
+          folder: `users/${user.id}/avatars`,
+        },
+      });
+
+      await axios({
+        url: uploadUrl,
+        data: avatar,
+        method: "PUT",
+        headers: { "Content-Type": avatar.type },
+      });
+
       completeProfile.mutate({
-        dto: { avatar: uploadedAvatar, username },
+        dto: { avatar: publicUrl, username },
         userId: user.id,
       });
     }

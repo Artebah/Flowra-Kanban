@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { useDropzone, type DropzoneOptions } from "react-dropzone";
 import { cn } from "@/lib/utils";
 import { UploadIcon } from "lucide-react";
+import { FILE_MAX_SIZE } from "@/constants/fileMaxSize";
 
 interface DropzoneProps extends Omit<DropzoneOptions, "onDrop"> {
   onDrop: (acceptedFiles: File[]) => void;
@@ -18,7 +19,7 @@ const Dropzone = ({
   error,
   preview,
   accept = { "image/*": [".png", ".jpg", ".jpeg", ".gif", ".webp"] },
-  maxSize = 5242880, // 5MB
+  maxSize = FILE_MAX_SIZE,
   multiple = false,
   ...props
 }: DropzoneProps) => {

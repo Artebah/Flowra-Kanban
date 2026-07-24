@@ -4,7 +4,7 @@ import { Paperclip } from "lucide-react";
 import Button from "../Button";
 import { useAttachImagesToTask } from "@/hooks/useAttachImagesToTask";
 import React from "react";
-import { TASK_ATTACHMENT_MAX_SIZE } from "@/constants/taskAttachmentMaxSize";
+import { FILE_MAX_SIZE } from "@/constants/fileMaxSize";
 
 interface TaskAttachmentsProps {
   boardId: string;
@@ -36,7 +36,7 @@ function TaskAttachments({ boardId, taskId }: TaskAttachmentsProps) {
         multiple
         onChange={onChange}
         ref={inputRef}
-        size={TASK_ATTACHMENT_MAX_SIZE}
+        size={FILE_MAX_SIZE}
         type="file"
         className="size-0 opacity-0"
       />
