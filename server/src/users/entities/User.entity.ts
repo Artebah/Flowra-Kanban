@@ -2,7 +2,13 @@ import { Expose } from "class-transformer";
 import { BaseEntity } from "src/common/entities/base.entity";
 import { BoardMember } from "src/boards/entities/BoardMember.entity";
 import { Task } from "src/tasks/entities/Task.entity";
-import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
 @Entity("users")
 export class User extends BaseEntity {
@@ -10,9 +16,9 @@ export class User extends BaseEntity {
   @Expose()
   id: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Expose()
-  username: string;
+  username?: string;
 
   @Column()
   password: string;
@@ -20,6 +26,14 @@ export class User extends BaseEntity {
   @Column()
   @Expose()
   email: string;
+
+  @Column({ default: false })
+  @Expose()
+  isProfileCompleted: boolean;
+
+  @Column({ nullable: true })
+  @Expose()
+  avatar?: string;
 
   @OneToMany(() => BoardMember, (boardMember) => boardMember.user)
   boardMembers: BoardMember[];
