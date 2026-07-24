@@ -31,3 +31,8 @@ export interface CompleteProfileDto {
   username: string;
   avatar: string;
 }
+
+export interface CompleteProfileOptions {
+  userId: string;
+  dto: CompleteProfileDto;
+}
