@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast";
 import ProtectedLayout from "./layouts/ProtectedLayout";
 import HomePage from "./pages/HomePage";
 import BoardPage from "./pages/BoardPage";
+import CompleteProfilePage from "./pages/CompleteProfilePage";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,10 @@ function App() {
 
               <Route path={routes.login} element={<LoginPage />} />
               <Route path={routes.signup} element={<SignupPage />} />
+              <Route
+                path={routes.completeProfile}
+                element={<CompleteProfilePage />}
+              />
             </Routes>
             <Toaster />
           </AuthGuard>
