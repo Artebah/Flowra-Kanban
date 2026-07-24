@@ -20,7 +20,6 @@ export class AuthService {
   async register(registerDto: RegisterDto): Promise<AuthResponseDto> {
     const existingUser = await this.UsersService.findOne({
       email: registerDto.email,
-      username: registerDto.username,
     });
 
     if (existingUser) {
