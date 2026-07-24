@@ -8,10 +8,13 @@ import { useCompleteProfile } from "@/hooks/api/auth/useCompleteProfile";
 import { useUser } from "@/store/auth/selectors";
 import { useGetUploadUrl } from "@/hooks/api/storage/useGetUploadUrl";
 import axios from "axios";
+import { useNavigate } from "react-router";
+import { routes } from "@/constants/routes";
 
 function CompleteProfilePage() {
   const user = useUser();
   const completeProfile = useCompleteProfile();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -45,10 +48,12 @@ function CompleteProfilePage() {
         headers: { "Content-Type": avatar.type },
       });
 
-      completeProfile.mutate({
+      await completeProfile.mutateAsync({
         dto: { avatar: publicUrl, username },
         userId: user.id,
       });
+
+      navigate(routes.home);
     }
   };
 

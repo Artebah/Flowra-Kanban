@@ -11,6 +11,7 @@ import * as bcrypt from "bcrypt";
 import { RegisterDto } from "src/common/dtos/register.dto";
 import { LoginDto } from "src/common/dtos/login.dto";
 import { CompleteProfileDto } from "./dtos/complete-profile.dto";
+import { plainToInstance } from "class-transformer";
 
 @Injectable()
 export class UsersService {
@@ -100,10 +101,12 @@ export class UsersService {
   }) {
     const user = await this.findOneOrFail({ id: userId });
 
-    return this.usersRepository.save({
+    const userToSave = plainToInstance(User, {
       ...user,
       ...dto,
       isProfileCompleted: true,
     });
+
+    return this.usersRepository.save(userToSave);
   }
 }
