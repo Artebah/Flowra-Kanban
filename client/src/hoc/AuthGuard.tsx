@@ -32,9 +32,7 @@ function AuthGuard({ children }: React.PropsWithChildren) {
     }
 
     if (!user) {
-      console.log(1);
       if (!isAuthPage) {
-        console.log(2);
         navigate(routes.login);
       }
       return;
@@ -42,12 +40,10 @@ function AuthGuard({ children }: React.PropsWithChildren) {
 
     if (!user.isProfileCompleted) {
       if (!isCompleteProfilePage) {
-        console.log(3);
         navigate(routes.completeProfile);
       }
     } else {
-      if (!isHomePage) {
-        console.log(4);
+      if (isAuthPage || isCompleteProfilePage) {
         navigate(routes.home);
       }
     }

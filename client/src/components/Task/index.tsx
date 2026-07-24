@@ -93,7 +93,7 @@ function Task({ task, boardId, isDragOverlayTask }: TaskProps) {
                   <img
                     title={`${member.email} (${member.username})`}
                     className="size-full rounded-full object-cover"
-                    src="/avatar_1.jpg"
+                    src={member.avatar}
                     alt={member.username}
                   />
                 </div>

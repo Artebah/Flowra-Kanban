@@ -2,6 +2,9 @@ import Button from "../Button";
 import { useUser } from "../../store/auth/selectors";
 import { routes } from "@/constants/routes";
 import { useNavigate } from "react-router";
+import Dropdown from "../Dropdown";
+import { DropdownMenuItem } from "../ui/dropdown-menu";
+import { clearAuthAndRedirect } from "@/utils/clearAuthAndRedirect";
 
 function AuthActions() {
   const user = useUser();
@@ -9,15 +12,23 @@ function AuthActions() {
 
   if (user) {
     return (
-      <div className="flex gap-3 items-center">
-        <span>{user.email}</span>
-        <div className="size-10">
-          <img
-            className="size-full object-cover rounded-full"
-            src="/avatar_1.jpg"
-          />
-        </div>
-      </div>
+      <Dropdown
+        triggerRender={
+          <div className="flex gap-3 items-center">
+            <span>{user.username}</span>
+            <div className="size-10">
+              <img
+                className="size-full object-cover rounded-full"
+                src={user.avatar}
+              />
+            </div>
+          </div>
+        }
+      >
+        <DropdownMenuItem onClick={clearAuthAndRedirect} className="hover:text-red-400!">
+          Logout
+        </DropdownMenuItem>
+      </Dropdown>
     );
   } else {
     return (

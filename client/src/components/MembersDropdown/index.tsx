@@ -47,7 +47,7 @@ function MembersDropdown({ triggerRender }: MembersDropdownProps) {
             <div className="size-8 rounded-full overflow-hidden">
               <img
                 className="size-full object-cover"
-                src="/avatar_1.jpg"
+                src={boardMember.avatar}
                 alt={boardMember.username}
               />
             </div>
