@@ -1,5 +1,6 @@
 import type {
   AuthResponse,
+  CompleteProfileDto,
   LoginDto,
   RefreshResponse,
   SignupDto,
@@ -21,6 +22,14 @@ export const fetchMe = async (): Promise<User> => {
   const res = await axiosInstance.get("/users/me", {
     disableErrorToast: true,
   });
+  return res.data;
+};
+
+export const completeProfile = async (
+  userId: string,
+  dto: CompleteProfileDto,
+): Promise<User> => {
+  const res = await axiosInstance.patch(`/users/${userId}/complete-profile`, dto);
   return res.data;
 };
 
