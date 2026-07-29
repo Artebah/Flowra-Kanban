@@ -27,6 +27,11 @@ export interface CreateLabelAndAssignToTaskOptions {
   createLabelDto: CreateLabelDto;
 }
 
+export interface CreateLabelAndAssignToTaskResponse {
+  labels: ILabel[];
+  assignedLabels: ILabel[];
+}
+
 export interface DeleteLabelOptions {
   boardId: string;
   labelId: string;

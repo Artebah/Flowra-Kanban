@@ -15,6 +15,8 @@ import { SaveAttachmentsDto } from "./dtos/save-attachments.dto";
 import { TaskAttachment } from "./entities/TaskAttachment.entity";
 import { StorageService } from "src/storage/storage.service";
 import { RemoveAttachmentDto } from "./dtos/remove-attachment.dto";
+import { plainToInstance } from "class-transformer";
+import { CreateLabelAndAssignResponse } from "./dtos/create-label-and-assign-response.dto";
 
 @Injectable()
 export class TasksService {
@@ -194,9 +196,14 @@ export class TasksService {
 
       await manager.save(task);
 
-      return manager.find(Label, {
+      const updatedLabelsList = await manager.find(Label, {
         where: { boardId },
         order: { createdAt: "ASC" },
+      });
+
+      return plainToInstance(CreateLabelAndAssignResponse, {
+        assignedLabels: task.assignedLabels,
+        labels: updatedLabelsList,
       });
     });
   }

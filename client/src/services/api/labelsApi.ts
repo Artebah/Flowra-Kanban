@@ -1,5 +1,6 @@
 import type {
   CreateLabelAndAssignToTaskOptions,
+  CreateLabelAndAssignToTaskResponse,
   DeleteLabelOptions,
   GetAssignedLabelsOptions,
   ILabel,
@@ -30,7 +31,7 @@ export const createLabelAndAssignToTask = async ({
   boardId,
   taskId,
   createLabelDto,
-}: CreateLabelAndAssignToTaskOptions): Promise<ILabel[]> => {
+}: CreateLabelAndAssignToTaskOptions): Promise<CreateLabelAndAssignToTaskResponse> => {
   const res = await axiosInstance.post(
     `/boards/${boardId}/tasks/${taskId}/labels`,
     createLabelDto
