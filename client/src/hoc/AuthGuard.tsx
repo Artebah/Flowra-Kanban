@@ -4,13 +4,11 @@ import { routes } from "../constants/routes";
 import { useLocation, useNavigate } from "react-router";
 import { useIsAuthPage } from "../hooks/useIsAuthPage";
 import { setNavigate } from "../utils/navigationRef";
+import { useUser } from "@/store/auth/selectors";
 
 function AuthGuard({ children }: React.PropsWithChildren) {
-  const {
-    isLoading: isLoadingMe,
-    data: user,
-    isError: isMeError,
-  } = useFetchMe();
+  const { isLoading: isLoadingMe, isError: isMeError } = useFetchMe();
+  const user = useUser();
 
   const navigate = useNavigate();
   const isAuthPage = useIsAuthPage();
@@ -60,7 +58,7 @@ function AuthGuard({ children }: React.PropsWithChildren) {
     user,
   ]);
 
-  if (isLoadingMe || (!user && !isMeError)) {
+  if (isLoadingMe) {
     return (
       <div className="fixed size-full flex justify-center items-center">
         <span className="loading loading-spinner loading-xl text-secondary" />

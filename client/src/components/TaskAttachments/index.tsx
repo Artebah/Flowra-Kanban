@@ -41,24 +41,26 @@ function TaskAttachments({ boardId, taskId }: TaskAttachmentsProps) {
         className="size-0 opacity-0"
       />
 
-      <div className="pl-9">
-        <p className="font-bold text-xs text-gray-300">Files</p>
+      {attachments.length > 0 && (
+        <div className="pl-9">
+          <p className="font-bold text-xs text-gray-300">Files</p>
 
-        <div className="mt-3 flex flex-col gap-2">
-          {attachments.map((attachment) => {
-            const extention = attachment.fileName.split(".")[1];
+          <div className="mt-3 flex flex-col gap-2">
+            {attachments.map((attachment) => {
+              const extention = attachment.fileName.split(".")[1];
 
-            return (
-              <TaskAttachmentsItem
-                attachment={attachment}
-                extention={extention}
-                boardId={boardId}
-                taskId={taskId}
-              />
-            );
-          })}
+              return (
+                <TaskAttachmentsItem
+                  attachment={attachment}
+                  extention={extention}
+                  boardId={boardId}
+                  taskId={taskId}
+                />
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
