@@ -21,13 +21,10 @@ export class BoardsService {
     private boardMembersRepository: Repository<BoardMember>,
   ) {}
 
-  create({ title, coverUrl }: CreateBoardDto, userId: string): Promise<Board> {
+  create(dto: CreateBoardDto, userId: string): Promise<Board> {
     return this.boardsRepository.manager.transaction(
       async (transactionalEntityManager) => {
-        const board = transactionalEntityManager.create(Board, {
-          title,
-          coverUrl,
-        });
+        const board = transactionalEntityManager.create(Board, dto);
 
         await transactionalEntityManager.save(board);
 
