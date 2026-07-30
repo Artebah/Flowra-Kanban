@@ -40,7 +40,6 @@ export interface DeleteLabelOptions {
 
 export interface DeleteLabelResponse {
   labels: ILabel[];
-  assignedLabels: ILabel[];
 }
 
 export interface GetAssignedLabelsOptions {

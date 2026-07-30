@@ -2,7 +2,6 @@ import type {
   CreateLabelAndAssignToTaskOptions,
   CreateLabelAndAssignToTaskResponse,
   DeleteLabelOptions,
-  DeleteLabelResponse,
   GetAssignedLabelsOptions,
   GetLabelsListOptions,
   ILabel,
@@ -11,7 +10,9 @@ import type {
 } from "@/types/api/labels";
 import axiosInstance from "./axiosInstance";
 
-export const getLabelsList = async ({ boardId }: GetLabelsListOptions): Promise<ILabel[]> => {
+export const getLabelsList = async ({
+  boardId,
+}: GetLabelsListOptions): Promise<ILabel[]> => {
   const res = await axiosInstance.get(`/boards/${boardId}/labels`);
   return res.data;
 };
@@ -54,7 +55,7 @@ export const getAssignedLabels = async ({
 export const deleteLabel = async ({
   boardId,
   labelId,
-}: DeleteLabelOptions): Promise<DeleteLabelResponse> => {
+}: DeleteLabelOptions): Promise<ILabel[]> => {
   const res = await axiosInstance.delete(
     `/boards/${boardId}/labels/${labelId}`
   );
