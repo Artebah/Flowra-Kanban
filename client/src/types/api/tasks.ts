@@ -47,7 +47,7 @@ export interface UpdateTaskOrderDto {
   order: number;
 }
 
-export interface ReorderTaskOptions {
+export interface ServerUpdateTaskOrderOptions {
   boardId: string;
   taskId: string;
   dto: UpdateTaskOrderDto;

@@ -10,7 +10,7 @@ import type {
   GetTaskDetailsOptions,
   ITask,
   ITaskDetails,
-  ReorderTaskOptions,
+  ServerUpdateTaskOrderOptions,
   RemoveAttachmentOptions,
   SaveAttachmentsOptions,
   TaskAttachment,
@@ -46,15 +46,12 @@ export const getTaskDetails = async ({
   return res.data;
 };
 
-export const reorderTask = async ({
+export const updateTaskOrder = async ({
   boardId,
   taskId,
   dto,
-}: ReorderTaskOptions): Promise<void> => {
-  await axiosInstance.patch(
-    `boards/${boardId}/tasks/${taskId}/reorder`,
-    dto
-  );
+}: ServerUpdateTaskOrderOptions): Promise<void> => {
+  await axiosInstance.patch(`boards/${boardId}/tasks/${taskId}/reorder`, dto);
 };
 
 export const updateTask = async ({

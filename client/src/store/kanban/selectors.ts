@@ -3,8 +3,8 @@ import { useKanbanStore } from "./useKanbanStore";
 export const useTasksByColumn = () => useKanbanStore((s) => s.tasksByColumn);
 export const useSetTasksByColumn = () =>
   useKanbanStore((s) => s.setTasksByColumn);
-export const useUpdateTaskOrder = () =>
-  useKanbanStore((s) => s.updateTaskOrder);
+export const useLocalUpdateTaskOrder = () =>
+  useKanbanStore((s) => s.localUpdateTaskOrder);
 export const useMoveTask = () => useKanbanStore((s) => s.moveTask);
 export const useAddTask = () => useKanbanStore((s) => s.addTask);
 export const useColumns = () => useKanbanStore((s) => s.columns);

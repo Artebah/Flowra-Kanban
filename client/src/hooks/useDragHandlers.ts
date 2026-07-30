@@ -8,7 +8,7 @@ import type { BoardColumn } from "../types/api/columns.ts";
 import type { ITasksByColumn } from "../types/ITasksByColumn.ts";
 import { debounce } from "../utils/debounce.ts";
 import { useMoveTask, useSetColumns } from "../store/kanban/selectors.ts";
-import { useUpdateTaskOrder } from "../store/kanban/selectors.ts";
+import { useLocalUpdateTaskOrder } from "../store/kanban/selectors.ts";
 import { arrayMove } from "@dnd-kit/sortable";
 import { useReorderColumns } from "./api/columns/useReorderColumns.ts";
 import type { ITask } from "../types/api/tasks.ts";
@@ -17,7 +17,7 @@ import {
   SORTABLE_COLUMN_PREFIX,
 } from "../constants/dndPrefixes.ts";
 import { getReorderTaskData } from "../utils/getReorderTaskData.ts";
-import { useReorderTask } from "./api/tasks/useReorderTask.ts";
+import { useServerUpdateTaskOrder } from "./api/tasks/useReorderTask.ts";
 
 interface UseDragHandlersParams {
   boardId: string;
@@ -34,10 +34,10 @@ export function useDragHandlers({
   setDraggingTask,
   setDraggingColumn,
 }: UseDragHandlersParams) {
-  const updateTaskOrder = useUpdateTaskOrder();
+  const localUpdateTaskOrder = useLocalUpdateTaskOrder();
   const moveTask = useMoveTask();
   const reorderColumns = useReorderColumns();
-  const reorderTask = useReorderTask();
+  const serverUpdateTaskOrder = useServerUpdateTaskOrder();
   const setColumns = useSetColumns();
 
   const handleDragEnd = useCallback(
@@ -89,9 +89,9 @@ export function useDragHandlers({
       );
       if (!reorderTaskData) return;
 
-      updateTaskOrder(activeId, overId);
+      localUpdateTaskOrder(activeId, overId);
 
-      reorderTask.mutate({
+      serverUpdateTaskOrder.mutate({
         boardId,
         taskId: reorderTaskData.task.id,
         dto: {
@@ -103,13 +103,13 @@ export function useDragHandlers({
     [
       setDraggingColumn,
       setDraggingTask,
-      updateTaskOrder,
-      setColumns,
-      columns,
-      boardId,
-      reorderColumns,
-      reorderTask,
       tasksByColumn,
+      localUpdateTaskOrder,
+      serverUpdateTaskOrder,
+      boardId,
+      columns,
+      setColumns,
+      reorderColumns,
     ]
   );
 
