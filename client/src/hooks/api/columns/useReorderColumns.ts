@@ -6,7 +6,7 @@ import type {
   UpdateColumnOrderDto,
 } from "../../../types/api/columns";
 
-interface ReorderColumnsParams {
+interface ReorderColumnsOptions {
   boardId: string;
   updatedColumns: BoardColumn[];
   previousColumns: BoardColumn[];
@@ -19,28 +19,22 @@ interface MutationContext {
 export const useReorderColumns = () => {
   const setColumns = useSetColumns();
 
-  const query = useMutation<void, Error, ReorderColumnsParams, MutationContext>(
-    {
-      mutationFn: ({ boardId, updatedColumns }) => {
-        const payload = updatedColumns.map(
-          ({ id, order }): UpdateColumnOrderDto => ({ id, order })
-        );
-        return reorderColumns(boardId, payload);
-      },
-
-      onMutate: async ({ previousColumns }) => {
-        return { previousColumns };
-      },
-
-      onError: (_err, _variables, context) => {
-        setTimeout(() => {
-          if (context?.previousColumns) {
-            setColumns(context.previousColumns);
-          }
-        }, 500);
-      },
-    }
-  );
-
-  return query;
+  return useMutation<void, Error, ReorderColumnsOptions, MutationContext>({
+    mutationFn: ({ boardId, updatedColumns }) => {
+      const dto = updatedColumns.map(
+        ({ id, order }): UpdateColumnOrderDto => ({ id, order })
+      );
+      return reorderColumns({ boardId, dto });
+    },
+    onMutate: async ({ previousColumns }) => {
+      return { previousColumns };
+    },
+    onError: (_err, _variables, context) => {
+      setTimeout(() => {
+        if (context?.previousColumns) {
+          setColumns(context.previousColumns);
+        }
+      }, 500);
+    },
+  });
 };

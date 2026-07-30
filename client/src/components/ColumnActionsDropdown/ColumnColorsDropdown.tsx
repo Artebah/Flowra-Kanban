@@ -25,7 +25,7 @@ function ColumnColorsDropdown({
       {
         boardId,
         columnId,
-        updateColumnDto: { color },
+        dto: { color },
       },
       {
         onSuccess() {

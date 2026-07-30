@@ -21,7 +21,7 @@ function SignupPage() {
   const onSubmit: SubmitHandler<SignupFields> = async (data) => {
     const signupDto: SignupDto = data;
 
-    signup.mutate(signupDto);
+    signup.mutate({ dto: signupDto });
   };
 
   return (

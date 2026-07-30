@@ -6,8 +6,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 export const useAssignLabels = () => {
   const queryClient = useQueryClient();
 
-  const mutation = useMutation<ILabel[], Error, AssignLabelsOptions>({
-    mutationFn: (options) => assignLabels(options),
+  return useMutation<ILabel[], Error, AssignLabelsOptions>({
+    mutationFn: assignLabels,
     onSuccess: (labels, { boardId, taskId }) => {
       queryClient.setQueryData(["assigned-labels", boardId, taskId], labels);
 
@@ -25,6 +25,4 @@ export const useAssignLabels = () => {
       );
     },
   });
-
-  return mutation;
 };

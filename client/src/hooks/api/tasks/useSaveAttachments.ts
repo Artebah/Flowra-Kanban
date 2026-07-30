@@ -5,12 +5,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 export const useSaveAttachments = () => {
   const queryClient = useQueryClient();
 
-  const mutation = useMutation({
+  return useMutation({
     mutationFn: (options: SaveAttachmentsOptions) => saveAttachments(options),
     onSuccess: (data, { boardId, taskId }) => {
       queryClient.setQueryData(["task-attachments", boardId, taskId], data);
     },
   });
-
-  return mutation;
 };

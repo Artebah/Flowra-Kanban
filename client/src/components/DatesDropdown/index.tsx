@@ -99,7 +99,7 @@ function DatesDropdown({ triggerRender, taskDetails }: DatesDropdownProps) {
       updateTask.mutate({
         boardId,
         taskId,
-        updateTaskDto: {
+        dto: {
           dueDate: null,
         },
       });
@@ -121,7 +121,7 @@ function DatesDropdown({ triggerRender, taskDetails }: DatesDropdownProps) {
         {
           boardId,
           taskId,
-          updateTaskDto: {
+          dto: {
             dueDate: dateTimeStringToSend,
           },
         },

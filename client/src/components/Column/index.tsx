@@ -76,7 +76,7 @@ function Column({ column, tasks, isDragOverlay = false }: ColumnProps) {
       {
         boardId: column.boardId,
         columnId: column.id,
-        updateColumnDto: { title: newTitle },
+        dto: { title: newTitle },
       },
       {
         onSuccess() {

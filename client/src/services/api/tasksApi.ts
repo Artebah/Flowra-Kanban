@@ -20,13 +20,13 @@ import type { User } from "../../types/api/auth";
 import axiosInstance from "./axiosInstance";
 
 export const createTask = async ({
-  createTaskDto,
+  dto,
   boardId,
   columnId,
 }: CreateTaskOptions): Promise<ITask> => {
   const res = await axiosInstance.post(
     `boards/${boardId}/columns/${columnId}/tasks`,
-    createTaskDto
+    dto
   );
   return res.data;
 };
@@ -49,22 +49,22 @@ export const getTaskDetails = async ({
 export const reorderTask = async ({
   boardId,
   taskId,
-  updateTaskOrderDto,
+  dto,
 }: ReorderTaskOptions): Promise<void> => {
   await axiosInstance.patch(
     `boards/${boardId}/tasks/${taskId}/reorder`,
-    updateTaskOrderDto
+    dto
   );
 };
 
 export const updateTask = async ({
   boardId,
   taskId,
-  updateTaskDto,
+  dto,
 }: UpdateTaskOptions): Promise<ITaskDetails> => {
   const { data } = await axiosInstance.patch(
     `boards/${boardId}/tasks/${taskId}`,
-    updateTaskDto
+    dto
   );
 
   return data;

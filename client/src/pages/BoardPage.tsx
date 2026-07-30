@@ -33,15 +33,15 @@ function BoardPage() {
     data: boardData,
     error: boardByIdError,
     isLoading: isLoadingBoard,
-  } = useBoardById(params.id!);
+  } = useBoardById({ boardId: params.id! });
 
   const updateBoard = useUpdateBoard();
   const deleteBoard = useDeleteBoard();
 
-  const { data: tasks, isLoading: isLoadingTasks } = useGetAllTasks(boardId);
+  const { data: tasks, isLoading: isLoadingTasks } = useGetAllTasks({ boardId });
 
   const { data: columns = [], isLoading: isLoadingColumns } =
-    useBoardColumnsList(boardId);
+    useBoardColumnsList({ boardId });
 
   React.useEffect(() => {
     if (tasks) {
@@ -70,7 +70,7 @@ function BoardPage() {
   };
 
   const onDeleteBoard = () => {
-    deleteBoard.mutate(boardId, {
+    deleteBoard.mutate({ boardId }, {
       onSuccess: () => {
         navigate(routes.home);
         if (boardData?.board.title) {

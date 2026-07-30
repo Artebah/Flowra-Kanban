@@ -9,12 +9,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 export const useCreateLabelAndAssignToTask = () => {
   const queryClient = useQueryClient();
 
-  const mutation = useMutation<
+  return useMutation<
     CreateLabelAndAssignToTaskResponse,
     Error,
     CreateLabelAndAssignToTaskOptions
   >({
-    mutationFn: (options) => createLabelAndAssignToTask(options),
+    mutationFn: createLabelAndAssignToTask,
     onSuccess: ({ labels, assignedLabels }, { boardId, taskId }) => {
       queryClient.setQueryData(["labels-list", boardId], labels);
       queryClient.setQueryData(
@@ -36,6 +36,4 @@ export const useCreateLabelAndAssignToTask = () => {
       );
     },
   });
-
-  return mutation;
 };

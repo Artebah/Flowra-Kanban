@@ -28,7 +28,7 @@ export interface CreateTaskDto {
 }
 
 export interface CreateTaskOptions {
-  createTaskDto: CreateTaskDto;
+  dto: CreateTaskDto;
   boardId: string;
   columnId: string;
 }
@@ -50,7 +50,7 @@ export interface UpdateTaskOrderDto {
 export interface ReorderTaskOptions {
   boardId: string;
   taskId: string;
-  updateTaskOrderDto: UpdateTaskOrderDto;
+  dto: UpdateTaskOrderDto;
 }
 
 export interface UpdateTaskDto {
@@ -63,7 +63,7 @@ export interface UpdateTaskDto {
 export interface UpdateTaskOptions {
   boardId: string;
   taskId: string;
-  updateTaskDto: UpdateTaskDto;
+  dto: UpdateTaskDto;
 }
 
 export interface AssignLabelsDto {

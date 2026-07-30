@@ -6,7 +6,7 @@ export const useCompleteProfile = () => {
   const queryClient = useQueryClient();
 
   return useMutation<User, Error, CompleteProfileOptions>({
-    mutationFn: (options: CompleteProfileOptions) => completeProfile(options),
+    mutationFn: completeProfile,
     onSuccess: (user) => {
       queryClient.setQueryData(["authMe"], user);
     },

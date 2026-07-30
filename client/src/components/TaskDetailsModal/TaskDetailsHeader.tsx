@@ -23,7 +23,7 @@ function TaskDetailsHeader({
     updateTask.mutate({
       boardId,
       taskId,
-      updateTaskDto: { isCompleted: !taskDetails.isCompleted },
+      dto: { isCompleted: !taskDetails.isCompleted },
     });
   };
 
@@ -31,7 +31,7 @@ function TaskDetailsHeader({
     const val = value.trim();
 
     if (val) {
-      updateTask.mutate({ boardId, taskId, updateTaskDto: { title: val } });
+      updateTask.mutate({ boardId, taskId, dto: { title: val } });
     }
   };
 

@@ -1,20 +1,20 @@
 import type {
   AuthResponse,
   CompleteProfileOptions,
-  LoginDto,
+  LoginOptions,
   RefreshResponse,
-  SignupDto,
+  SignupOptions,
   User,
 } from "../../types/api/auth";
 import axiosInstance from "./axiosInstance";
 
-export const login = async (loginDto: LoginDto): Promise<AuthResponse> => {
-  const res = await axiosInstance.post("/auth/login", loginDto);
+export const login = async ({ dto }: LoginOptions): Promise<AuthResponse> => {
+  const res = await axiosInstance.post("/auth/login", dto);
   return res.data;
 };
 
-export const signup = async (signupDto: SignupDto): Promise<AuthResponse> => {
-  const res = await axiosInstance.post("/auth/register", signupDto);
+export const signup = async ({ dto }: SignupOptions): Promise<AuthResponse> => {
+  const res = await axiosInstance.post("/auth/register", dto);
   return res.data;
 };
 

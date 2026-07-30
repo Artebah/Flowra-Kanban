@@ -94,7 +94,7 @@ export function useDragHandlers({
       reorderTask.mutate({
         boardId,
         taskId: reorderTaskData.task.id,
-        updateTaskOrderDto: {
+        dto: {
           columnId: reorderTaskData.columnId,
           order: reorderTaskData.newOrder,
         },

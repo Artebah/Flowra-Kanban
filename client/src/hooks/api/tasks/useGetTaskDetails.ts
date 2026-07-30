@@ -9,13 +9,11 @@ export const useGetTaskDetails = ({
   boardId,
   taskId,
 }: GetTaskDetailsOptions) => {
-  const query = useQuery<ITaskDetails | null, Error>({
+  return useQuery<ITaskDetails | null, Error>({
     queryKey: ["boards", boardId, "tasks", taskId],
     queryFn: () => getTaskDetails({ boardId, taskId }),
     staleTime: Infinity,
     retry: false,
     enabled: Boolean(boardId && taskId),
   });
-
-  return query;
 };

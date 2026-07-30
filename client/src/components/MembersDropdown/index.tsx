@@ -14,8 +14,8 @@ interface MembersDropdownProps {
 function MembersDropdown({ triggerRender }: MembersDropdownProps) {
   const { boardId, taskId } = useModalDetailsData();
 
-  const { data: assignedMembers = [] } = useGetAssignedMembers(boardId, taskId);
-  const { data: boardMembers = [] } = useGetBoardMembers(boardId);
+  const { data: assignedMembers = [] } = useGetAssignedMembers({ boardId, taskId });
+  const { data: boardMembers = [] } = useGetBoardMembers({ boardId });
   const getIsAssigned = React.useCallback(
     (memberId: string) =>
       assignedMembers.some((assignedMember) => assignedMember.id === memberId),

@@ -12,7 +12,7 @@ interface TaskAttachmentsProps {
 }
 
 function TaskAttachments({ boardId, taskId }: TaskAttachmentsProps) {
-  const { data: attachments = [] } = useGetAttachments(boardId, taskId);
+  const { data: attachments = [] } = useGetAttachments({ boardId, taskId });
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   const { onChange } = useAttachImagesToTask({ boardId, taskId });

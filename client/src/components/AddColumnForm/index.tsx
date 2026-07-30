@@ -28,7 +28,7 @@ function AddColumnForm({ boardId }: AddColumnFormProps) {
 
     if (title) {
       createColumn.mutate(
-        { boardId, createColumnDto: { title } },
+        { boardId, dto: { title } },
         {
           onSuccess: (column) => {
             addNewColumn(column);

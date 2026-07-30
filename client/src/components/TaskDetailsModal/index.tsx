@@ -29,9 +29,9 @@ function TaskDetailsModal() {
   });
 
   const { data: assignedLabels = [], isLoading: isLoadingAssignedLabels } =
-    useGetAssignedLabels(modalDetailsData.boardId, modalDetailsData.taskId);
+    useGetAssignedLabels({ boardId: modalDetailsData.boardId, taskId: modalDetailsData.taskId });
   const { data: assignedMembers = [], isLoading: isLoadingAssignedMembers } =
-    useGetAssignedMembers(modalDetailsData.boardId, modalDetailsData.taskId);
+    useGetAssignedMembers({ boardId: modalDetailsData.boardId, taskId: modalDetailsData.taskId });
 
   const onCloseModal = () => {
     updateModalDetailsData({ boardId: null, taskId: null, isOpen: false });

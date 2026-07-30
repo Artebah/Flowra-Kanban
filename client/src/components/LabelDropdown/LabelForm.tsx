@@ -44,7 +44,7 @@ function LabelForm({ setLabelEditionData, initialData, mode }: LabelFormProps) {
             {
               boardId: boardId,
               taskId: taskId,
-              createLabelDto: {
+              dto: {
                 color: selectedBgColor,
                 title: updatedTitle.trim() || null,
               },
@@ -63,7 +63,7 @@ function LabelForm({ setLabelEditionData, initialData, mode }: LabelFormProps) {
               boardId: boardId,
               labelId: initialData.id,
               taskId: taskId,
-              updateLabelDto: {
+              dto: {
                 color: selectedBgColor,
                 title: updatedTitle.trim() || null,
               },

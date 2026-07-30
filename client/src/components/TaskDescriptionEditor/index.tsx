@@ -49,7 +49,7 @@ function TaskDescriptionEditor({
       {
         boardId,
         taskId,
-        updateTaskDto: { descriptionContent: contentJson },
+        dto: { descriptionContent: contentJson },
       },
       {
         onSuccess: () => {

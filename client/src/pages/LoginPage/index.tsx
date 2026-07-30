@@ -24,7 +24,7 @@ function LoginPage() {
       password: data.password,
     };
 
-    login.mutate(loginDto);
+    login.mutate({ dto: loginDto });
   };
 
   return (

@@ -18,10 +18,10 @@ function LabelDropdownContent({
   const assignLabelsMutation = useAssignLabels();
 
   const { data: labels = [], isLoading: isLoadingLabelsList } =
-    useLabelsList(boardId);
+    useLabelsList({ boardId });
 
   const { data: assignedLabels = [], isLoading: isLoadingAssignedLabels } =
-    useGetAssignedLabels(boardId, taskId);
+    useGetAssignedLabels({ boardId, taskId });
 
   const onToggleAssignLabel = (labelId: string) => {
     const ids = assignedLabels.map((label) => label.id);

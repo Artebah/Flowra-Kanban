@@ -36,7 +36,7 @@ function AddTaskForm({
 
     if (titleValue !== undefined && titleValue !== "") {
       createTask.mutate(
-        { boardId, columnId, createTaskDto: { title: titleValue } },
+        { boardId, columnId, dto: { title: titleValue } },
         {
           onSuccess: (task) => {
             addTask(task);

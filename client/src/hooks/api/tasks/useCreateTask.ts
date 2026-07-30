@@ -5,15 +5,12 @@ import { createTask } from "../../../services/api/tasksApi";
 export const useCreateTask = () => {
   const queryClient = useQueryClient();
 
-  const query = useMutation<ITask, Error, CreateTaskOptions>({
-    mutationFn: (options) => createTask(options),
+  return useMutation<ITask, Error, CreateTaskOptions>({
+    mutationFn: createTask,
     onSuccess: (task, { boardId }) => {
-      queryClient.setQueryData<ITask[]>(
-        ["board-tasks", boardId],
-        (prev) => (prev ? [...prev, task] : [task])
+      queryClient.setQueryData<ITask[]>(["board-tasks", boardId], (prev) =>
+        prev ? [...prev, task] : [task]
       );
     },
   });
-
-  return query;
 };

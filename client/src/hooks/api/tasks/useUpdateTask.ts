@@ -9,8 +9,8 @@ import { updateTask } from "../../../services/api/tasksApi";
 export const useUpdateTask = () => {
   const queryClient = useQueryClient();
 
-  const query = useMutation<ITaskDetails, Error, UpdateTaskOptions>({
-    mutationFn: (options) => updateTask(options),
+  return useMutation<ITaskDetails, Error, UpdateTaskOptions>({
+    mutationFn: updateTask,
     onSuccess(data, variables) {
       queryClient.setQueryData(
         ["boards", variables.boardId, "tasks", variables.taskId],
@@ -28,6 +28,4 @@ export const useUpdateTask = () => {
       );
     },
   });
-
-  return query;
 };

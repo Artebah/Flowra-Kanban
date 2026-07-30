@@ -24,6 +24,23 @@ export interface UpdateBoardDto {
   title: string;
 }
 
+export interface UpdateBoardOptions {
+  dto: UpdateBoardDto;
+  boardId: string;
+}
+
 export interface GetBoardMembersOptions {
+  boardId: string;
+}
+
+export interface CreateBoardOptions {
+  dto: CreateBoardDto;
+}
+
+export interface GetBoardByIdOptions {
+  boardId: string;
+}
+
+export interface DeleteBoardOptions {
   boardId: string;
 }

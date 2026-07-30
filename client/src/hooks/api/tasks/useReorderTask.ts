@@ -5,9 +5,9 @@ import { reorderTask } from "../../../services/api/tasksApi";
 export const useReorderTask = () => {
   const queryClient = useQueryClient();
 
-  const query = useMutation<void, Error, ReorderTaskOptions>({
-    mutationFn: (options) => reorderTask(options),
-    onSuccess(_, { boardId, taskId, updateTaskOrderDto }) {
+  return useMutation<void, Error, ReorderTaskOptions>({
+    mutationFn: reorderTask,
+    onSuccess(_, { boardId, taskId, dto }) {
       queryClient.setQueryData<ITask[]>(
         ["board-tasks", boardId],
         (prev) =>
@@ -15,14 +15,12 @@ export const useReorderTask = () => {
             task.id === taskId
               ? {
                   ...task,
-                  order: updateTaskOrderDto.order,
-                  columnId: updateTaskOrderDto.columnId,
+                  order: dto.order,
+                  columnId: dto.columnId,
                 }
               : task
           )
       );
     },
   });
-
-  return query;
 };

@@ -7,7 +7,7 @@ export const useAssignMembers = () => {
   const queryClient = useQueryClient();
 
   return useMutation<User[], Error, AssignMembersOptions>({
-    mutationFn: (options) => assignMembers(options),
+    mutationFn: assignMembers,
     onSuccess: (members, { boardId, taskId }) => {
       queryClient.setQueryData(["assigned-members", boardId, taskId], members);
 

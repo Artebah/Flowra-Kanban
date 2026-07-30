@@ -4,13 +4,14 @@ import type {
   DeleteLabelOptions,
   DeleteLabelResponse,
   GetAssignedLabelsOptions,
+  GetLabelsListOptions,
   ILabel,
   UpdateLabelOptions,
   UpdateLabelResponse,
 } from "@/types/api/labels";
 import axiosInstance from "./axiosInstance";
 
-export const getLabelsList = async (boardId: string): Promise<ILabel[]> => {
+export const getLabelsList = async ({ boardId }: GetLabelsListOptions): Promise<ILabel[]> => {
   const res = await axiosInstance.get(`/boards/${boardId}/labels`);
   return res.data;
 };
@@ -19,11 +20,11 @@ export const updateLabel = async ({
   boardId,
   labelId,
   taskId,
-  updateLabelDto,
+  dto,
 }: UpdateLabelOptions): Promise<UpdateLabelResponse> => {
   const res = await axiosInstance.patch(
     `/boards/${boardId}/tasks/${taskId}/labels/${labelId}`,
-    updateLabelDto
+    dto
   );
   return res.data;
 };
@@ -31,11 +32,11 @@ export const updateLabel = async ({
 export const createLabelAndAssignToTask = async ({
   boardId,
   taskId,
-  createLabelDto,
+  dto,
 }: CreateLabelAndAssignToTaskOptions): Promise<CreateLabelAndAssignToTaskResponse> => {
   const res = await axiosInstance.post(
     `/boards/${boardId}/tasks/${taskId}/labels`,
-    createLabelDto
+    dto
   );
   return res.data;
 };

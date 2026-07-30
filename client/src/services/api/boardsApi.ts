@@ -1,10 +1,12 @@
 import type {
   BoardByIdResponse,
-  CreateBoardDto,
+  CreateBoardOptions,
+  DeleteBoardOptions,
+  GetBoardByIdOptions,
   GetBoardMembersOptions,
   IBoard,
   TBoardsList,
-  UpdateBoardDto,
+  UpdateBoardOptions,
 } from "../../types/api/boards";
 import type { User } from "../../types/api/auth";
 import axiosInstance from "./axiosInstance";
@@ -14,28 +16,24 @@ export const getBoardsListByUser = async (): Promise<TBoardsList> => {
   return res.data;
 };
 
-export const createBoard = async (
-  createBoardDto: CreateBoardDto
-): Promise<IBoard> => {
-  const res = await axiosInstance.post(`/boards`, createBoardDto);
+export const createBoard = async ({ dto }: CreateBoardOptions): Promise<IBoard> => {
+  const res = await axiosInstance.post(`/boards`, dto);
   return res.data;
 };
 
-export const getBoardById = async (
-  boardId: string
-): Promise<BoardByIdResponse> => {
+export const getBoardById = async ({ boardId }: GetBoardByIdOptions): Promise<BoardByIdResponse> => {
   const res = await axiosInstance.get(`/boards/${boardId}`);
   return res.data;
 };
 
-export const deleteBoard = async (boardId: string): Promise<void> => {
+export const deleteBoard = async ({ boardId }: DeleteBoardOptions): Promise<void> => {
   await axiosInstance.delete(`/boards/${boardId}`);
 };
 
-export const updateBoard = async (
-  boardId: string,
-  dto: UpdateBoardDto
-): Promise<IBoard> => {
+export const updateBoard = async ({
+  boardId,
+  dto,
+}: UpdateBoardOptions): Promise<IBoard> => {
   const res = await axiosInstance.patch(`/boards/${boardId}`, dto);
   return res.data;
 };

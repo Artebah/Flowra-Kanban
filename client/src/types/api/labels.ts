@@ -13,7 +13,7 @@ export interface UpdateLabelOptions {
   boardId: string;
   labelId: string;
   taskId: string;
-  updateLabelDto: UpdateLabelDto;
+  dto: UpdateLabelDto;
 }
 
 export interface CreateLabelDto {
@@ -24,7 +24,7 @@ export interface CreateLabelDto {
 export interface CreateLabelAndAssignToTaskOptions {
   boardId: string;
   taskId: string;
-  createLabelDto: CreateLabelDto;
+  dto: CreateLabelDto;
 }
 
 export interface CreateLabelAndAssignToTaskResponse {
@@ -46,6 +46,10 @@ export interface DeleteLabelResponse {
 export interface GetAssignedLabelsOptions {
   boardId: string;
   taskId: string;
+}
+
+export interface GetLabelsListOptions {
+  boardId: string;
 }
 
 export interface UpdateLabelResponse {

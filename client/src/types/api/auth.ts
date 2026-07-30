@@ -36,3 +36,11 @@ export interface CompleteProfileOptions {
   userId: string;
   dto: CompleteProfileDto;
 }
+
+export interface LoginOptions {
+  dto: LoginDto;
+}
+
+export interface SignupOptions {
+  dto: SignupDto;
+}

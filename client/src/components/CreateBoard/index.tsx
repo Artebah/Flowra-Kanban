@@ -26,7 +26,7 @@ function CreateBoardButton() {
 
   const onSubmit: SubmitHandler<CreateBoardFields> = async (data) => {
     mutate(
-      { title: data.title },
+      { dto: { title: data.title } },
       {
         onSuccess(res) {
           toast.success(`Board "${res.title}" has been created.`);
