@@ -14,7 +14,7 @@ function AuthActions() {
     return (
       <Dropdown
         triggerRender={
-          <div className="flex gap-3 items-center">
+          <div className="flex gap-3 items-center cursor-pointer px-4 transition-colors py-2 rounded-md hover:bg-black/15">
             <span>{user.username}</span>
             <div className="size-10">
               <img
@@ -25,7 +25,10 @@ function AuthActions() {
           </div>
         }
       >
-        <DropdownMenuItem onClick={clearAuthAndRedirect} className="hover:text-red-400!">
+        <DropdownMenuItem
+          onClick={clearAuthAndRedirect}
+          className="hover:text-red-400!"
+        >
           Logout
         </DropdownMenuItem>
       </Dropdown>

@@ -2,6 +2,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { Link } from "react-router";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
+import PasswordInput from "../../components/PasswordInput";
 import { loginSchema, type LoginFields } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { LoginDto } from "../../types/api/auth";
@@ -56,8 +57,7 @@ function LoginPage() {
             <label className="mb-2 inline-block" htmlFor="password">
               Password
             </label>
-            <Input
-              type="password"
+            <PasswordInput
               id="password"
               {...register("password")}
               className="w-full"
