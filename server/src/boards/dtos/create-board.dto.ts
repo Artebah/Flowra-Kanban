@@ -8,4 +8,8 @@ export class CreateBoardDto {
   @IsString()
   @IsOptional()
   coverUrl?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  coverBgColor: string;
 }

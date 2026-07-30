@@ -19,6 +19,10 @@ export class Board extends BaseEntity {
   @Column({ nullable: true })
   coverUrl?: string;
 
+  @Expose()
+  @Column({ nullable: false })
+  coverBgColor: string;
+
   @OneToMany(() => BoardMember, (boardMember) => boardMember.board)
   boardMembers: BoardMember[];
 

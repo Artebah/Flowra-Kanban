@@ -3,6 +3,7 @@ export interface IBoard {
   title: string;
   createdAt: string;
   coverUrl?: string;
+  coverBgColor: string;
 }
 
 export type TBoardsList = IBoard[];
@@ -10,6 +11,7 @@ export type TBoardsList = IBoard[];
 export interface CreateBoardDto {
   title: string;
   coverUrl?: string;
+  coverBgColor: string;
 }
 
 export enum BoardRole {
