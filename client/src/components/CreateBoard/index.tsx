@@ -12,7 +12,7 @@ import { useGetUploadUrl } from "@/hooks/api/storage/useGetUploadUrl";
 import axios from "axios";
 
 function CreateBoardButton() {
-  const { mutate, isPending } = useCreateBoard();
+  const createBoard = useCreateBoard();
   const [preview, setPreview] = React.useState<string | null>(null);
   const [createBoardModalOpen, setCreateBoardModalOpen] = React.useState(false);
   const getUploadUrl = useGetUploadUrl();
@@ -29,43 +29,42 @@ function CreateBoardButton() {
 
   const onSubmit: SubmitHandler<CreateBoardFields> = async (data) => {
     const coverImage = data.coverImage;
-    let uploadedCoverImageUrl: string | undefined;
+    let uploadedCoverUrl: string | undefined;
 
-    if (coverImage) {
-      const { publicUrl, uploadUrl } = await getUploadUrl.mutateAsync({
-        dto: {
-          fileName: coverImage.name,
-          fileType: coverImage.type,
-          folder: `boards/bg-covers`,
-        },
-      });
+    try {
+      if (coverImage) {
+        const { publicUrl, uploadUrl } = await getUploadUrl.mutateAsync({
+          dto: {
+            fileName: coverImage.name,
+            fileType: coverImage.type,
+            folder: `boards/bg-covers`,
+          },
+        });
 
-      await axios({
-        url: uploadUrl,
-        method: "PUT",
-        data: coverImage,
-        headers: { "Content-Type": coverImage.type },
-      });
+        await axios({
+          url: uploadUrl,
+          method: "PUT",
+          data: coverImage,
+          headers: { "Content-Type": coverImage.type },
+        });
 
-      uploadedCoverImageUrl = publicUrl;
-    }
+        uploadedCoverUrl = publicUrl;
+      }
 
-    mutate(
-      {
+      const createdBoard = await createBoard.mutateAsync({
         dto: {
           title: data.title,
-          ...(uploadedCoverImageUrl ? { coverUrl: uploadedCoverImageUrl } : {}),
+          coverUrl: uploadedCoverUrl,
         },
-      },
-      {
-        onSuccess(res) {
-          toast.success(`Board "${res.title}" has been created.`);
-          onCreateBoardModalClose();
-          setPreview(null);
-          reset();
-        },
-      }
-    );
+      });
+
+      toast.success(`Board "${createdBoard.title}" has been created.`);
+      onCreateBoardModalClose();
+      setPreview(null);
+      reset();
+    } catch {
+      toast.error("Couldn't create board");
+    }
   };
 
   const onCreateBoardModalOpen = () => {
@@ -134,7 +133,7 @@ function CreateBoardButton() {
 
             <div>
               <Button
-                disabled={isPending}
+                disabled={createBoard.isPending}
                 type="submit"
                 variant="primary"
                 className="w-full"
