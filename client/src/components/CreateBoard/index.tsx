@@ -10,6 +10,8 @@ import React from "react";
 import toast from "react-hot-toast";
 import { useGetUploadUrl } from "@/hooks/api/storage/useGetUploadUrl";
 import axios from "axios";
+import { boardCoverColors } from "@/constants/boardCoverColors";
+import { getRandomInt } from "@/utils/getRandomInt";
 
 function CreateBoardButton() {
   const createBoard = useCreateBoard();
@@ -30,6 +32,8 @@ function CreateBoardButton() {
   const onSubmit: SubmitHandler<CreateBoardFields> = async (data) => {
     const coverImage = data.coverImage;
     let uploadedCoverUrl: string | undefined;
+    const randomCoverBgColor =
+      boardCoverColors[getRandomInt(0, boardCoverColors.length - 1)];
 
     try {
       if (coverImage) {
@@ -55,6 +59,7 @@ function CreateBoardButton() {
         dto: {
           title: data.title,
           coverUrl: uploadedCoverUrl,
+          coverBgColor: randomCoverBgColor,
         },
       });
 
