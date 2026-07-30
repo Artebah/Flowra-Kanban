@@ -63,6 +63,12 @@ function BoardPage() {
     };
   }, [columns, setColumns]);
 
+  React.useEffect(() => {
+    if (boardByIdError) {
+      navigate(routes.home);
+    }
+  }, [boardByIdError, navigate]);
+
   const onUpdateBoard = ({ title }: { title: string }) => {
     if (title.trim() !== "") {
       updateBoard.mutate({ boardId, dto: { title: title } });
@@ -94,9 +100,7 @@ function BoardPage() {
     );
   }
 
-  if (boardByIdError) {
-    navigate(routes.home);
-  } else if (boardData) {
+  if (boardData) {
     return (
       <div className="min-h-[calc(100vh-80px)] flex flex-col gap-3">
         <div className="h-14 flex items-center justify-between px-7 bg-black/25">

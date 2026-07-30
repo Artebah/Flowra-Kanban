@@ -3,12 +3,15 @@ import { useFetchMe } from "../hooks/api/auth/useFetchMe";
 import { routes } from "../constants/routes";
 import { useLocation, useNavigate } from "react-router";
 import { useIsAuthPage } from "../hooks/useIsAuthPage";
-import { useUser } from "../store/auth/selectors";
 import { setNavigate } from "../utils/navigationRef";
 
 function AuthGuard({ children }: React.PropsWithChildren) {
-  const { isLoading: isLoadingMe } = useFetchMe();
-  const user = useUser();
+  const {
+    isLoading: isLoadingMe,
+    data: user,
+    isError: isMeError,
+  } = useFetchMe();
+
   const navigate = useNavigate();
   const isAuthPage = useIsAuthPage();
   const location = useLocation();
@@ -32,7 +35,7 @@ function AuthGuard({ children }: React.PropsWithChildren) {
     }
 
     if (!user) {
-      if (!isAuthPage) {
+      if (isMeError && !isAuthPage) {
         navigate(routes.login);
       }
       return;
@@ -52,11 +55,12 @@ function AuthGuard({ children }: React.PropsWithChildren) {
     isCompleteProfilePage,
     isHomePage,
     isLoadingMe,
+    isMeError,
     navigate,
     user,
   ]);
 
-  if (isLoadingMe) {
+  if (isLoadingMe || (!user && !isMeError)) {
     return (
       <div className="fixed size-full flex justify-center items-center">
         <span className="loading loading-spinner loading-xl text-secondary" />
