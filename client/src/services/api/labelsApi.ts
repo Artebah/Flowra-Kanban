@@ -2,6 +2,7 @@ import type {
   CreateLabelAndAssignToTaskOptions,
   CreateLabelAndAssignToTaskResponse,
   DeleteLabelOptions,
+  DeleteLabelResponse,
   GetAssignedLabelsOptions,
   ILabel,
   UpdateLabelOptions,
@@ -52,7 +53,7 @@ export const getAssignedLabels = async ({
 export const deleteLabel = async ({
   boardId,
   labelId,
-}: DeleteLabelOptions): Promise<ILabel[]> => {
+}: DeleteLabelOptions): Promise<DeleteLabelResponse> => {
   const res = await axiosInstance.delete(
     `/boards/${boardId}/labels/${labelId}`
   );
