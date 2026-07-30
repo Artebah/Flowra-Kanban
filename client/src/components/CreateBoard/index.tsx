@@ -8,11 +8,14 @@ import { createBoardSchema, type CreateBoardFields } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import toast from "react-hot-toast";
+import { useGetUploadUrl } from "@/hooks/api/storage/useGetUploadUrl";
+import axios from "axios";
 
 function CreateBoardButton() {
   const { mutate, isPending } = useCreateBoard();
   const [preview, setPreview] = React.useState<string | null>(null);
   const [createBoardModalOpen, setCreateBoardModalOpen] = React.useState(false);
+  const getUploadUrl = useGetUploadUrl();
 
   const {
     register,
@@ -25,8 +28,35 @@ function CreateBoardButton() {
   });
 
   const onSubmit: SubmitHandler<CreateBoardFields> = async (data) => {
+    const coverImage = data.coverImage;
+    let uploadedCoverImageUrl: string | undefined;
+
+    if (coverImage) {
+      const { publicUrl, uploadUrl } = await getUploadUrl.mutateAsync({
+        dto: {
+          fileName: coverImage.name,
+          fileType: coverImage.type,
+          folder: `boards/bg-covers`,
+        },
+      });
+
+      await axios({
+        url: uploadUrl,
+        method: "PUT",
+        data: coverImage,
+        headers: { "Content-Type": coverImage.type },
+      });
+
+      uploadedCoverImageUrl = publicUrl;
+    }
+
     mutate(
-      { dto: { title: data.title } },
+      {
+        dto: {
+          title: data.title,
+          ...(uploadedCoverImageUrl ? { coverUrl: uploadedCoverImageUrl } : {}),
+        },
+      },
       {
         onSuccess(res) {
           toast.success(`Board "${res.title}" has been created.`);
@@ -66,50 +96,53 @@ function CreateBoardButton() {
         Create new board
       </Button>
 
-      <Dialog open={createBoardModalOpen} onOpenChange={(o) => !o && onCreateBoardModalClose()}>
+      <Dialog
+        open={createBoardModalOpen}
+        onOpenChange={(o) => !o && onCreateBoardModalClose()}
+      >
         <DialogContent>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div>
-            <label
-              className="mb-2 inline-block text-gray-300 font-medium"
-              htmlFor="title"
-            >
-              Board Title
-            </label>
-            <Input
-              id="title"
-              {...register("title")}
-              className="w-full"
-              placeholder="Enter board title"
-            />
-            {errors.title && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.title.message}
-              </p>
-            )}
-          </div>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <div>
+              <label
+                className="mb-2 inline-block text-gray-300 font-medium"
+                htmlFor="title"
+              >
+                Board Title
+              </label>
+              <Input
+                id="title"
+                {...register("title")}
+                className="w-full"
+                placeholder="Enter board title"
+              />
+              {errors.title && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.title.message}
+                </p>
+              )}
+            </div>
 
-          <div>
-            <Dropzone
-              label="Cover Image"
-              helperText="PNG, JPG, GIF up to 5MB"
-              onDrop={handleImageDrop}
-              preview={preview}
-              error={errors.coverImage?.message}
-            />
-          </div>
+            <div>
+              <Dropzone
+                label="Cover Image"
+                helperText="PNG, JPG, GIF up to 5MB"
+                onDrop={handleImageDrop}
+                preview={preview}
+                error={errors.coverImage?.message}
+              />
+            </div>
 
-          <div>
-            <Button
-              disabled={isPending}
-              type="submit"
-              variant="primary"
-              className="w-full"
-            >
-              Create new board
-            </Button>
-          </div>
-        </form>
+            <div>
+              <Button
+                disabled={isPending}
+                type="submit"
+                variant="primary"
+                className="w-full"
+              >
+                Create new board
+              </Button>
+            </div>
+          </form>
         </DialogContent>
       </Dialog>
     </>

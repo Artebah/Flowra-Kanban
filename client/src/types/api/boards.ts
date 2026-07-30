@@ -8,6 +8,7 @@ export type TBoardsList = IBoard[];
 
 export interface CreateBoardDto {
   title: string;
+  coverUrl?: string;
 }
 
 export enum BoardRole {
