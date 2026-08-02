@@ -17,6 +17,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useDeleteBoard } from "@/hooks/api/boards/useDeleteBoard";
 import toast from "react-hot-toast";
 import Dropdown from "@/components/Dropdown";
+import ShareBoardModal from "@/components/ShareBoardModal";
 
 function BoardPage() {
   const params = useParams();
@@ -38,7 +39,9 @@ function BoardPage() {
   const updateBoard = useUpdateBoard();
   const deleteBoard = useDeleteBoard();
 
-  const { data: tasks, isLoading: isLoadingTasks } = useGetAllTasks({ boardId });
+  const { data: tasks, isLoading: isLoadingTasks } = useGetAllTasks({
+    boardId,
+  });
 
   const { data: columns = [], isLoading: isLoadingColumns } =
     useBoardColumnsList({ boardId });
@@ -76,14 +79,17 @@ function BoardPage() {
   };
 
   const onDeleteBoard = () => {
-    deleteBoard.mutate({ boardId }, {
-      onSuccess: () => {
-        navigate(routes.home);
-        if (boardData?.board.title) {
-          toast.success(`Board "${boardData?.board.title}" removed.`);
-        }
-      },
-    });
+    deleteBoard.mutate(
+      { boardId },
+      {
+        onSuccess: () => {
+          navigate(routes.home);
+          if (boardData?.board.title) {
+            toast.success(`Board "${boardData?.board.title}" removed.`);
+          }
+        },
+      }
+    );
   };
 
   if (isLoadingBoard || isLoadingColumns || isLoadingTasks) {
@@ -120,6 +126,8 @@ function BoardPage() {
           </div>
 
           <div className="grow flex gap-3 justify-end">
+            <ShareBoardModal />
+
             <Dropdown
               triggerRender={
                 <Button className="rounded-full" isIconOnly>
@@ -137,6 +145,7 @@ function BoardPage() {
             </Dropdown>
           </div>
         </div>
+
         <BoardLayout boardId={boardId} />
 
         <Dialog

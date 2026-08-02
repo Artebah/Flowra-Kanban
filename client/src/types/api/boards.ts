@@ -17,6 +17,7 @@ export interface CreateBoardDto {
 export enum BoardRole {
   MEMBER = "member",
   OWNER = "owner",
+  ADMIN = "admin",
 }
 
 export interface BoardByIdResponse {
