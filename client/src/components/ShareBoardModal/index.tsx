@@ -7,8 +7,39 @@ import type { User } from "@/types/api/auth";
 import { Select, SelectContent, SelectTrigger, SelectItem } from "../ui/select";
 import { BoardRole } from "@/types/api/boards";
 import { cn } from "@/lib/utils";
+import BoardMemberItem from "./BoardMemberItem";
 
 const availableUsers: User[] = [
+  {
+    id: "1",
+    email: "alex.smith@example.com",
+    username: "alex_smith",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
+    isProfileCompleted: true,
+    createdAt: "2024-01-15T08:30:00Z",
+    updatedAt: "2024-06-10T11:20:00Z",
+  },
+  {
+    id: "2",
+    email: "marta.k@example.com",
+    username: "marta_k",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Marta",
+    isProfileCompleted: true,
+    createdAt: "2024-02-20T14:15:00Z",
+    updatedAt: "2024-05-01T09:45:00Z",
+  },
+  {
+    id: "3",
+    email: "dev.user@example.com",
+    isProfileCompleted: false,
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=z9gdlwrm",
+    username: "dev.user",
+    createdAt: "2024-07-01T10:00:00Z",
+    updatedAt: "2024-07-01T10:00:00Z",
+  },
+];
+
+const boardMembers: User[] = [
   {
     id: "1",
     email: "alex.smith@example.com",
@@ -57,7 +88,9 @@ function ShareBoardModal() {
     return () => clearTimeout(timer);
   }, [search]);
 
-  React.useEffect(() => {}, [debouncedSearch]);
+  //React.useEffect(() => {}, [debouncedSearch]);
+
+  //const onSubmit = () => {};
 
   const onSelectUser = (user: User) => {
     setSelectedUser(user);
@@ -132,18 +165,10 @@ function ShareBoardModal() {
                 )}
                 {availableUsers.length > 0 &&
                   availableUsers.map((user) => (
-                    <div
-                      onClick={() => onSelectUser(user)}
-                      className="flex gap-3 h-10 hover:bg-black/30 cursor-pointer rounded-sm"
-                    >
-                      <div className="size-8 rounded-full bg-gray-dim overflow-hidden">
-                        <img src={user.avatar} alt={user.email} />
-                      </div>
-                      <div>
-                        <p>{user.email}</p>
-                        <p className="text-gray-500">{user.username}</p>
-                      </div>
-                    </div>
+                    <BoardMemberItem
+                      onSelectMember={onSelectUser}
+                      user={user}
+                    />
                   ))}
               </div>
             </div>
@@ -166,10 +191,23 @@ function ShareBoardModal() {
                 <SelectItem value={BoardRole.ADMIN}>Admin</SelectItem>
               </SelectContent>
             </Select>
-            <Button variant="primary" className="min-w-20">
+            <Button
+              disabled={!selectedUser || !selectedRole}
+              variant="primary"
+              className="min-w-20"
+            >
               Add
             </Button>
           </div>
+
+          {boardMembers.length > 0 && (
+            <div className="space-y-2">
+              <p className="text-gray-200 font-bold mb-3">Board members</p>
+              {boardMembers.map((boardMember) => (
+                <BoardMemberItem user={boardMember} onRemoveMember={() => {}} />
+              ))}
+            </div>
+          )}
         </DialogContent>
       </Dialog>
     </>
