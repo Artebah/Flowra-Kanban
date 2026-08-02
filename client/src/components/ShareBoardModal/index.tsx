@@ -40,6 +40,18 @@ function ShareBoardModal() {
   const [selectedRole, setSelectedRole] = React.useState<BoardRole>(
     BoardRole.MEMBER
   );
+  const [search, setSearch] = React.useState("");
+  const [debouncedSearch, setDebouncedSearch] = React.useState("");
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 200);
+
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  React.useEffect(() => {}, [debouncedSearch]);
 
   return (
     <>
@@ -54,7 +66,12 @@ function ShareBoardModal() {
         <DialogContent className="top-12 translate-y-0 sm:top-20 min-w-[500px]">
           <DialogHeader className="text-lg font-bold">Share board</DialogHeader>
           <div className="flex gap-3">
-            <Input className="grow" placeholder="Email adress or name" />
+            <Input
+              onChange={(e) => setSearch(e.target.value)}
+              value={search}
+              className="grow"
+              placeholder="Email adress or name"
+            />
             <Select
               value={selectedRole}
               onValueChange={(value) => setSelectedRole(value as BoardRole)}
