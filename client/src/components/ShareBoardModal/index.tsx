@@ -6,6 +6,7 @@ import Input from "../Input";
 import type { User } from "@/types/api/auth";
 import { Select, SelectContent, SelectTrigger, SelectItem } from "../ui/select";
 import { BoardRole } from "@/types/api/boards";
+import { cn } from "@/lib/utils";
 
 const availableUsers: User[] = [
   {
@@ -30,6 +31,8 @@ const availableUsers: User[] = [
     id: "3",
     email: "dev.user@example.com",
     isProfileCompleted: false,
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=z9gdlwrm",
+    username: "dev.user",
     createdAt: "2024-07-01T10:00:00Z",
     updatedAt: "2024-07-01T10:00:00Z",
   },
@@ -42,6 +45,7 @@ function ShareBoardModal() {
   );
   const [search, setSearch] = React.useState("");
   const [debouncedSearch, setDebouncedSearch] = React.useState("");
+  const [showUsersList, setShowUsersList] = React.useState(false);
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
@@ -66,12 +70,56 @@ function ShareBoardModal() {
         <DialogContent className="top-12 translate-y-0 sm:top-20 min-w-[500px]">
           <DialogHeader className="text-lg font-bold">Share board</DialogHeader>
           <div className="flex gap-3">
-            <Input
-              onChange={(e) => setSearch(e.target.value)}
-              value={search}
-              className="grow"
-              placeholder="Email adress or name"
-            />
+            <div
+              className="grow relative"
+              onFocus={() => setShowUsersList(true)}
+              onBlur={(e) => {
+                if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+                  setShowUsersList(false);
+                }
+              }}
+            >
+              <Input
+                onFocus={() => setShowUsersList(true)}
+                onChange={(e) => setSearch(e.target.value)}
+                value={search}
+                placeholder="Email adress or name"
+              />
+              <div
+                onMouseDown={(e) => e.preventDefault()}
+                className={cn(
+                  "absolute w-full max-h-48 space-y-2 rounded-[0_0_10px_10px] overflow-y-auto top-10 px-2 py-3 bg-gray-rich transition-all",
+                  { "opacity-100 pointer-events-auto": showUsersList },
+                  { "opacity-0 pointer-events-none": !showUsersList }
+                )}
+              >
+                {availableUsers.length === 0 && debouncedSearch.trim() && (
+                  <div className="h-full flex justify-center items-center">
+                    No users found
+                  </div>
+                )}
+                {availableUsers.length === 0 && !debouncedSearch.trim() && (
+                  <div className="h-full flex justify-center items-center">
+                    Start typing to find user
+                  </div>
+                )}
+                {availableUsers.length > 0 &&
+                  availableUsers.map((user) => (
+                    <div
+                      onClick={() => console.log("click", user.username)}
+                      className="flex gap-3 h-10 hover:bg-black/30 cursor-pointer rounded-sm"
+                    >
+                      <div className="size-8 rounded-full bg-gray-dim overflow-hidden">
+                        <img src={user.avatar} alt={user.email} />
+                      </div>
+                      <div>
+                        <p>{user.email}</p>
+                        <p className="text-gray-500">{user.username}</p>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </div>
             <Select
               value={selectedRole}
               onValueChange={(value) => setSelectedRole(value as BoardRole)}
