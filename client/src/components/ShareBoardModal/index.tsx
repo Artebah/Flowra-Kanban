@@ -1,4 +1,4 @@
-import { ChevronDown, UserRoundPlusIcon } from "lucide-react";
+import { ChevronDown, UserRoundPlusIcon, XIcon } from "lucide-react";
 import Button from "../Button";
 import { Dialog, DialogContent, DialogHeader } from "../ui/dialog";
 import React from "react";
@@ -43,9 +43,11 @@ function ShareBoardModal() {
   const [selectedRole, setSelectedRole] = React.useState<BoardRole>(
     BoardRole.MEMBER
   );
+  const [selectedUser, setSelectedUser] = React.useState<User | null>(null);
   const [search, setSearch] = React.useState("");
   const [debouncedSearch, setDebouncedSearch] = React.useState("");
   const [showUsersList, setShowUsersList] = React.useState(false);
+  const inputRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
@@ -57,6 +59,15 @@ function ShareBoardModal() {
 
   React.useEffect(() => {}, [debouncedSearch]);
 
+  const onSelectUser = (user: User) => {
+    setSelectedUser(user);
+    setShowUsersList(false);
+    inputRef.current?.blur();
+  };
+  const onClearSelectedUser = () => {
+    setSelectedUser(null);
+  };
+
   return (
     <>
       <Button
@@ -67,7 +78,7 @@ function ShareBoardModal() {
       </Button>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="top-12 translate-y-0 sm:top-20 min-w-[500px]">
+        <DialogContent className="top-12 translate-y-0 sm:top-20 min-w-[600px]">
           <DialogHeader className="text-lg font-bold">Share board</DialogHeader>
           <div className="flex gap-3">
             <div
@@ -79,12 +90,28 @@ function ShareBoardModal() {
                 }
               }}
             >
-              <Input
-                onFocus={() => setShowUsersList(true)}
-                onChange={(e) => setSearch(e.target.value)}
-                value={search}
-                placeholder="Email adress or name"
-              />
+              <div className="flex items-center border-gray-500 border rounded-sm">
+                {selectedUser && (
+                  <div
+                    onClick={onClearSelectedUser}
+                    className="cursor-pointer rounded-sm bg-white/10 flex gap-1 px-1 ml-3 items-center h-6"
+                  >
+                    <p className="truncate w-fit max-w-[140px]">
+                      {selectedUser.username}
+                    </p>
+                    <XIcon className="size-4 shrink-0" />
+                  </div>
+                )}
+                <Input
+                  ref={inputRef}
+                  className="border-0"
+                  tabIndex={-1}
+                  onFocus={() => setShowUsersList(true)}
+                  onChange={(e) => setSearch(e.target.value)}
+                  value={search}
+                  placeholder="Email adress or name"
+                />
+              </div>
               <div
                 onMouseDown={(e) => e.preventDefault()}
                 className={cn(
@@ -106,7 +133,7 @@ function ShareBoardModal() {
                 {availableUsers.length > 0 &&
                   availableUsers.map((user) => (
                     <div
-                      onClick={() => console.log("click", user.username)}
+                      onClick={() => onSelectUser(user)}
                       className="flex gap-3 h-10 hover:bg-black/30 cursor-pointer rounded-sm"
                     >
                       <div className="size-8 rounded-full bg-gray-dim overflow-hidden">
