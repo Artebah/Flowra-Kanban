@@ -6,12 +6,14 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  Unique,
 } from "typeorm";
 import { Board } from "./Board.entity";
 import { BoardRole } from "../enums/BoardRole.enum";
 import { Expose } from "class-transformer";
 
 @Entity("board-members")
+@Unique(["boardId", "userId"])
 export class BoardMember extends BaseEntity {
   @Expose()
   @PrimaryGeneratedColumn("uuid")
