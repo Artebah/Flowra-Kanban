@@ -95,6 +95,8 @@ function ShareBoardModal() {
   const onSelectUser = (user: User) => {
     setSelectedUser(user);
     setShowUsersList(false);
+    setSearch("");
+
     inputRef.current?.blur();
   };
   const onClearSelectedUser = () => {

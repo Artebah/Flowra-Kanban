@@ -1,4 +1,5 @@
 import {
+  ConflictException,
   ForbiddenException,
   Injectable,
   NotFoundException,
@@ -12,6 +13,7 @@ import { BoardRole } from "./enums/BoardRole.enum";
 import { GetCurrentBoardResponseDto } from "./dtos/get-current-board-response.dto";
 import { plainToInstance } from "class-transformer";
 import { UpdateBoardDto } from "./dtos/update-board.dto";
+import { AddBoardMemberDto } from "./dtos/add-board-member.dto";
 
 @Injectable()
 export class BoardsService {
@@ -103,5 +105,33 @@ export class BoardsService {
     if (!board) throw new NotFoundException("The board not found");
 
     return board.boardMembers.map((member) => member.user);
+  }
+
+  async addBoardMember({
+    dto,
+    boardId,
+  }: {
+    dto: AddBoardMemberDto;
+    boardId: string;
+  }) {
+    const existingMember = await this.boardMembersRepository.findOneBy({
+      userId: dto.userId,
+      boardId,
+    });
+
+    if (existingMember) {
+      throw new ConflictException("The user is a member already");
+    }
+
+    const createdMember = this.boardMembersRepository.create({
+      ...dto,
+      boardId,
+    });
+    await this.boardMembersRepository.save(createdMember);
+
+    return this.boardMembersRepository.find({
+      where: { boardId },
+      relations: ["user"],
+    });
   }
 }

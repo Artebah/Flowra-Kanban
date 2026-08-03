@@ -19,6 +19,7 @@ import { LabelsService } from "src/labels/labels.service";
 import { BoardAccessGuard } from "src/common/guards/board-access.guard";
 import { UpdateLabelDto } from "src/labels/dtos/update-label.dto";
 import { UpdateBoardDto } from "./dtos/update-board.dto";
+import { AddBoardMemberDto } from "./dtos/add-board-member.dto";
 
 @Controller("boards")
 @UseGuards(JwtAuthGuard)
@@ -101,5 +102,14 @@ export class BoardsController {
   @UseGuards(BoardAccessGuard)
   getAllBoardMembers(@Param("boardId", new ParseUUIDPipe()) boardId: string) {
     return this.boardsService.getAllBoardMembers({ boardId });
+  }
+
+  @Post("/:boardId/members/add")
+  @UseGuards(BoardAccessGuard)
+  addBoardMember(
+    @Param("boardId", new ParseUUIDPipe()) boardId: string,
+    @Body() dto: AddBoardMemberDto,
+  ) {
+    return this.boardsService.addBoardMember({ dto, boardId });
   }
 }
