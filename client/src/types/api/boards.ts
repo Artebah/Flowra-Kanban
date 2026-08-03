@@ -49,3 +49,13 @@ export interface GetBoardByIdOptions {
 export interface DeleteBoardOptions {
   boardId: string;
 }
+
+export interface AddBoardMemberDto {
+  role: BoardRole;
+  userId: string;
+}
+
+export interface AddBoardMemberOptions {
+  boardId: string;
+  dto: AddBoardMemberDto;
+}
