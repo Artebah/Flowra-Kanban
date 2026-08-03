@@ -8,38 +8,12 @@ import { Select, SelectContent, SelectTrigger, SelectItem } from "../ui/select";
 import { BoardRole } from "@/types/api/boards";
 import { cn } from "@/lib/utils";
 import BoardMemberItem from "./BoardMemberItem";
+import { useAddBoardMember } from "@/hooks/api/boards/useAddBoardMember";
+import { useParams } from "react-router";
+import { useGetBoardMembers } from "@/hooks/api/boards/useGetBoardMembers";
+import toast from "react-hot-toast";
 
 const availableUsers: User[] = [
-  {
-    id: "1",
-    email: "alex.smith@example.com",
-    username: "alex_smith",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
-    isProfileCompleted: true,
-    createdAt: "2024-01-15T08:30:00Z",
-    updatedAt: "2024-06-10T11:20:00Z",
-  },
-  {
-    id: "2",
-    email: "marta.k@example.com",
-    username: "marta_k",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Marta",
-    isProfileCompleted: true,
-    createdAt: "2024-02-20T14:15:00Z",
-    updatedAt: "2024-05-01T09:45:00Z",
-  },
-  {
-    id: "3",
-    email: "dev.user@example.com",
-    isProfileCompleted: false,
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=z9gdlwrm",
-    username: "dev.user",
-    createdAt: "2024-07-01T10:00:00Z",
-    updatedAt: "2024-07-01T10:00:00Z",
-  },
-];
-
-const boardMembers: User[] = [
   {
     id: "1",
     email: "alex.smith@example.com",
@@ -78,7 +52,13 @@ function ShareBoardModal() {
   const [search, setSearch] = React.useState("");
   const [debouncedSearch, setDebouncedSearch] = React.useState("");
   const [showUsersList, setShowUsersList] = React.useState(false);
+
   const inputRef = React.useRef<HTMLInputElement>(null);
+
+  const { boardId } = useParams();
+
+  const addBoardMember = useAddBoardMember();
+  const { data: boardMembers = [] } = useGetBoardMembers({ boardId });
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
@@ -90,7 +70,25 @@ function ShareBoardModal() {
 
   //React.useEffect(() => {}, [debouncedSearch]);
 
-  //const onSubmit = () => {};
+  const onSubmit = () => {
+    if (selectedRole && selectedUser && boardId) {
+      addBoardMember.mutate(
+        {
+          boardId,
+          dto: { role: selectedRole, userId: selectedUser.id },
+        },
+        {
+          onSuccess: () => {
+            setSelectedUser(null);
+            setSelectedRole(BoardRole.MEMBER);
+          },
+          onError: (error) => {
+            toast.error("Couldn't add member. " + error.message);
+          },
+        }
+      );
+    }
+  };
 
   const onSelectUser = (user: User) => {
     setSelectedUser(user);
@@ -194,6 +192,7 @@ function ShareBoardModal() {
               </SelectContent>
             </Select>
             <Button
+              onClick={onSubmit}
               disabled={!selectedUser || !selectedRole}
               variant="primary"
               className="min-w-20"

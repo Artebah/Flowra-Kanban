@@ -3,7 +3,7 @@ import type { User } from "@/types/api/auth";
 import { getBoardMembers } from "@/services/api/boardsApi";
 
 interface UseGetBoardMembersOptions {
-  boardId: string | null;
+  boardId: string | null | undefined;
 }
 
 export const useGetBoardMembers = ({ boardId }: UseGetBoardMembersOptions) => {

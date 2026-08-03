@@ -26,7 +26,7 @@ function BoardPage() {
   const setTasksByColumn = useSetTasksByColumn();
   const [openDeleteBoardModal, setOpenDeleteBoardModal] = React.useState(false);
 
-  const boardId = params.id!;
+  const boardId = params.boardId!;
 
   const [isEditableTitle, setIsEditableTitle] = React.useState(false);
 
@@ -34,7 +34,7 @@ function BoardPage() {
     data: boardData,
     error: boardByIdError,
     isLoading: isLoadingBoard,
-  } = useBoardById({ boardId: params.id! });
+  } = useBoardById({ boardId: boardId });
 
   const updateBoard = useUpdateBoard();
   const deleteBoard = useDeleteBoard();

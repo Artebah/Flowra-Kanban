@@ -14,7 +14,7 @@ function AuthActions() {
     return (
       <Dropdown
         triggerRender={
-          <div className="flex gap-3 items-center cursor-pointer px-4 transition-colors py-2 rounded-md hover:bg-black/15">
+          <button className="flex gap-3 items-center cursor-pointer px-4 transition-colors py-2 rounded-md hover:bg-black/15">
             <span>{user.username}</span>
             <div className="size-10">
               <img
@@ -22,7 +22,7 @@ function AuthActions() {
                 src={user.avatar}
               />
             </div>
-          </div>
+          </button>
         }
       >
         <DropdownMenuItem

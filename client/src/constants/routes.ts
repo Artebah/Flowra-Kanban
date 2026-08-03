@@ -1,7 +1,7 @@
 export const routes = {
   login: "/login",
   signup: "/signup",
-  boardById: (id: string = ":id") => `/boards/${id}`,
+  boardById: (id: string = ":boardId") => `/boards/${id}`,
   home: "/",
   completeProfile: "/complete-profile",
 };
