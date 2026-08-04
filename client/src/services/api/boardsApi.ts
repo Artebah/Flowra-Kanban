@@ -64,6 +64,9 @@ export const addBoardMember = async ({
 export const deleteBoardMember = async ({
   boardId,
   memberId,
-}: DeleteBoardMemberOptions): Promise<void> => {
-  await axiosInstance.delete(`/boards/${boardId}/members/${memberId}/remove`);
+}: DeleteBoardMemberOptions): Promise<BoardMemberWithUser[]> => {
+  const { data } = await axiosInstance.delete(
+    `/boards/${boardId}/members/${memberId}/remove`
+  );
+  return data;
 };

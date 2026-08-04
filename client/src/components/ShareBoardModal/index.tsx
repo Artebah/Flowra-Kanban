@@ -216,9 +216,10 @@ function ShareBoardModal() {
                 <BoardMemberItem
                   key={boardMember.id}
                   user={boardMember.user}
+                  role={boardMember.role}
                   isRemovingMember={deleteBoardMember.isPending}
                   onRemoveMember={
-                    user?.id !== boardMember.id
+                    user?.id !== boardMember.user.id
                       ? () => onDeleteBoardMember(boardMember.id)
                       : undefined
                   }

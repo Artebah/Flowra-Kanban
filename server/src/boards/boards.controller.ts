@@ -114,7 +114,6 @@ export class BoardsController {
   }
 
   @Delete("/:boardId/members/:memberId/remove")
-  @HttpCode(204)
   @UseGuards(BoardAccessGuard)
   deleteBoardMember(
     @Param("boardId", new ParseUUIDPipe()) boardId: string,

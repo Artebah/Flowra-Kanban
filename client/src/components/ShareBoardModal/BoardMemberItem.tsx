@@ -2,12 +2,14 @@ import type { User } from "@/types/api/auth";
 import { XIcon } from "lucide-react";
 import Button from "../Button";
 import { cn } from "@/lib/utils";
+import type { BoardRole } from "@/types/api/boards";
 
 interface BoardMemberItemProps {
   user: User;
   onSelectMember?: (user: User) => void;
   onRemoveMember?: (user: User) => void;
   isRemovingMember?: boolean;
+  role?: BoardRole;
 }
 
 function BoardMemberItem({
@@ -15,6 +17,7 @@ function BoardMemberItem({
   onSelectMember,
   onRemoveMember,
   isRemovingMember,
+  role,
 }: BoardMemberItemProps) {
   return (
     <div
@@ -35,7 +38,8 @@ function BoardMemberItem({
         <p>{user.email}</p>
         <p className="text-gray-500">{user.username}</p>
       </div>
-      {onRemoveMember && (
+      <p>{role}</p>
+      {onRemoveMember ? (
         <Button
           isIconOnly
           disabled={isRemovingMember}
@@ -44,6 +48,8 @@ function BoardMemberItem({
         >
           <XIcon />
         </Button>
+      ) : (
+        <div className="size-10" />
       )}
     </div>
   );

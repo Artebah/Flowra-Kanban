@@ -139,6 +139,8 @@ export class BoardsService {
     boardId: string;
     memberId: string;
   }) {
-    await this.boardMembersRepository.delete({ boardId, userId: memberId });
+    await this.boardMembersRepository.delete({ boardId, id: memberId });
+
+    return this.getAllBoardMembers({ boardId });
   }
 }
