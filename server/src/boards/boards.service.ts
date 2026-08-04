@@ -104,7 +104,7 @@ export class BoardsService {
 
     if (!board) throw new NotFoundException("The board not found");
 
-    return board.boardMembers.map((member) => member.user);
+    return board.boardMembers;
   }
 
   async addBoardMember({
