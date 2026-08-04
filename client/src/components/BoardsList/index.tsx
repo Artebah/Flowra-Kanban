@@ -1,9 +1,11 @@
 import BoardsListItem from "./BoardsListItem";
 import { useBoardsList } from "../../hooks/api/boards/useBoardsList";
 import BoardsListItemSkeleton from "./BoardsListItemSkeleton";
+import { useUser } from "@/store/auth/selectors";
 
 function BoardsList() {
-  const { data: boardsList, isLoading } = useBoardsList();
+  const user = useUser();
+  const { data: boardsList, isLoading } = useBoardsList(user?.id);
 
   return (
     <div className="bg-gray-charcoal p-4 ">
