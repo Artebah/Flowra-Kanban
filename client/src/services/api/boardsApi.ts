@@ -55,7 +55,7 @@ export const getBoardMembers = async ({
 export const addBoardMember = async ({
   dto,
   boardId,
-}: AddBoardMemberOptions): Promise<IBoard[]> => {
+}: AddBoardMemberOptions): Promise<User[]> => {
   const res = await axiosInstance.post(`/boards/${boardId}/members/add`, dto);
   return res.data;
 };

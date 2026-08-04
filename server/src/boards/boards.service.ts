@@ -129,9 +129,6 @@ export class BoardsService {
     });
     await this.boardMembersRepository.save(createdMember);
 
-    return this.boardMembersRepository.find({
-      where: { boardId },
-      relations: ["user"],
-    });
+    return this.getAllBoardMembers({ boardId });
   }
 }

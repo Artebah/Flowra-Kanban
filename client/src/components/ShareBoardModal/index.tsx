@@ -15,7 +15,7 @@ import toast from "react-hot-toast";
 
 const availableUsers: User[] = [
   {
-    id: "1",
+    id: "6e6f0d64-aba4-4ca1-b589-030dcf2b1352",
     email: "alex.smith@example.com",
     username: "alex_smith",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
@@ -24,7 +24,7 @@ const availableUsers: User[] = [
     updatedAt: "2024-06-10T11:20:00Z",
   },
   {
-    id: "2",
+    id: "801ef824-7ada-41e6-a27b-a3eedaba810f",
     email: "marta.k@example.com",
     username: "marta_k",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Marta",
@@ -33,7 +33,7 @@ const availableUsers: User[] = [
     updatedAt: "2024-05-01T09:45:00Z",
   },
   {
-    id: "3",
+    id: "4b2ee03f-c766-4e18-a823-872e219a4611",
     email: "dev.user@example.com",
     isProfileCompleted: false,
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=z9gdlwrm",
@@ -148,7 +148,7 @@ function ShareBoardModal() {
               <div
                 onMouseDown={(e) => e.preventDefault()}
                 className={cn(
-                  "absolute w-full max-h-48 space-y-2 rounded-[0_0_10px_10px] overflow-y-auto top-10 px-2 py-3 bg-gray-rich transition-all",
+                  "absolute w-full max-h-48 space-y-2 rounded-[0_0_10px_10px] overflow-y-auto top-11 px-2 py-3 bg-gray-rich transition-all",
                   { "opacity-100 pointer-events-auto": showUsersList },
                   { "opacity-0 pointer-events-none": !showUsersList }
                 )}
@@ -166,6 +166,7 @@ function ShareBoardModal() {
                 {availableUsers.length > 0 &&
                   availableUsers.map((user) => (
                     <BoardMemberItem
+                      key={user.id}
                       onSelectMember={onSelectUser}
                       user={user}
                     />
@@ -205,7 +206,11 @@ function ShareBoardModal() {
             <div className="space-y-2">
               <p className="text-gray-200 font-bold mb-3">Board members</p>
               {boardMembers.map((boardMember) => (
-                <BoardMemberItem user={boardMember} onRemoveMember={() => {}} />
+                <BoardMemberItem
+                  key={boardMember.id}
+                  user={boardMember}
+                  onRemoveMember={() => {}}
+                />
               ))}
             </div>
           )}
