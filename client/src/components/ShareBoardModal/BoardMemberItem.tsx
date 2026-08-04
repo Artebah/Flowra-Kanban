@@ -25,7 +25,11 @@ function BoardMemberItem({
       )}
     >
       <div className="size-8 rounded-full bg-gray-dim overflow-hidden">
-        <img src={user.avatar} alt={user.email} />
+        <img
+          className="size-full object-cover"
+          src={user.avatar}
+          alt={user.email}
+        />
       </div>
       <div className="grow">
         <p>{user.email}</p>

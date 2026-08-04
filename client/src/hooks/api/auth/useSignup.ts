@@ -18,6 +18,7 @@ export const useSignup = () => {
       localStorage.setItem("refreshToken", authRes.refreshToken);
 
       queryClient.invalidateQueries({ queryKey: ["authMe"] });
+      queryClient.invalidateQueries({ queryKey: ["users-list"] });
       navigate(routes.home);
     },
   });
