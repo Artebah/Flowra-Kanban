@@ -2,6 +2,7 @@ import type {
   AddBoardMemberOptions,
   BoardByIdResponse,
   CreateBoardOptions,
+  DeleteBoardMemberOptions,
   DeleteBoardOptions,
   GetBoardByIdOptions,
   GetBoardMembersOptions,
@@ -58,4 +59,11 @@ export const addBoardMember = async ({
 }: AddBoardMemberOptions): Promise<User[]> => {
   const res = await axiosInstance.post(`/boards/${boardId}/members/add`, dto);
   return res.data;
+};
+
+export const deleteBoardMember = async ({
+  boardId,
+  memberId,
+}: DeleteBoardMemberOptions): Promise<void> => {
+  await axiosInstance.delete(`/boards/${boardId}/members/${memberId}/remove`);
 };

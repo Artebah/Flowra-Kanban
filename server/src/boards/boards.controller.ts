@@ -112,4 +112,14 @@ export class BoardsController {
   ) {
     return this.boardsService.addBoardMember({ dto, boardId });
   }
+
+  @Delete("/:boardId/members/:memberId/remove")
+  @HttpCode(204)
+  @UseGuards(BoardAccessGuard)
+  deleteBoardMember(
+    @Param("boardId", new ParseUUIDPipe()) boardId: string,
+    @Param("memberId", new ParseUUIDPipe()) memberId: string,
+  ) {
+    return this.boardsService.deleteBoardMember({ boardId, memberId });
+  }
 }

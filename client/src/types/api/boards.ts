@@ -59,3 +59,8 @@ export interface AddBoardMemberOptions {
   boardId: string;
   dto: AddBoardMemberDto;
 }
+
+export interface DeleteBoardMemberOptions {
+  boardId: string;
+  memberId: string;
+}
