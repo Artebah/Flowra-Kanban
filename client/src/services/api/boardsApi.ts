@@ -1,6 +1,7 @@
 import type {
   AddBoardMemberOptions,
   BoardByIdResponse,
+  BoardMemberWithUser,
   CreateBoardOptions,
   DeleteBoardMemberOptions,
   DeleteBoardOptions,
@@ -10,7 +11,6 @@ import type {
   TBoardsList,
   UpdateBoardOptions,
 } from "../../types/api/boards";
-import type { User } from "../../types/api/auth";
 import axiosInstance from "./axiosInstance";
 
 export const getBoardsListByUser = async (): Promise<TBoardsList> => {
@@ -48,7 +48,7 @@ export const updateBoard = async ({
 
 export const getBoardMembers = async ({
   boardId,
-}: GetBoardMembersOptions): Promise<User[]> => {
+}: GetBoardMembersOptions): Promise<BoardMemberWithUser[]> => {
   const { data } = await axiosInstance.get(`/boards/${boardId}/members`);
   return data;
 };
@@ -56,7 +56,7 @@ export const getBoardMembers = async ({
 export const addBoardMember = async ({
   dto,
   boardId,
-}: AddBoardMemberOptions): Promise<User[]> => {
+}: AddBoardMemberOptions): Promise<BoardMemberWithUser[]> => {
   const res = await axiosInstance.post(`/boards/${boardId}/members/add`, dto);
   return res.data;
 };

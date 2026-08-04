@@ -215,7 +215,7 @@ function ShareBoardModal() {
               {boardMembers.map((boardMember) => (
                 <BoardMemberItem
                   key={boardMember.id}
-                  user={boardMember}
+                  user={boardMember.user}
                   isRemovingMember={deleteBoardMember.isPending}
                   onRemoveMember={
                     user?.id !== boardMember.id

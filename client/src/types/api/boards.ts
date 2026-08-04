@@ -1,3 +1,5 @@
+import type { User } from "./auth";
+
 export interface IBoard {
   id: string;
   title: string;
@@ -36,6 +38,14 @@ export interface UpdateBoardOptions {
 
 export interface GetBoardMembersOptions {
   boardId: string;
+}
+
+export interface BoardMemberWithUser {
+  id: string;
+  role: BoardRole;
+  userId: string;
+  boardId: string;
+  user: User;
 }
 
 export interface CreateBoardOptions {

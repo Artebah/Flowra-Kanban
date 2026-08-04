@@ -14,7 +14,10 @@ interface MembersDropdownProps {
 function MembersDropdown({ triggerRender }: MembersDropdownProps) {
   const { boardId, taskId } = useModalDetailsData();
 
-  const { data: assignedMembers = [] } = useGetAssignedMembers({ boardId, taskId });
+  const { data: assignedMembers = [] } = useGetAssignedMembers({
+    boardId,
+    taskId,
+  });
   const { data: boardMembers = [] } = useGetBoardMembers({ boardId });
   const getIsAssigned = React.useCallback(
     (memberId: string) =>
@@ -47,14 +50,14 @@ function MembersDropdown({ triggerRender }: MembersDropdownProps) {
             <div className="size-8 rounded-full overflow-hidden">
               <img
                 className="size-full object-cover"
-                src={boardMember.avatar}
-                alt={boardMember.username}
+                src={boardMember.user.avatar}
+                alt={boardMember.user.username}
               />
             </div>
 
-            <span>{boardMember.username}</span>
+            <span>{boardMember.user.username}</span>
           </div>
-          {getIsAssigned(boardMember.id) && <XIcon className="size-5" />}
+          {getIsAssigned(boardMember.user.id) && <XIcon className="size-5" />}
         </Button>
       ))}
     </Popover>
