@@ -4,7 +4,7 @@ import {
   UnauthorizedException,
 } from "@nestjs/common";
 import { SearchUserDto } from "./dtos/search-user.dto";
-import { Repository } from "typeorm";
+import { FindOptionsWhere, ILike, Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "./entities/User.entity";
 import * as bcrypt from "bcrypt";
@@ -12,12 +12,28 @@ import { RegisterDto } from "src/common/dtos/register.dto";
 import { LoginDto } from "src/common/dtos/login.dto";
 import { CompleteProfileDto } from "./dtos/complete-profile.dto";
 import { plainToInstance } from "class-transformer";
+import { GetAllUsersDto } from "./dtos/get-all-users.dto";
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
   ) {}
+
+  async getAll(query: GetAllUsersDto) {
+    let where: FindOptionsWhere<User>[] | undefined = undefined;
+
+    if (query.search) {
+      const searchPattern = `%${query.search}%`;
+
+      where = [
+        { email: ILike(searchPattern) },
+        { username: ILike(searchPattern) },
+      ];
+    }
+
+    return this.usersRepository.find({ where });
+  }
 
   async findOneOrFail(searchUserDto: SearchUserDto): Promise<User> {
     const foundUser = await this.findOne(searchUserDto);
