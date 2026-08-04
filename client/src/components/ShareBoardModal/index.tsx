@@ -1,4 +1,9 @@
-import { ChevronDown, UserRoundPlusIcon, XIcon } from "lucide-react";
+import {
+  ChevronDown,
+  Loader2Icon,
+  UserRoundPlusIcon,
+  XIcon,
+} from "lucide-react";
 import Button from "../Button";
 import { Dialog, DialogContent, DialogHeader } from "../ui/dialog";
 import React from "react";
@@ -12,36 +17,7 @@ import { useAddBoardMember } from "@/hooks/api/boards/useAddBoardMember";
 import { useParams } from "react-router";
 import { useGetBoardMembers } from "@/hooks/api/boards/useGetBoardMembers";
 import toast from "react-hot-toast";
-
-const availableUsers: User[] = [
-  {
-    id: "6e6f0d64-aba4-4ca1-b589-030dcf2b1352",
-    email: "alex.smith@example.com",
-    username: "alex_smith",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
-    isProfileCompleted: true,
-    createdAt: "2024-01-15T08:30:00Z",
-    updatedAt: "2024-06-10T11:20:00Z",
-  },
-  {
-    id: "801ef824-7ada-41e6-a27b-a3eedaba810f",
-    email: "marta.k@example.com",
-    username: "marta_k",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Marta",
-    isProfileCompleted: true,
-    createdAt: "2024-02-20T14:15:00Z",
-    updatedAt: "2024-05-01T09:45:00Z",
-  },
-  {
-    id: "4b2ee03f-c766-4e18-a823-872e219a4611",
-    email: "dev.user@example.com",
-    isProfileCompleted: false,
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=z9gdlwrm",
-    username: "dev.user",
-    createdAt: "2024-07-01T10:00:00Z",
-    updatedAt: "2024-07-01T10:00:00Z",
-  },
-];
+import { useGetAllUsers } from "@/hooks/api/users/useGetAllUsers";
 
 function ShareBoardModal() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -52,13 +28,25 @@ function ShareBoardModal() {
   const [search, setSearch] = React.useState("");
   const [debouncedSearch, setDebouncedSearch] = React.useState("");
   const [showUsersList, setShowUsersList] = React.useState(false);
-
+  const {
+    refetch: refetchAllUsers,
+    data: allUsers = [],
+    isFetching: isLoadingAllUsers,
+  } = useGetAllUsers({
+    search: debouncedSearch,
+  });
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   const { boardId } = useParams();
 
   const addBoardMember = useAddBoardMember();
   const { data: boardMembers = [] } = useGetBoardMembers({ boardId });
+
+  const filteredUsers = React.useMemo(() => {
+    const boardMembersIds = new Set(boardMembers.map((member) => member.id));
+
+    return allUsers.filter((user) => !boardMembersIds.has(user.id));
+  }, [allUsers, boardMembers]);
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
@@ -68,7 +56,9 @@ function ShareBoardModal() {
     return () => clearTimeout(timer);
   }, [search]);
 
-  //React.useEffect(() => {}, [debouncedSearch]);
+  React.useEffect(() => {
+    refetchAllUsers();
+  }, [refetchAllUsers, debouncedSearch]);
 
   const onSubmit = () => {
     if (selectedRole && selectedUser && boardId) {
@@ -153,18 +143,26 @@ function ShareBoardModal() {
                   { "opacity-0 pointer-events-none": !showUsersList }
                 )}
               >
-                {availableUsers.length === 0 && debouncedSearch.trim() && (
-                  <div className="h-full flex justify-center items-center">
+                {filteredUsers.length === 0 && debouncedSearch.trim() && (
+                  <div className="h-24 flex justify-center items-center">
                     No users found
                   </div>
                 )}
-                {availableUsers.length === 0 && !debouncedSearch.trim() && (
-                  <div className="h-full flex justify-center items-center">
+                {isLoadingAllUsers && (
+                  <div className="absolute top-0 left-0 bg-black/60 size-full flex justify-center items-center">
+                    <Loader2Icon
+                      className={`animate-spin text-muted-foreground size-10`}
+                    />
+                  </div>
+                )}
+                {filteredUsers.length === 0 && !debouncedSearch.trim() && (
+                  <div className="h-24 flex justify-center items-center">
                     Start typing to find user
                   </div>
                 )}
-                {availableUsers.length > 0 &&
-                  availableUsers.map((user) => (
+
+                {filteredUsers.length > 0 &&
+                  filteredUsers.map((user) => (
                     <BoardMemberItem
                       key={user.id}
                       onSelectMember={onSelectUser}
