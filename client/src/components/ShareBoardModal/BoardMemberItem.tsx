@@ -7,12 +7,14 @@ interface BoardMemberItemProps {
   user: User;
   onSelectMember?: (user: User) => void;
   onRemoveMember?: (user: User) => void;
+  isRemovingMember?: boolean;
 }
 
 function BoardMemberItem({
   user,
   onSelectMember,
   onRemoveMember,
+  isRemovingMember,
 }: BoardMemberItemProps) {
   return (
     <div
@@ -32,6 +34,7 @@ function BoardMemberItem({
       {onRemoveMember && (
         <Button
           isIconOnly
+          disabled={isRemovingMember}
           className="rounded-full"
           onClick={() => onRemoveMember(user)}
         >

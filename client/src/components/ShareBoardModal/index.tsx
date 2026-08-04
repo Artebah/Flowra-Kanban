@@ -18,6 +18,8 @@ import { useParams } from "react-router";
 import { useGetBoardMembers } from "@/hooks/api/boards/useGetBoardMembers";
 import toast from "react-hot-toast";
 import { useGetAllUsers } from "@/hooks/api/users/useGetAllUsers";
+import { useDeleteBoardMember } from "@/hooks/api/boards/useDeleteBoardMember";
+import { useUser } from "@/store/auth/selectors";
 
 function ShareBoardModal() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -36,11 +38,13 @@ function ShareBoardModal() {
     search: debouncedSearch,
   });
   const inputRef = React.useRef<HTMLInputElement>(null);
+  const user = useUser();
 
   const { boardId } = useParams();
 
   const addBoardMember = useAddBoardMember();
   const { data: boardMembers = [] } = useGetBoardMembers({ boardId });
+  const deleteBoardMember = useDeleteBoardMember();
 
   const filteredUsers = React.useMemo(() => {
     const boardMembersIds = new Set(boardMembers.map((member) => member.id));
@@ -89,6 +93,11 @@ function ShareBoardModal() {
   };
   const onClearSelectedUser = () => {
     setSelectedUser(null);
+  };
+  const onDeleteBoardMember = (memberId: string) => {
+    if (boardId && memberId) {
+      deleteBoardMember.mutate({ boardId, memberId });
+    }
   };
 
   return (
@@ -207,7 +216,12 @@ function ShareBoardModal() {
                 <BoardMemberItem
                   key={boardMember.id}
                   user={boardMember}
-                  onRemoveMember={() => {}}
+                  isRemovingMember={deleteBoardMember.isPending}
+                  onRemoveMember={
+                    user?.id !== boardMember.id
+                      ? () => onDeleteBoardMember(boardMember.id)
+                      : undefined
+                  }
                 />
               ))}
             </div>
