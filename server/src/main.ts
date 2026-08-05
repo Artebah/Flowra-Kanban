@@ -14,7 +14,10 @@ async function bootstrap() {
 
   app.enableCors({
     AppModule,
-    origin: ["http://localhost:5173"],
+    origin: [
+      "http://localhost:5173",
+      "https://flowra-kanban-client.vercel.app/",
+    ],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     allowedHeaders: "Content-Type, Authorization",
     credentials: true,
