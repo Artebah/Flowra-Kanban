@@ -20,6 +20,7 @@ import toast from "react-hot-toast";
 import { useGetAllUsers } from "@/hooks/api/users/useGetAllUsers";
 import { useDeleteBoardMember } from "@/hooks/api/boards/useDeleteBoardMember";
 import { useUser } from "@/store/auth/selectors";
+import { isAxiosError } from "axios";
 
 function ShareBoardModal() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -77,7 +78,10 @@ function ShareBoardModal() {
             setSelectedRole(BoardRole.MEMBER);
           },
           onError: (error) => {
-            toast.error("Couldn't add member. " + error.message);
+            console.log(error);
+            if (isAxiosError(error)) {
+              toast.error(error.response?.data.message);
+            }
           },
         }
       );
@@ -219,8 +223,8 @@ function ShareBoardModal() {
                   role={boardMember.role}
                   isRemovingMember={deleteBoardMember.isPending}
                   onRemoveMember={
-                    user?.id !== boardMember.user.id
-                      ? () => onDeleteBoardMember(boardMember.id)
+                    user?.id !== boardMember.userId
+                      ? () => onDeleteBoardMember(boardMember.userId)
                       : undefined
                   }
                 />
