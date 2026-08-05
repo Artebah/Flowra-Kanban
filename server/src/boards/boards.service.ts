@@ -141,7 +141,6 @@ export class BoardsService {
     memberId: string;
     currentUserId: string;
   }) {
-    console.log(memberId);
     const targetBoardMember = await this.boardMembersRepository.findOne({
       where: {
         boardId,

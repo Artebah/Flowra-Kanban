@@ -46,7 +46,9 @@ function ShareBoardModal() {
   const deleteBoardMember = useDeleteBoardMember();
 
   const filteredUsers = React.useMemo(() => {
-    const boardMembersIds = new Set(boardMembers.map((member) => member.id));
+    const boardMembersIds = new Set(
+      boardMembers.map((member) => member.userId)
+    );
 
     return allUsers.filter((user) => !boardMembersIds.has(user.id));
   }, [allUsers, boardMembers]);

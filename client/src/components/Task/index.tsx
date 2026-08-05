@@ -87,7 +87,7 @@ function Task({ task, boardId, isDragOverlayTask }: TaskProps) {
           )}
 
           {assignedMembers.length > 0 && (
-            <div>
+            <div className="flex flex-wrap gap-1">
               {assignedMembers.map((member) => (
                 <div className="size-5" key={member.id}>
                   <img
