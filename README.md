@@ -4,6 +4,13 @@
 
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=flat-square&logo=typescript&logoColor=white) ![NestJS](https://img.shields.io/badge/NestJS-10-E0234E?style=flat-square&logo=nestjs&logoColor=white) ![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-4169E1?style=flat-square&logo=postgresql&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat-square&logo=docker&logoColor=white) ![Cloudflare R2](https://img.shields.io/badge/Cloudflare-R2-F38020?style=flat-square&logo=cloudflare&logoColor=white)
 
+<img width="1156" height="576" alt="image" src="https://github.com/user-attachments/assets/91c2f122-82b6-4906-aafc-d640c09e0066" />
+<img width="1158" height="575" alt="image" src="https://github.com/user-attachments/assets/c495415d-0653-42fb-b3d5-bcbb7deae3ac" />
+<img width="1153" height="899" alt="image" src="https://github.com/user-attachments/assets/74616f12-81e1-4f39-8be9-65fe122603d0" />
+https://github.com/user-attachments/assets/b2df0b4c-fac2-4646-8ab8-1ef7e9c19ed3
+
+
+
 ---
 
 ## Table of Contents
