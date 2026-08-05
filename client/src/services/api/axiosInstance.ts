@@ -1,13 +1,6 @@
-import toast from "react-hot-toast";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { refresh } from "./authApi";
 import { clearAuthAndRedirect } from "@/utils/clearAuthAndRedirect";
-
-declare module "axios" {
-  export interface AxiosRequestConfig {
-    disableErrorToast?: boolean;
-  }
-}
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -39,7 +32,6 @@ export default axiosInstance;
 axiosInstance.interceptors.response.use(
   (value) => value,
   async (error) => {
-    const disableToast = error.config?.disableErrorToast;
     const originalRequest = error.config;
 
     if (error.response?.status === 401 && !originalRequest._retry) {
@@ -59,14 +51,6 @@ axiosInstance.interceptors.response.use(
       } catch {
         clearAuthAndRedirect();
         return Promise.reject(error);
-      }
-    }
-
-    if (!disableToast) {
-      if (error instanceof AxiosError && error.response) {
-        toast.error(error.response.data.message || "An error occurred");
-      } else {
-        toast.error(error.message || "Something went wrong");
       }
     }
 
