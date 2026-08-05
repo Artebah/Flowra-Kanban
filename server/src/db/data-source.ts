@@ -13,11 +13,12 @@ export const dataSourceOptions: DataSourceOptions = {
   database: process.env.DB_DATABASE,
   entities: [path.join(__dirname, "/../**/*.entity{.ts,.js}")],
   migrations: [path.join(__dirname, "/migrations/**/*{.ts,.js}")],
-  synchronize: true,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-  migrationsRun: false,
+  synchronize: false,
+  ssl:
+    process.env.NODE_ENV === "production"
+      ? { rejectUnauthorized: false }
+      : false,
+  migrationsRun: true,
   migrationsTableName: "migrations",
   migrationsTransactionMode: "all",
 };

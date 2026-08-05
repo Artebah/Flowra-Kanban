@@ -10,13 +10,13 @@ function BoardsList() {
   return (
     <div className="bg-gray-charcoal p-4 ">
       {isLoading && (
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid justify-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {[1, 2, 3, 4].map((num) => (
             <BoardsListItemSkeleton key={num} />
           ))}
         </div>
       )}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid justify-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {boardsList &&
           boardsList.map((board) => (
             <BoardsListItem key={board.id} {...board} />

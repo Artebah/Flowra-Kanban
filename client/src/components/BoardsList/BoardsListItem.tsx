@@ -12,20 +12,20 @@ function BoardsListItem({
   coverBgColor,
 }: BoardsListItemProps) {
   return (
-    <div className="relative overflow-hidden card bg-gray-dim max-w-96 shadow-sm hover:shadow-lg transition-all hover:-translate-y-0.5">
+    <div className="w-full relative overflow-hidden card bg-gray-dim max-w-96 shadow-sm hover:shadow-lg transition-all hover:-translate-y-0.5">
       <Link className="absolute z-10 size-full" to={routes.boardById(id)} />
       {coverUrl ? (
-        <figure className="h-48">
+        <figure className="h-38 sm:h-48">
           <img className="size-full object-cover" src={coverUrl} alt={title} />
         </figure>
       ) : (
         <div
-          className="w-full h-48"
+          className="w-full h-38 sm:h-48"
           style={{ backgroundColor: coverBgColor }}
         />
       )}
       <div className="card-body">
-        <h2 className="card-title truncate block">{title}</h2>
+        <h2 className="max-sm:text-sm card-title truncate block">{title}</h2>
         <p className="text-xs">{new Date(createdAt).toLocaleDateString()}</p>
       </div>
     </div>

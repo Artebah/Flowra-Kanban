@@ -15,7 +15,7 @@ function AuthActions() {
       <Dropdown
         triggerRender={
           <button className="flex gap-3 items-center cursor-pointer px-4 transition-colors py-2 rounded-md hover:bg-black/15">
-            <span>{user.username}</span>
+            <span className="max-sm:hidden">{user.username}</span>
             <div className="size-10">
               <img
                 className="size-full object-cover rounded-full"

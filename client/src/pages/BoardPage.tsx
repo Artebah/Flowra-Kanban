@@ -109,14 +109,14 @@ function BoardPage() {
   if (boardData) {
     return (
       <div className="min-h-[calc(100vh-80px)] flex flex-col gap-3">
-        <div className="h-14 flex items-center justify-between px-7 bg-black/25">
-          <div>
+        <div className="h-14 flex gap-3 max-md:flex-col max-md:items-start max-md:my-4 max-md:h-auto items-center justify-between px-7 bg-black/25">
+          <div className="max-sm:w-full">
             <EditableText
-              containerClassName={cn("min-w-60 px-3!", {
+              containerClassName={cn("sm:min-w-60 w-full grow md:px-3!", {
                 "hover:bg-white/10 rounded-md whitespace-nowrap truncate":
                   !isEditableTitle,
               })}
-              inputClassName="min-w-60"
+              inputClassName="sm:min-w-60 w-full"
               isEditable={isEditableTitle}
               setIsEditable={setIsEditableTitle}
               onSave={(title) => onUpdateBoard({ title })}
