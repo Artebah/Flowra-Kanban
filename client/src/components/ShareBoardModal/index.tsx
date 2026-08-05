@@ -16,11 +16,9 @@ import BoardMemberItem from "./BoardMemberItem";
 import { useAddBoardMember } from "@/hooks/api/boards/useAddBoardMember";
 import { useParams } from "react-router";
 import { useGetBoardMembers } from "@/hooks/api/boards/useGetBoardMembers";
-import toast from "react-hot-toast";
 import { useGetAllUsers } from "@/hooks/api/users/useGetAllUsers";
 import { useDeleteBoardMember } from "@/hooks/api/boards/useDeleteBoardMember";
 import { useUser } from "@/store/auth/selectors";
-import { isAxiosError } from "axios";
 
 function ShareBoardModal() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -76,12 +74,6 @@ function ShareBoardModal() {
           onSuccess: () => {
             setSelectedUser(null);
             setSelectedRole(BoardRole.MEMBER);
-          },
-          onError: (error) => {
-            console.log(error);
-            if (isAxiosError(error)) {
-              toast.error(error.response?.data.message);
-            }
           },
         }
       );

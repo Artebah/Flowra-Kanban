@@ -9,7 +9,7 @@ import { Board } from "./entities/Board.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CreateBoardDto } from "./dtos/create-board.dto";
 import { BoardMember } from "./entities/BoardMember.entity";
-import { BoardRole } from "./enums/BoardRole.enum";
+import { BoardRole, ROLE_RANK } from "./enums/BoardRole.enum";
 import { GetCurrentBoardResponseDto } from "./dtos/get-current-board-response.dto";
 import { plainToInstance } from "class-transformer";
 import { UpdateBoardDto } from "./dtos/update-board.dto";
@@ -135,11 +135,37 @@ export class BoardsService {
   async deleteBoardMember({
     boardId,
     memberId,
+    currentUserId,
   }: {
     boardId: string;
     memberId: string;
+    currentUserId: string;
   }) {
-    await this.boardMembersRepository.delete({ boardId, id: memberId });
+    console.log(memberId);
+    const targetBoardMember = await this.boardMembersRepository.findOne({
+      where: {
+        boardId,
+        userId: memberId,
+      },
+    });
+    const currentBoardMember = await this.boardMembersRepository.findOne({
+      where: {
+        boardId,
+        userId: currentUserId,
+      },
+    });
+
+    if (!targetBoardMember || !currentBoardMember) {
+      throw new NotFoundException("Target member or current user not found");
+    }
+
+    if (
+      ROLE_RANK[currentBoardMember.role] <= ROLE_RANK[targetBoardMember.role]
+    ) {
+      throw new ForbiddenException("Target member has higher role rank.");
+    }
+
+    await this.boardMembersRepository.delete({ boardId, userId: memberId });
 
     return this.getAllBoardMembers({ boardId });
   }

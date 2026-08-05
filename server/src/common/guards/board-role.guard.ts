@@ -1,6 +1,7 @@
 import {
   CanActivate,
   ExecutionContext,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
@@ -45,6 +46,12 @@ export class BoardRoleGuard implements CanActivate {
       throw new NotFoundException("Board member not found");
     }
 
-    return requiredRoles.includes(userBoardMember.role);
+    const hasRoleAccess = requiredRoles.includes(userBoardMember.role);
+
+    if (!hasRoleAccess) {
+      throw new ForbiddenException("You are not allowed to do this action");
+    }
+
+    return true;
   }
 }

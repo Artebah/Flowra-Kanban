@@ -118,11 +118,15 @@ export class BoardsController {
   }
 
   @Delete("/:boardId/members/:memberId/remove")
-  @UseGuards(BoardAccessGuard)
   deleteBoardMember(
     @Param("boardId", new ParseUUIDPipe()) boardId: string,
     @Param("memberId", new ParseUUIDPipe()) memberId: string,
+    @UserDecorator() user: JwtPayload,
   ) {
-    return this.boardsService.deleteBoardMember({ boardId, memberId });
+    return this.boardsService.deleteBoardMember({
+      boardId,
+      memberId,
+      currentUserId: user.sub,
+    });
   }
 }
