@@ -4,12 +4,13 @@ RUN npm install -g pnpm
 
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml ./
-
-RUN pnpm install
-
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml* ./
 COPY . .
+
+RUN pnpm install --frozen-lockfile
+
+RUN pnpm --filter @flowra/server build
 
 EXPOSE 8080
 
-CMD ["pnpm", "run", "start:dev"]
+CMD ["node", "dist/main.js"]
