@@ -17,7 +17,7 @@ export const dataSourceOptions: DataSourceOptions = {
   ssl: {
     rejectUnauthorized: false,
   },
-  migrationsRun: false,
+  migrationsRun: true,
   migrationsTableName: "migrations",
   migrationsTransactionMode: "all",
 };
