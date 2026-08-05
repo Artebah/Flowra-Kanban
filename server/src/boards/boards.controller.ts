@@ -20,6 +20,9 @@ import { BoardAccessGuard } from "src/common/guards/board-access.guard";
 import { UpdateLabelDto } from "src/labels/dtos/update-label.dto";
 import { UpdateBoardDto } from "./dtos/update-board.dto";
 import { AddBoardMemberDto } from "./dtos/add-board-member.dto";
+import { BoardRoleGuard } from "src/common/guards/board-role.guard";
+import { Roles } from "src/common/decorators/roles.decorator";
+import { BoardRole } from "./enums/BoardRole.enum";
 
 @Controller("boards")
 @UseGuards(JwtAuthGuard)
@@ -105,7 +108,8 @@ export class BoardsController {
   }
 
   @Post("/:boardId/members/add")
-  @UseGuards(BoardAccessGuard)
+  @Roles(BoardRole.ADMIN, BoardRole.OWNER)
+  @UseGuards(BoardAccessGuard, BoardRoleGuard)
   addBoardMember(
     @Param("boardId", new ParseUUIDPipe()) boardId: string,
     @Body() dto: AddBoardMemberDto,
