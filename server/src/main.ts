@@ -13,16 +13,16 @@ async function bootstrap() {
   );
 
   app.enableCors({
-    AppModule,
     origin: [
       "http://localhost:5173",
-      "https://flowra-kanban-client.vercel.app/",
+      "https://flowra-kanban-client.vercel.app",
     ],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     allowedHeaders: "Content-Type, Authorization",
     credentials: true,
   });
 
-  await app.listen(process.env.SERVER_PORT ?? 8080);
+  const port = process.env.PORT || process.env.SERVER_PORT || 8080;
+  await app.listen(port, "0.0.0.0");
 }
 void bootstrap();
