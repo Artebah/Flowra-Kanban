@@ -1,57 +1,9 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-// Names of all migrations that were written before this init migration.
-// On a DB that was pre-populated by TypeORM synchronize (tables already exist),
-// we insert these into the migrations table so TypeORM won't try to run them.
-const LEGACY_MIGRATIONS: { timestamp: number; name: string }[] = [
-  { timestamp: 1772826516018, name: "Init1772826516018" },
-  { timestamp: 1774634766935, name: "UpdateTaskOrderDecimalPrecision1774634766935" },
-  { timestamp: 1776761658634, name: "TestWorkingMigrationConfig1776761658634" },
-  { timestamp: 1776761740120, name: "Test21776761740120" },
-  { timestamp: 1776761795844, name: "RemoveTestColumnFromUser1776761795844" },
-  { timestamp: 1777039657984, name: "SplitTaskDescriptionToTwoFields1777039657984" },
-  { timestamp: 1780930718606, name: "AddIsCompletedColumnForTasks1780930718606" },
-  { timestamp: 1782070953588, name: "AddLabelEntity1782070953588" },
-  { timestamp: 1783177303858, name: "AddRelationForBoardAndLabels1783177303858" },
-  { timestamp: 1783841168468, name: "AddCascadeDeleteForTaskLabels1783841168468" },
-  { timestamp: 1783979994247, name: "Test1783979994247" },
-  { timestamp: 1783980352000, name: "AddBaseEntityFields1783980352000" },
-  { timestamp: 1784117516951, name: "AddColumnsCascadeOnDeleteBoard1784117516951" },
-  { timestamp: 1784117741155, name: "AddDeleteCascadeOnDeleteBoard1784117741155" },
-  { timestamp: 1784117827188, name: "AddDeleteCascadeLabelsOnDeleteBoard1784117827188" },
-  { timestamp: 1784142671339, name: "AllowLabelsWithoutTitle1784142671339" },
-  { timestamp: 1784548944870, name: "AddAssignedMembersRelation1784548944870" },
-  { timestamp: 1784551341383, name: "UpdateAssignedLabelsAndMembersTablesNames1784551341383" },
-  { timestamp: 1784627369643, name: "AddDueDateToTask1784627369643" },
-  { timestamp: 1784680830627, name: "UpdateAssignedLabelsAndMembersTablesNames1784680830627" },
-  { timestamp: 1784709298120, name: "AddTasksAttachmentsTable1784709298120" },
-  { timestamp: 1784733654795, name: "AddBaseEntityForTaskAttachment1784733654795" },
-  { timestamp: 1784879007246, name: "AddProfileCompletionFields1784879007246" },
-  { timestamp: 1785409152226, name: "AddCoverUrlForBoard1785409152226" },
-  { timestamp: 1785410258634, name: "AddCoverBgColorForBoard1785410258634" },
-  { timestamp: 1785755330219, name: "AddUniqueBoardIdAndUserIdInBoardMember1785755330219" },
-];
-
 export class InitSchema1000000000000 implements MigrationInterface {
   name = "InitSchema1000000000000";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    const tablesExist = await queryRunner.hasTable("users");
-
-    if (tablesExist) {
-      // DB was already set up via synchronize — mark all legacy migrations as run
-      // so TypeORM won't attempt to re-apply them.
-      const migrationsTable = queryRunner.connection.options.migrationsTableName ?? "migrations";
-      for (const m of LEGACY_MIGRATIONS) {
-        await queryRunner.query(
-          `INSERT INTO "${migrationsTable}" ("timestamp", "name") VALUES ($1, $2) ON CONFLICT DO NOTHING`,
-          [m.timestamp, m.name],
-        );
-      }
-      return;
-    }
-
-    // Fresh database — create the full schema from scratch.
     await queryRunner.query(`
       CREATE TABLE IF NOT EXISTS "users" (
         "createdAt" TIMESTAMP NOT NULL DEFAULT now(),
@@ -245,16 +197,6 @@ export class InitSchema1000000000000 implements MigrationInterface {
         ADD CONSTRAINT "FK_tasks_attachments_task"
           FOREIGN KEY ("taskId") REFERENCES "tasks"("id") ON DELETE CASCADE
     `);
-
-    // Mark all legacy migrations as already run so TypeORM doesn't try to apply them
-    // on top of the schema we just created.
-    const migrationsTable = queryRunner.connection.options.migrationsTableName ?? "migrations";
-    for (const m of LEGACY_MIGRATIONS) {
-      await queryRunner.query(
-        `INSERT INTO "${migrationsTable}" ("timestamp", "name") VALUES ($1, $2) ON CONFLICT DO NOTHING`,
-        [m.timestamp, m.name],
-      );
-    }
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
