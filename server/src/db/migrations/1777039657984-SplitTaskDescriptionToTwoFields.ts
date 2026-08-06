@@ -5,8 +5,8 @@ export class SplitTaskDescriptionToTwoFields1777039657984 implements MigrationIn
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         // 1. Add new columns while allowing NULL values during the transition phase
-        await queryRunner.query(`ALTER TABLE "tasks" ADD COLUMN IF NOT EXISTS "descriptionContent" jsonb`);
-        await queryRunner.query(`ALTER TABLE "tasks" ADD COLUMN IF NOT EXISTS "descriptionSearch" text`);
+        await queryRunner.query(`ALTER TABLE "tasks" ADD "descriptionContent" jsonb`);
+        await queryRunner.query(`ALTER TABLE "tasks" ADD "descriptionSearch" text`);
 
         // 2. Migrate existing data from the old column to the new ones
         // We wrap the plain text into a basic Tiptap JSON structure (doc > paragraph > text)
@@ -29,7 +29,7 @@ export class SplitTaskDescriptionToTwoFields1777039657984 implements MigrationIn
         `);
 
         // 3. Drop the old column now that data has been safely migrated
-        await queryRunner.query(`ALTER TABLE "tasks" DROP COLUMN IF EXISTS "description"`);
+        await queryRunner.query(`ALTER TABLE "tasks" DROP COLUMN "description"`);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
