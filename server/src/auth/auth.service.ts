@@ -8,10 +8,13 @@ import { JwtPayload } from "./interfaces/jwt-payload.interface";
 import { ConfigService } from "@nestjs/config";
 import { AuthConfig } from "src/config/app.config";
 import { RefreshJwtResponseDto } from "src/auth/dtos/refresh-jwt-response.dto";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
 
 @Injectable()
 export class AuthService {
   constructor(
+    @InjectRepository(User) private readonly usersRepository: Repository<User>,
     private readonly UsersService: UsersService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,

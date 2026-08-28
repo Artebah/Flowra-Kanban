@@ -27,6 +27,10 @@ export class User extends BaseEntity {
   @Expose()
   email: string;
 
+  @Column({ nullable: true, unique: true })
+  @Expose()
+  googleId?: string;
+
   @Column({ default: false })
   @Expose()
   isProfileCompleted: boolean;

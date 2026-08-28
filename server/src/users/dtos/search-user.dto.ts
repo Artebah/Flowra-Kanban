@@ -12,4 +12,8 @@ export class SearchUserDto {
   @IsOptional()
   @IsEmail()
   email?: string;
+
+  @IsOptional()
+  @IsString()
+  googleId?: string;
 }

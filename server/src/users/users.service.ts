@@ -13,6 +13,7 @@ import { LoginDto } from "src/common/dtos/login.dto";
 import { CompleteProfileDto } from "./dtos/complete-profile.dto";
 import { plainToInstance } from "class-transformer";
 import { GetAllUsersDto } from "./dtos/get-all-users.dto";
+import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity.js";
 
 @Injectable()
 export class UsersService {
@@ -46,9 +47,14 @@ export class UsersService {
   }
 
   async findOne(searchUserDto: SearchUserDto): Promise<User | null> {
-    if (!searchUserDto.email && !searchUserDto.username && !searchUserDto.id) {
+    if (
+      !searchUserDto.email &&
+      !searchUserDto.username &&
+      !searchUserDto.id &&
+      !searchUserDto.googleId
+    ) {
       throw new BadRequestException(
-        "At least one search criterion (username or email) must be provided.",
+        "At least one search criterion must be provided.",
       );
     }
 
@@ -56,6 +62,10 @@ export class UsersService {
 
     if (searchUserDto.id) {
       conditions.push({ id: searchUserDto.id });
+    }
+
+    if (searchUserDto.googleId) {
+      conditions.push({ googleId: searchUserDto.googleId });
     }
 
     if (searchUserDto.email) {
@@ -71,6 +81,16 @@ export class UsersService {
     });
 
     return foundUser;
+  }
+
+  createOAuthUser(data: Partial<User>): Promise<User> {
+    const user = this.usersRepository.create(data);
+    return this.usersRepository.save(user);
+  }
+
+  async update(id: string, data: QueryDeepPartialEntity<User>): Promise<User> {
+    await this.usersRepository.update(id, data);
+    return this.findOneOrFail({ id });
   }
 
   async create(createUserDto: RegisterDto) {
