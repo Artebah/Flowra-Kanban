@@ -4,10 +4,11 @@ export const routes = {
   boardById: (id: string = ":boardId") => `/boards/${id}`,
   home: "/",
   completeProfile: "/complete-profile",
+  authCallback: "/auth/callback",
 };
 
 export const PRIVATE_ROUTES = [routes.home, "/boards"];
-export const AUTH_ROUTES = [routes.login, routes.signup];
+export const AUTH_ROUTES = [routes.login, routes.signup, routes.authCallback];
 
 export const isPrivate = PRIVATE_ROUTES.some((path) =>
   location.pathname.startsWith(path)

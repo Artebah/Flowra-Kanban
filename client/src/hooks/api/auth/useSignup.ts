@@ -1,25 +1,18 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { signup } from "../../../services/api/authApi";
 import type { AuthResponse, SignupOptions } from "../../../types/api/auth";
-import { useSetUser } from "../../../store/auth/selectors";
-import { useNavigate } from "react-router";
-import { routes } from "../../../constants/routes";
+import { useHandleSuccessAuth } from "@/hooks/useHandleSuccessAuth";
 
 export const useSignup = () => {
-  const setUser = useSetUser();
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const handleSuccessAuth = useHandleSuccessAuth();
 
   return useMutation<AuthResponse, Error, SignupOptions>({
     mutationFn: signup,
-    onSuccess: (authRes) => {
-      setUser(authRes.user);
-      localStorage.setItem("accessToken", authRes.accessToken);
-      localStorage.setItem("refreshToken", authRes.refreshToken);
-
+    onSuccess: (authResponse) => {
+      handleSuccessAuth(authResponse);
       queryClient.invalidateQueries({ queryKey: ["authMe"] });
       queryClient.invalidateQueries({ queryKey: ["users-list"] });
-      navigate(routes.home);
     },
   });
 };
