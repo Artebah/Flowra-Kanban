@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class CompleteProfileDto {
   @IsString()
@@ -6,6 +6,6 @@ export class CompleteProfileDto {
   username: string;
 
   @IsString()
-  @IsNotEmpty()
-  avatar: string;
+  @IsOptional()
+  avatar?: string;
 }

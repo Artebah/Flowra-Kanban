@@ -81,6 +81,7 @@ function AvatarUpload({ value, onChange, error }: AvatarUploadProps) {
             <img
               src={preview}
               alt="Avatar preview"
+              referrerPolicy="no-referrer"
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-black/40 text-white opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1">
