@@ -1,16 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { Strategy, Profile, StrategyOptions } from "passport-google-oauth20";
 import { ConfigService } from "@nestjs/config";
-
-export interface GoogleUserPayload {
-  googleId: string;
-  email: string;
-  avatar: string;
-}
+import { GoogleUserPayload } from "../interfaces/google-payload.interface";
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, "google") {

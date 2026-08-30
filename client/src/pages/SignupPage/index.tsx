@@ -85,6 +85,14 @@ function SignupPage() {
             </Link>
           </p>
         </div>
+
+        <button
+          onClick={() =>
+            (window.location.href = "http://localhost:8080/auth/google")
+          }
+        >
+          sign up with google
+        </button>
       </div>
     </div>
   );

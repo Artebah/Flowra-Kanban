@@ -10,6 +10,7 @@ import { AuthConfig } from "src/config/app.config";
 import { RefreshJwtResponseDto } from "src/auth/dtos/refresh-jwt-response.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+import { GoogleUserPayload } from "./interfaces/google-payload.interface";
 
 @Injectable()
 export class AuthService {
@@ -39,6 +40,35 @@ export class AuthService {
       accessToken,
       refreshToken,
     });
+  }
+
+  async validateGoogleUser(
+    payload: GoogleUserPayload,
+  ): Promise<AuthResponseDto> {
+    let user = await this.UsersService.findOne({ googleId: payload.googleId });
+
+    if (!user) {
+      user = await this.UsersService.findOne({ email: payload.email });
+
+      if (user) {
+        user = await this.UsersService.update(user.id, {
+          googleId: payload.googleId,
+          avatar: user.avatar ?? payload.avatar,
+        });
+      } else {
+        user = await this.UsersService.createOAuthUser({
+          email: payload.email,
+          googleId: payload.googleId,
+          avatar: payload.avatar,
+          isProfileCompleted: false,
+        });
+      }
+    }
+
+    const accessToken = await this.generateAccessToken(user);
+    const refreshToken = await this.generateRefreshToken(user);
+
+    return new AuthResponseDto({ user, accessToken, refreshToken });
   }
 
   async login(jwtPayload: JwtPayload): Promise<AuthResponseDto> {

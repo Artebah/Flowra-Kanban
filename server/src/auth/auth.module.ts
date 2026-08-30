@@ -9,13 +9,23 @@ import { PassportModule } from "@nestjs/passport";
 import { JwtStrategy } from "./strategy/jwt.strategy";
 import { LocalStrategy } from "./strategy/local.strategy";
 import { RefreshJwtStrategy } from "./strategy/refresh-jwt.strategy";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { User } from "src/users/entities/User.entity";
+import { GoogleStrategy } from "./strategy/google.strategy";
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, RefreshJwtStrategy, LocalStrategy],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    RefreshJwtStrategy,
+    LocalStrategy,
+    GoogleStrategy,
+  ],
   imports: [
     UserModule,
     PassportModule,
+    TypeOrmModule.forFeature([User]),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
