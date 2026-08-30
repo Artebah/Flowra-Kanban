@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { SignupDto } from "../../types/api/auth";
 import { useSignup } from "../../hooks/api/auth/useSignup";
 import { routes } from "../../constants/routes";
+import { GoogleAuthButton } from "@/components/GoogleAuthButton";
 
 function SignupPage() {
   const signup = useSignup();
@@ -86,13 +87,7 @@ function SignupPage() {
           </p>
         </div>
 
-        <button
-          onClick={() =>
-            (window.location.href = "http://localhost:8080/auth/google")
-          }
-        >
-          sign up with google
-        </button>
+        <GoogleAuthButton mode="register" />
       </div>
     </div>
   );

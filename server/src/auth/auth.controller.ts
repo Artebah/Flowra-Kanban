@@ -49,19 +49,18 @@ export class AuthController {
 
   @UseGuards(GoogleAuthGuard)
   @Get("google/callback")
-  googleAuthCallback(
+  async googleAuthCallback(
     @UserDecorator() googleUser: GoogleUserPayload,
-    //@Res() res: Response,
+    @Res() res: Response,
   ) {
-    console.log(googleUser);
-    //  const { accessToken, refreshToken } =
-    //    await this.authService.validateGoogleUser(googleUser);
+    const { accessToken, refreshToken } =
+      await this.authService.validateGoogleUser(googleUser);
 
-    //  const clientUrl = this.configService.getOrThrow<string>("CLIENT_URL");
+    const clientUrl = this.configService.getOrThrow<string>("CLIENT_URL");
 
-    //  res.redirect(
-    //    HttpStatus.TEMPORARY_REDIRECT,
-    //    `${clientUrl}/auth/callback?accessToken=${accessToken}&refreshToken=${refreshToken}`,
-    //  );
+    res.redirect(
+      HttpStatus.TEMPORARY_REDIRECT,
+      `${clientUrl}/auth/callback?accessToken=${accessToken}&refreshToken=${refreshToken}`,
+    );
   }
 }
