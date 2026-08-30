@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { LoginDto } from "../../types/api/auth";
 import { useLogin } from "../../hooks/api/auth/useLogin";
 import { routes } from "../../constants/routes";
+import { GoogleAuthButton } from "@/components/GoogleAuthButton";
 
 function LoginPage() {
   const login = useLogin();
@@ -88,6 +89,8 @@ function LoginPage() {
             </Link>
           </p>
         </div>
+
+        <GoogleAuthButton mode="login" />
       </div>
     </div>
   );

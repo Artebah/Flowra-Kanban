@@ -10,6 +10,7 @@ import { useGetUploadUrl } from "@/hooks/api/storage/useGetUploadUrl";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { routes } from "@/constants/routes";
+import React from "react";
 
 function CompleteProfilePage() {
   const user = useUser();
@@ -20,6 +21,7 @@ function CompleteProfilePage() {
     register,
     handleSubmit,
     control,
+    setValue,
     formState: { errors },
   } = useForm<CompleteProfileFields>({
     resolver: zodResolver(completeProfileSchema),
@@ -28,28 +30,46 @@ function CompleteProfilePage() {
   const { field: avatarField } = useController({ name: "avatar", control });
   const getAvatarUploadUrl = useGetUploadUrl();
 
+  React.useEffect(() => {
+    if (user?.avatar) {
+      setValue("avatar", user.avatar, {
+        shouldDirty: false,
+        shouldValidate: true,
+      });
+    }
+  }, [user, setValue]);
+
   const onSubmit: SubmitHandler<CompleteProfileFields> = async ({
     avatar,
     username,
   }) => {
     if (user) {
-      const { publicUrl, uploadUrl } = await getAvatarUploadUrl.mutateAsync({
-        dto: {
-          fileName: avatar.name,
-          fileType: avatar.type,
-          folder: `users/${user.id}/avatars`,
-        },
-      });
+      let uploadedAvatarUrl: string | undefined;
 
-      await axios({
-        url: uploadUrl,
-        data: avatar,
-        method: "PUT",
-        headers: { "Content-Type": avatar.type },
-      });
+      if (avatar instanceof File) {
+        const { publicUrl, uploadUrl } = await getAvatarUploadUrl.mutateAsync({
+          dto: {
+            fileName: avatar.name,
+            fileType: avatar.type,
+            folder: `users/${user.id}/avatars`,
+          },
+        });
+
+        await axios({
+          url: uploadUrl,
+          data: avatar,
+          method: "PUT",
+          headers: { "Content-Type": avatar.type },
+        });
+
+        uploadedAvatarUrl = publicUrl;
+      }
 
       await completeProfile.mutateAsync({
-        dto: { avatar: publicUrl, username },
+        dto: {
+          ...(uploadedAvatarUrl ? { avatar: uploadedAvatarUrl } : {}),
+          username,
+        },
         userId: user.id,
       });
 

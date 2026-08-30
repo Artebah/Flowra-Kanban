@@ -9,15 +9,17 @@ const ACCEPTED_IMAGE_TYPES = [
   "image/gif",
 ];
 
+const fileSchema = zod
+  .instanceof(File, { message: "Avatar is required" })
+  .refine((f) => f.size <= FILE_MAX_SIZE, "Image must be under 5MB")
+  .refine(
+    (f) => ACCEPTED_IMAGE_TYPES.includes(f.type),
+    "Only JPEG, PNG, WebP, or GIF allowed"
+  );
+
 export const completeProfileSchema = zod.object({
   username: zod.string().nonempty("Username is required"),
-  avatar: zod
-    .instanceof(File, { message: "Avatar is required" })
-    .refine((f) => f.size <= FILE_MAX_SIZE, "Image must be under 5MB")
-    .refine(
-      (f) => ACCEPTED_IMAGE_TYPES.includes(f.type),
-      "Only JPEG, PNG, WebP, or GIF allowed"
-    ),
+  avatar: zod.union([fileSchema, zod.string().min(1, "Avatar is required")]),
 });
 
 export type CompleteProfileFields = zod.infer<typeof completeProfileSchema>;

@@ -1,22 +1,36 @@
 import { UserIcon } from "lucide-react";
 import React from "react";
 
-function AvatarUpload({
-  onChange,
-  error,
-}: {
-  value?: File;
+interface AvatarUploadProps {
+  value?: File | string;
   onChange: (file: File | undefined) => void;
   error?: string;
-}) {
+}
+
+function AvatarUpload({ value, onChange, error }: AvatarUploadProps) {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [preview, setPreview] = React.useState<string | null>(null);
   const [isDragging, setIsDragging] = React.useState(false);
 
+  React.useEffect(() => {
+    if (!value) {
+      setPreview(null);
+      return;
+    }
+
+    if (typeof value === "string") {
+      setPreview(value);
+    } else if (value instanceof File) {
+      const objectUrl = URL.createObjectURL(value);
+      setPreview(objectUrl);
+
+      return () => URL.revokeObjectURL(objectUrl);
+    }
+  }, [value]);
+
   const handleFile = (file: File | undefined) => {
     if (!file) return;
     onChange(file);
-    setPreview(URL.createObjectURL(file));
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,7 +104,7 @@ function AvatarUpload({
         <button
           type="button"
           onClick={handleRemove}
-          className="text-xs text-white hover:text-red-400 transition-colors underline underline-offset-2"
+          className="text-xs text-zinc-400 hover:text-red-400 transition-colors underline underline-offset-2"
         >
           Remove photo
         </button>

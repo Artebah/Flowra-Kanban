@@ -29,7 +29,7 @@ export interface SignupDto {
 
 export interface CompleteProfileDto {
   username: string;
-  avatar: string;
+  avatar?: string;
 }
 
 export interface CompleteProfileOptions {

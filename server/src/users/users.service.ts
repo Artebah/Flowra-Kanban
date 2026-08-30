@@ -109,9 +109,15 @@ export class UsersService {
   async validateUser(loginDto: LoginDto): Promise<User> {
     const foundUser = await this.findOneOrFail(loginDto);
 
+    if (!foundUser.password && foundUser.googleId) {
+      throw new BadRequestException(
+        "This account is linked to Google. Please sign in with Google.",
+      );
+    }
+
     const isPasswordValid = await this.verifyPassword(
       loginDto.password,
-      foundUser.password,
+      foundUser.password!,
     );
 
     if (!isPasswordValid) {

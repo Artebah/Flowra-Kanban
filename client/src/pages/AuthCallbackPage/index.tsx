@@ -1,17 +1,25 @@
+import { routes } from "@/constants/routes";
+import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
-import { useSearchParams } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 
 function AuthCallbackPage() {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   React.useEffect(() => {
     const accessToken = searchParams.get("accessToken");
     const refreshToken = searchParams.get("refreshToken");
 
     if (accessToken && refreshToken) {
-      console.log(accessToken, refreshToken);
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+
+      queryClient.invalidateQueries({ queryKey: ["authMe"] });
+      navigate(routes.home);
     }
-  }, [searchParams]);
+  }, [searchParams, navigate, queryClient]);
 
   return null;
 }
