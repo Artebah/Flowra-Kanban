@@ -18,7 +18,7 @@ CMD ["pnpm", "start:dev"]
 # 3. Build stage
 # ----------------------------------------------------
 FROM base AS build
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --no-frozen-lockfile
 COPY . .
 RUN pnpm run build
 RUN pnpm prune --prod
