@@ -1,3 +1,4 @@
+import axios from "axios";
 import type {
   AuthResponse,
   CompleteProfileOptions,
@@ -38,11 +39,17 @@ export const refresh = async (): Promise<RefreshResponse | void> => {
   const refreshToken = localStorage.getItem("refreshToken");
 
   if (refreshToken) {
-    const res = await axiosInstance({
-      url: "/auth/refresh",
-      method: "POST",
-      headers: { Authorization: `Bearer ${refreshToken}` },
-    });
-    return res.data;
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/auth/refresh`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${refreshToken}` },
+        }
+      );
+      return res.data;
+    } catch {
+      return undefined;
+    }
   }
 };
